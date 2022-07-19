@@ -12,6 +12,7 @@ var grav_vec = Vector3()
 var full_contact = true
 var horiz_velocity = Vector3()
 var movement = Vector3()
+var dt : int
 
 #health
 var health = 100 setget setHealth
@@ -40,16 +41,14 @@ func _ready():
 
 func view_roll(delta):
 	var rotation_speed : float = speed * delta
-	var angle : float = 2 * int(Input.is_action_pressed("MoveRight")) + - int(Input.is_action_pressed("MoveLeft"))
+	var roll_amount : int = 2
+	var angle : float = roll_amount * (int(Input.is_action_pressed("MoveRight")) + -int(Input.is_action_pressed("MoveLeft")))
 	camera.rotation.z = lerp(camera.rotation.z, -deg2rad(angle), rotation_speed)
-
 
 func _process(delta):
 	view_roll(delta)
 
-
 func _physics_process(delta):
-	
 	if ground_check.is_colliding():
 		full_contact = true
 		#print("is on floe")
@@ -102,7 +101,6 @@ func _unhandled_input(event: InputEvent) -> void:
 
 func Damage(damage):
 	setHealth(health - damage)
-	
 	if health <= 0:
 		kill()
 
