@@ -27,11 +27,12 @@ _global_script_class_icons={
 [application]
 
 config/name="Dueling"
-run/main_scene="res://Map.tscn"
+run/main_scene="res://Scenes/levels/Map.tscn"
 config/icon="res://icon.png"
 
 [debug]
 
+gdscript/completion/autocomplete_setters_and_getters=true
 gdscript/warnings/unassigned_variable=false
 gdscript/warnings/unassigned_variable_op_assign=false
 gdscript/warnings/unused_variable=false

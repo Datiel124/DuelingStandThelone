@@ -1,9 +1,9 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
-[ext_resource path="res://Player.gd" type="Script" id=1]
-[ext_resource path="res://Sway.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/entities/Player.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/Sway.gd" type="Script" id=2]
 [ext_resource path="res://weapons/WeaponBase.tscn" type="PackedScene" id=3]
-[ext_resource path="res://croshar.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/ui/hud/playerhud.tscn" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.7
@@ -16,6 +16,18 @@ height = 2.0
 [sub_resource type="CylinderShape" id=3]
 radius = 0.646947
 height = 1.3988
+
+[sub_resource type="StyleBoxFlat" id=7]
+resource_local_to_scene = true
+resource_name = "cool"
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_detail = 1
 
 [sub_resource type="Animation" id=5]
 resource_name = "GunShootThing"
@@ -116,19 +128,18 @@ transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.741208, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
 
+[node name="UI" type="Node" parent="."]
+
+[node name="HUD_1" parent="UI" instance=ExtResource( 4 )]
+
+[node name="HpBar" parent="UI/HUD_1/HPPanel/Margin/Hbox" index="1"]
+custom_styles/fg = SubResource( 7 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("")
 anims/GunShootThing = SubResource( 5 )
 anims/RESET = SubResource( 6 )
 
-[node name="TextureRect" type="TextureRect" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -16.0
-margin_top = -17.0
-margin_right = 24.0
-margin_bottom = 23.0
-mouse_filter = 2
-texture = ExtResource( 4 )
+[connection signal="changeHealth" from="." to="UI/HUD_1/HPPanel/Margin/Hbox/HpBar" method="_on_Player_changeHealth"]
+
+[editable path="UI/HUD_1"]

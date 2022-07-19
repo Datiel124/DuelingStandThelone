@@ -12,7 +12,12 @@ var jump_force = 10.5
 var grav_vec = Vector3()
 var full_contact = true
 var wep_selected = 0
-var health = 50
+var health = 100 setget setHealth
+func setHealth(newhealth):
+	newhealth = clamp(newhealth, 0, 100)
+	emit_signal('changeHealth', health, newhealth)
+	health = newhealth
+signal changeHealth(old, new)
 
 var horiz_velocity = Vector3()
 var movement = Vector3()
@@ -23,7 +28,6 @@ var MouseSens = 0.13
 var shotgunAmmo : int
 var PistolAmmo : int
 
-
 onready var aimcast = $Head/Camera/AimCast
 onready var ground_check = $FloorCheck
 onready var Head = $Head
@@ -31,7 +35,6 @@ onready var camera = $Head/Camera
 onready var Reach = $Head/Camera/Reach
 onready var Hand = $Head/Holder
 onready var anim_player = $AnimationPlayer
-
 
 func view_roll(delta):
 	var rotation_speed : float = speed * delta
@@ -43,8 +46,8 @@ func view_roll(delta):
 
 
 func _ready():
+	setHealth(health)
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	
 
 func weapon_change():
 	if Input.is_action_pressed("item1"):
@@ -109,21 +112,19 @@ func _physics_process(delta):
 
 
 func _unhandled_input(event: InputEvent) -> void:
-		if Input.is_action_pressed("fire"):
-			#if is_network_master() or !get_tree().network_peer:
-				#get_node("Head/Holder/Weapon").rpc("shoot")
-				get_node("Head/Holder/Weapon").shoot()
+		if event.is_action_pressed("fire"):
+			get_node("Head/Holder/Weapon").shoot()
 		
 		if event is InputEventMouseMotion:
 			rotate_y(deg2rad(-event.relative.x * MouseSens))
 			Head.rotate_x(deg2rad(-event.relative.y * MouseSens))
 			Head.rotation.x = clamp(Head.rotation.x, deg2rad(-89), deg2rad(89))
 		
-		if Input.is_action_pressed("action"):
+		if event.is_action_pressed("action"):
 				pass
 			
 func Damage(damage):
-	health = health - damage
+	setHealth(health - damage)
 	
 	if health <= 0:
 		kill()

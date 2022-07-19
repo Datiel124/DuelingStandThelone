@@ -1,0 +1,104 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=1]
+[ext_resource path="res://Scenes/ui/hud/HP.png" type="Texture" id=2]
+
+[sub_resource type="StyleBoxFlat" id=4]
+resource_local_to_scene = true
+resource_name = "cool"
+bg_color = Color( 1, 1, 1, 1 )
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color( 0, 0, 0, 1 )
+border_blend = true
+corner_detail = 1
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0, 0, 0, 1 )
+
+[sub_resource type="GDScript" id=3]
+script/source = "extends ProgressBar
+
+func _on_HpBar_value_changed(value: float) -> void:
+	modulate = lerp(Color.red, Color.green, value / 100)
+
+func _on_Player_changeHealth(old, new) -> void:
+	set_value(new)
+	pass # Replace with function body.
+"
+
+[node name="HUD_1" type="ColorRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color( 1, 1, 1, 0 )
+
+[node name="HPPanel" type="Panel" parent="."]
+anchor_left = 0.01375
+anchor_top = 0.888889
+anchor_right = 0.31625
+anchor_bottom = 0.966667
+mouse_filter = 2
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Margin" type="MarginContainer" parent="HPPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Hbox" type="HBoxContainer" parent="HPPanel/Margin"]
+margin_right = 468.0
+margin_bottom = 54.0
+mouse_filter = 2
+
+[node name="HP" type="TextureRect" parent="HPPanel/Margin/Hbox"]
+margin_right = 54.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 54, 54 )
+mouse_filter = 2
+size_flags_horizontal = 0
+texture = ExtResource( 2 )
+expand = true
+stretch_mode = 6
+
+[node name="HpBar" type="ProgressBar" parent="HPPanel/Margin/Hbox"]
+modulate = Color( 0, 1, 0, 1 )
+margin_left = 58.0
+margin_right = 468.0
+margin_bottom = 54.0
+mouse_filter = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_styles/fg = SubResource( 4 )
+custom_styles/bg = SubResource( 2 )
+step = 2.5
+value = 100.0
+allow_lesser = true
+percent_visible = false
+script = SubResource( 3 )
+
+[node name="Crosshair" type="TextureRect" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -20.0
+margin_top = -20.0
+margin_right = 20.0
+margin_bottom = 20.0
+mouse_filter = 2
+texture = ExtResource( 1 )
+expand = true
+stretch_mode = 6
+
+[connection signal="value_changed" from="HPPanel/Margin/Hbox/HpBar" to="HPPanel/Margin/Hbox/HpBar" method="_on_HpBar_value_changed"]

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/entities/Hurt_Area.gd" type="Script" id=1]
+
+[sub_resource type="BoxShape" id=1]
+
+[node name="Hurt_Area" type="Area"]
+script = ExtResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 1 )
+
+[node name="painrate" type="Timer" parent="."]
+process_mode = 0
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="painrate" to="." method="_on_painrate_timeout"]
