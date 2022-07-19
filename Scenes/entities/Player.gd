@@ -12,7 +12,6 @@ var grav_vec = Vector3()
 var full_contact = true
 var horiz_velocity = Vector3()
 var movement = Vector3()
-var dt : int
 
 #health
 var health = 100 setget setHealth
