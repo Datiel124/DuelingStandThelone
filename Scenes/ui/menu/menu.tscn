@@ -1,12 +1,8 @@
-[gd_scene load_steps=2 format=2]
-
-[ext_resource path="res://Scenes/ui/menu/menu.gd" type="Script" id=1]
-
+[gd_scene format=2]
 
 [node name="Control" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
 
 [node name="Button" type="Button" parent="."]
 anchor_left = 0.5
@@ -37,5 +33,3 @@ margin_right = 1006.0
 margin_bottom = 292.0
 tab_size = 12
 text = "ga,e"
-
-[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

@@ -17,7 +17,6 @@ func setammo(amount):
 	Ammo = clamp(amount, 0, MagSize)
 
 remote func shoot():
-	
 	var particles = get_node("MeshInstance/Particles").duplicate()
 	
 	particles.emitting = true

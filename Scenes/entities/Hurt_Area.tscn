@@ -13,6 +13,5 @@ shape = SubResource( 1 )
 [node name="painrate" type="Timer" parent="."]
 process_mode = 0
 wait_time = 0.5
-autostart = true
 
 [connection signal="timeout" from="painrate" to="." method="_on_painrate_timeout"]

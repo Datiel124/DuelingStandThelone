@@ -29,6 +29,13 @@ _global_script_class_icons={
 config/name="Dueling"
 run/main_scene="res://Scenes/levels/Map.tscn"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
+
+[autoload]
+
+Network="*res://globals/networking/network.gd"
+NetworkLobby="*res://globals/networking/networkLobby.gd"
+UserConfigs="*res://globals/UserConfigs.gd"
 
 [debug]
 
