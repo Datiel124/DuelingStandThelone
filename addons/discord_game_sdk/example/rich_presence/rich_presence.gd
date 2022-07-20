@@ -1,4 +1,4 @@
-extends Node2D
+extends Spatial
 
 func _ready():
 	update_activity()
@@ -6,14 +6,14 @@ func _ready():
 func update_activity() -> void:
 	var activity = Discord.Activity.new()
 	activity.set_type(Discord.ActivityType.Playing)
-	activity.set_state("market your game on Discord!!!")
-	activity.set_details("Use your player base to")
+	activity.set_state("In DEV Map")
+	activity.set_details("Probably working on gun stuff")
 
 	var assets = activity.get_assets()
-	assets.set_large_image("godot")
-	assets.set_large_text("ZONE 2 WOOO")
-	assets.set_small_image("capsule_main")
-	assets.set_small_text("ZONE 2 WOOO")
+	assets.set_large_image("image_1")
+	assets.set_large_text("Dev Map")
+	assets.set_small_image("image_1")
+	assets.set_small_text("Testing..")
 	
 	var timestamps = activity.get_timestamps()
 	timestamps.set_start(OS.get_unix_time() + 100)
