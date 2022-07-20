@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://weapons/WeaponBasic.gd" type="Script" id=1]
-[ext_resource path="res://weapons/DrawPassPart.tres" type="Material" id=2]
-[ext_resource path="res://weapons/BaseExplosion.tres" type="Material" id=3]
+[ext_resource path="res://Scenes/weapons/WeaponBasic.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/weapons/DrawPassPart.tres" type="Material" id=2]
+[ext_resource path="res://Scenes/weapons/explosions/BaseExplosion.tres" type="Material" id=3]
+[ext_resource path="res://scripts/StateMachine.gd" type="Script" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.369, 0.345, 1.976 )
@@ -37,6 +38,18 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 8.967, 0, 0 ), Vector3( 7.52259, 0.184251, 1.40711 ), Vector3( 6.308, 0, 0 ), Vector3( 3.27221, -0.175116, -3.065 ), Vector3( 0, 0, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("MeshInstance/MuzzlePoint/flash:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 1.0, 0.0 ]
+}
 
 [sub_resource type="Animation" id=8]
 length = 0.001
@@ -64,9 +77,24 @@ tracks/1/keys = {
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ) ]
 }
+tracks/2/type = "value"
+tracks/2/path = NodePath("MeshInstance/MuzzlePoint/flash:light_energy")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
 
 [node name="Weapon" type="Spatial"]
 script = ExtResource( 1 )
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 4 )
 
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 1 )
@@ -75,12 +103,20 @@ material/0 = null
 [node name="MuzzlePoint" type="Position3D" parent="MeshInstance"]
 transform = Transform( 1, 0, 0, 0, 1.63739, 0, 0, 0, 0.261205, 0.110189, 0.0181168, -1.07296 )
 
-[node name="Particles" type="Particles" parent="MeshInstance"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00231045, -0.000579696, -1.18934 )
+[node name="flash" type="OmniLight" parent="MeshInstance/MuzzlePoint"]
+transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, 0, 0, 0 )
+light_color = Color( 1, 0.788235, 0.0588235, 1 )
+light_energy = 0.0
+shadow_enabled = true
+omni_range = 10.0
+
+[node name="Particles" type="Particles" parent="MeshInstance/MuzzlePoint"]
+transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.107879, -0.0114185, 0.320132 )
 emitting = false
-amount = 33
+amount = 16
+lifetime = 0.08
 one_shot = true
-explosiveness = 1.0
+explosiveness = 0.96
 visibility_aabb = AABB( -1.03476, -1.05731, -0.195826, 2.06952, 2.11461, 0.391653 )
 local_coords = false
 process_material = ExtResource( 3 )
@@ -89,3 +125,5 @@ draw_pass_1 = SubResource( 6 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/BaseShoot = SubResource( 7 )
 anims/RESET = SubResource( 8 )
+
+[node name="RayCast" type="RayCast" parent="."]

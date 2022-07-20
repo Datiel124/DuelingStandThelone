@@ -1,9 +1,18 @@
+<<<<<<< Updated upstream
 [gd_scene load_steps=6 format=2]
+=======
+[gd_scene load_steps=7 format=2]
+>>>>>>> Stashed changes
 
 [ext_resource path="res://Scenes/entities/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/entities/Hurt_Area.tscn" type="PackedScene" id=3]
+<<<<<<< Updated upstream
 [ext_resource path="res://addons/discord_game_sdk/example/rich_presence/rich_presence.gd" type="Script" id=4]
+=======
+[ext_resource path="res://Scenes/weapons/laserturret/laserturret.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=5]
+>>>>>>> Stashed changes
 
 [sub_resource type="SpatialMaterial" id=1]
 flags_transparent = true
@@ -36,7 +45,7 @@ transform = Transform( 0.399428, 0, 0, 0, 0.999999, 0, 0, 0, 0.532687, 0, -11.85
 width = 168.0
 height = 22.0
 depth = 116.0
-material = ExtResource( 2 )
+material = ExtResource( 5 )
 
 [node name="CSGBox2" type="CSGBox" parent="CSGCombiner"]
 transform = Transform( 0.399427, 0, 0, 0, 0.999999, 0, 0, 0, 0.532687, 0, -7.82146, 0 )
@@ -44,7 +53,7 @@ operation = 2
 width = 152.0
 height = 14.0
 depth = 108.0
-material = ExtResource( 2 )
+material = ExtResource( 5 )
 
 [node name="CSGBox3" type="CSGBox" parent="CSGCombiner"]
 transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, -8.5643, -13.9386, -9.19942 )
@@ -74,11 +83,27 @@ height = 4.94248
 depth = 5.88205
 material = ExtResource( 2 )
 
+[node name="CSGBox7" type="CSGBox" parent="CSGCombiner"]
+transform = Transform( 0.999998, 0, 0, 0, 0.906307, -0.862485, 0, 0.207083, 0.906306, -8.5643, -10.6823, -3.42357 )
+width = 4.0
+depth = 5.88205
+material = ExtResource( 2 )
+
+[node name="CSGBox8" type="CSGBox" parent="CSGCombiner/CSGBox7"]
+transform = Transform( 1, 0, 0, 0, 0.895864, 0.902703, 0, -0.204697, 0.948569, 0, 1.57131, -2.67612 )
+operation = 2
+width = 6.0
+depth = 5.88205
+material = ExtResource( 2 )
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.942249, 9.87287, 2.95378 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
 transform = Transform( 0.633973, -0.209964, 0.744307, 0.00139003, 0.962747, 0.2704, -0.773354, -0.170392, 0.610647, 14.8522, 20.4, 22.5067 )
 shadow_enabled = true
+
+[node name="laserturret" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.67545, 0 )
 
 [editable path="CSGBox/Hurt_Area"]

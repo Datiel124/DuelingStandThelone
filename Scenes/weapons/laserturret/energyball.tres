@@ -1,0 +1,17 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+
+[ext_resource path="res://Scenes/weapons/laserturret/energyball.gdshader" type="Shader" id=1]
+
+[sub_resource type="OpenSimplexNoise" id=3]
+
+[sub_resource type="NoiseTexture" id=2]
+seamless = true
+bump_strength = 32.0
+noise = SubResource( 3 )
+
+[resource]
+shader = ExtResource( 1 )
+shader_param/xscroll = 1.0
+shader_param/yscroll = 1.0
+shader_param/edgecolor = Color( 2, 0.56, 0.14, 0.47 )
+shader_param/noisiness = SubResource( 2 )

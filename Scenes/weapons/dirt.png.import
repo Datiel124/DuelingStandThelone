@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/texture_01.png-63b311405b630fe7431a77109435bd3e.s3tc.stex"
-path.etc2="res://.import/texture_01.png-63b311405b630fe7431a77109435bd3e.etc2.stex"
+path.s3tc="res://.import/dirt.png-4fb2d7d9c3ce2df063b98b1d48f633da.s3tc.stex"
+path.etc2="res://.import/dirt.png-4fb2d7d9c3ce2df063b98b1d48f633da.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://TextureAssets/Developer_Textures/Light/texture_01.png"
-dest_files=[ "res://.import/texture_01.png-63b311405b630fe7431a77109435bd3e.s3tc.stex", "res://.import/texture_01.png-63b311405b630fe7431a77109435bd3e.etc2.stex" ]
+source_file="res://Scenes/weapons/dirt.png"
+dest_files=[ "res://.import/dirt.png-4fb2d7d9c3ce2df063b98b1d48f633da.s3tc.stex", "res://.import/dirt.png-4fb2d7d9c3ce2df063b98b1d48f633da.etc2.stex" ]
 
 [params]
 

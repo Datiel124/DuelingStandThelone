@@ -6,27 +6,17 @@ onready var anim_player = $AnimationPlayer
 
 export var damage = 5
 export var reloadTime = 0.8
-export var Ammo = 5 setget setammo
-export var MagSize = 10
 
 onready var b_hole = preload("res://Scenes/entities/BulletHole.tscn")
 
-enum _AmmoType {Pistol, Shotgun}
-export(_AmmoType) var AmmoType = _AmmoType.Pistol
-
-
-func setammo(amount):
-	Ammo = clamp(amount, 0, MagSize)
-
 remote func shoot():
-	var bullethole = b_hole.instance()
-	var particles = get_node("MeshInstance/Particles").duplicate()
+	var particles = get_node("MeshInstance/MuzzlePoint/Particles").duplicate()
 	
 	particles.emitting = true
 	
-	$MeshInstance.add_child(particles)
+	$MeshInstance/MuzzlePoint.add_child(particles)
 	
-	particles.transform = $MeshInstance/Particles.transform
+	particles.transform = $MeshInstance/MuzzlePoint/Particles.transform
 	get_tree().create_timer(5).connect("timeout", particles, "queue_free")
 	
 	if ! anim_player.is_playing():
@@ -35,21 +25,27 @@ remote func shoot():
 	var camera_transform = get_viewport().get_camera().global_transform
 	var ray = RayCast.new()
 	
-	add_child(ray)
+	get_tree().get_root().add_child(ray)
 	
 	ray.global_transform = camera_transform
-	ray.cast_to = Vector3.FORWARD * 9000
+	ray.cast_to = Vector3.FORWARD * 90
+	ray.exclude_parent = true
 	ray.force_raycast_update()
 	
 	var collider = ray.get_collider()
-	print(collider)
 	
 	#Bullet Hole Creation
 	if collider is CSGCombiner:
-		ray.get_collider().add_child(bullethole)
-		bullethole.global_transform.origin = ray.get_collision_point()
-		bullethole.look_at(ray.get_collision_point() + ray.get_collision_normal(), Vector3.UP)
-	
+		var normal = ray.get_collision_normal()
+		var bullet = b_hole.instance()
+		get_tree().get_root().add_child(bullet)
+		bullet.global_transform.origin = ray.get_collision_point()
+		if normal.is_equal_approx(Vector3.UP):
+			bullet.rotation_degrees.x = 90
+		elif normal.is_equal_approx(Vector3.DOWN):
+			bullet.rotation_degrees.x = -90
+		else:
+			bullet.look_at(ray.get_collision_point() + ray.get_collision_normal(), Vector3.UP)
 	
 	if collider is KinematicBody:
 		if collider.has_method("Damage"):
@@ -57,9 +53,7 @@ remote func shoot():
 			#if is_network_master() or !get_tree().network_peer:
 				#collider.rpc("Damage",damage)
 				#collider.Damage(damage)
-	
-	yield(get_tree(), "idle_frame")
 	ray.queue_free()
-	
+
 func reload():
 	pass

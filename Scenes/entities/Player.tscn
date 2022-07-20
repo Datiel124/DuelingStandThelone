@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scenes/entities/Player.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/Sway.gd" type="Script" id=2]
-[ext_resource path="res://weapons/WeaponBase.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 
