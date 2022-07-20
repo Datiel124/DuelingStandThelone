@@ -9,6 +9,8 @@ export var reloadTime = 0.8
 export var Ammo = 5 setget setammo
 export var MagSize = 10
 
+onready var b_hole = preload("res://Scenes/entities/BulletHole.tscn")
+
 enum _AmmoType {Pistol, Shotgun}
 export(_AmmoType) var AmmoType = _AmmoType.Pistol
 
@@ -17,6 +19,7 @@ func setammo(amount):
 	Ammo = clamp(amount, 0, MagSize)
 
 remote func shoot():
+	var bullethole = b_hole.instance()
 	var particles = get_node("MeshInstance/Particles").duplicate()
 	
 	particles.emitting = true
@@ -40,6 +43,13 @@ remote func shoot():
 	
 	var collider = ray.get_collider()
 	print(collider)
+	
+	#Bullet Hole Creation
+	if collider is CSGCombiner:
+		ray.get_collider().add_child(bullethole)
+		bullethole.global_transform.origin = ray.get_collision_point()
+		bullethole.look_at(ray.get_collision_point() + ray.get_collision_normal(), Vector3.UP)
+	
 	
 	if collider is KinematicBody:
 		if collider.has_method("Damage"):

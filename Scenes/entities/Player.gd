@@ -12,6 +12,7 @@ var grav_vec = Vector3()
 var full_contact = true
 var horiz_velocity = Vector3()
 var movement = Vector3()
+var time = 0.0
 
 #health
 var health = 100 setget setHealth
@@ -31,6 +32,7 @@ onready var Head = $Head
 onready var camera = $Head/Camera
 onready var Reach = $Head/Camera/Reach
 onready var Hand = $Head/Holder
+onready var hand_default_Pos : Vector3 = Hand.translation
 onready var anim_player = $AnimationPlayer
 
 
@@ -46,8 +48,11 @@ func view_roll(delta):
 
 func _process(delta):
 	view_roll(delta)
+	
 
 func _physics_process(delta):
+	time += delta
+	
 	if ground_check.is_colliding():
 		full_contact = true
 		#print("is on floe")
@@ -87,6 +92,7 @@ func _physics_process(delta):
 	
 	move_and_slide(movement, Vector3.UP)
 
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 		if event.is_action_pressed("fire"):
@@ -96,6 +102,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			rotate_y(deg2rad(-event.relative.x * UserConfigs.aim_sens))
 			Head.rotate_x(deg2rad(-event.relative.y * UserConfigs.aim_sens))
 			Head.rotation.x = clamp(Head.rotation.x, deg2rad(-89), deg2rad(89))
+		
+		if event.is_action_pressed("action"):
+			var rng = RandomNumberGenerator.new()
+			pass
 
 
 func Damage(damage):
