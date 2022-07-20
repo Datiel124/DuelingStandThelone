@@ -1,8 +1,9 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/discord_game_sdk/example/rich_presence/rich_presence.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/entities/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
+
 
 [node name="Map" type="Spatial"]
 script = ExtResource( 1 )
