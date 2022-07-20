@@ -17,12 +17,12 @@ void fragment(){
 	float edge = fillIn - UV.r;
 	//The "edge" is the distance of the pixel to the rim.
 	//Everything below rimSize * TEXTURE_PIXEL_SIZE.r should be colored in completely.
-	if(edge < rimSize * SCREEN_PIXEL_SIZE.r)
+	if(edge < rimSize)
 		COLOR.rgb = rimColor.rgb;
 	//Everything else should be faded by the rimFade.
 	else
 		//the fade STARTS  where edge is > rimSize * TEXTURE_PIXEL_SIZE.r, and should END fade distance away
-		COLOR.rgb = mix(COLOR.rgb, rimColor.rgb, clamp(1.0 - (edge - rimSize * SCREEN_PIXEL_SIZE.r) / (rimFade * SCREEN_PIXEL_SIZE.r), 0, 1));
+		COLOR.rgb = mix(COLOR.rgb, rimColor.rgb, clamp(1.0 - (edge - rimSize) / (rimFade), 0, 1));
 	
 	if(UV.r < fillOut)
 		COLOR.a = 0.0;
