@@ -261,11 +261,11 @@ config/windows_native_icon="res://icon.ico"
 
 [autoload]
 
-Network="*res://globals/networking/network.gd"
-NetworkLobby="*res://globals/networking/networkLobby.gd"
 Discord="*res://addons/discord_game_sdk/discord.gd"
 Loader="*res://addons/file_loader/loader.gd"
 UserConfigs="*res://scripts/globals/UserConfigs.gd"
+Network="*res://scripts/globals/networking/network.gd"
+NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
 
 [debug]
 

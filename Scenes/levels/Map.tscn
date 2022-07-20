@@ -8,35 +8,36 @@
 script = ExtResource( 1 )
 
 [node name="Geometry" type="CSGCombiner" parent="."]
+use_collision = true
 
 [node name="CSGBox" type="CSGBox" parent="Geometry"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-width = 62.0
-depth = 56.0
+width = 198.0
+depth = 120.0
 material = ExtResource( 3 )
 
 [node name="CSGBox2" type="CSGBox" parent="Geometry"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -32, 12, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -99, 12, 0 )
 height = 24.0
-depth = 56.0
+depth = 124.0
 material = ExtResource( 3 )
 
 [node name="CSGBox3" type="CSGBox" parent="Geometry"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 32, 12, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 98, 12, 0 )
 height = 24.0
-depth = 56.0
+depth = 152.0
 material = ExtResource( 3 )
 
 [node name="CSGBox4" type="CSGBox" parent="Geometry"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.39876e-06, 12, -27 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.39876e-06, 12, -61 )
 height = 24.0
-depth = 72.0
+depth = 224.0
 material = ExtResource( 3 )
 
 [node name="CSGBox5" type="CSGBox" parent="Geometry"]
-transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.39876e-06, 12, 28 )
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.39876e-06, 12, 60 )
 height = 24.0
-depth = 64.0
+depth = 202.0
 material = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]

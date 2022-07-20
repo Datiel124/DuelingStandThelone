@@ -170,6 +170,4 @@ root_node = NodePath("")
 anims/GunShootThing = SubResource( 5 )
 anims/RESET = SubResource( 6 )
 
-[connection signal="changeHealth" from="." to="UI/HPPanel" method="set_hp"]
-
 [editable path="UI/HPPanel"]
