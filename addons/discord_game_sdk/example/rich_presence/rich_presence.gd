@@ -10,7 +10,7 @@ func update_activity() -> void:
 	activity.set_details("Probably working on gun stuff")
 
 	var assets = activity.get_assets()
-	assets.set_large_image("standthelonedev")
+	assets.set_large_image("standthelonedev2")
 	assets.set_large_text("Dev Map")
 	assets.set_small_image("image_1")
 	assets.set_small_text("Testing..")
