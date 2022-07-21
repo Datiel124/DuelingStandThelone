@@ -16,6 +16,7 @@ onready var dirt = $dirt
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	self.rotation_degrees.z = randi()
 	var nods = get_tree().get_nodes_in_group(\"BulletHoles\")
 	if nods.size() >= 10:
 		nods[randi()%10].get_node(\"dissapear\").play('fade')

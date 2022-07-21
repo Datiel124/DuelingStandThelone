@@ -46,6 +46,7 @@ remote func shoot():
 			bullet.rotation_degrees.x = -90
 		else:
 			bullet.look_at(ray.get_collision_point() + ray.get_collision_normal(), Vector3.UP)
+			bullet.rotation_degrees.z = randi()
 			
 	#Spark Creation
 	if collider is CollisionShape:
