@@ -1,59 +1,8 @@
 [gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/weapons/laserturret/energyball.tres" type="Material" id=1]
-[ext_resource path="res://Scenes/weapons/laserturret/sensorturret.gd" type="Script" id=2]
-
-[sub_resource type="GDScript" id=8]
-script/source = "extends StateMachine
-
-onready var parent = get_parent()
-onready var anim = get_node(\"../AnimationPlayer\")
-
-func _ready() -> void:
-	add_state(\"AIR\")
-	add_state(\"DEPLOY\")
-	add_state(\"SEARCH\")
-	add_state(\"ATTACK\")
-
-# Called when the node enters the scene tree for the first time.
-func _state_logic(delta):
-	match state:
-		states.AIR:
-			#fly through the air gracefully
-			parent.apply_gravity() 
-			parent.apply_physics()
-			pass
-		states.SEARCH:
-			pass
-		states.ATTACK:
-			pass
-		_:
-			pass
-
-func _enter_state(new_state, old_state):
-	match new_state:
-		states.DEPLOY:
-			#Play the DEPLOY animation, do other startup things
-			parent.deploy()
-			pass
-		states.SEARCH:
-			#Search for the enemy. Set animation to SPIN if it isn't already playing.
-			if anim.current_animation != \"spin\":
-				anim.stop()
-				anim.play('spin')
-			pass
-		states.ATTACK:
-			#Get ready to attack the enemy. Start up that timer.
-			if anim.current_animation != \"spin\":
-				anim.stop()
-				anim.play('spin')
-			$attackdelay.start(0.5)
-			pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
-"
+[ext_resource path="res://Scenes/weapons/laserturret/laserturret.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/weapons/laserturret/FSM_laserturret.gd" type="Script" id=3]
 
 [sub_resource type="SphereShape" id=10]
 radius = 1.01346
@@ -346,7 +295,7 @@ attenuation_filter_db = 0.0
 [node name="deploysound" type="AudioStreamPlayer3D" parent="."]
 
 [node name="StateMachine" type="Node" parent="."]
-script = SubResource( 8 )
+script = ExtResource( 3 )
 
 [node name="attackdelay" type="Timer" parent="StateMachine"]
 

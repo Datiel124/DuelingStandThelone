@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/discord_game_sdk/example/rich_presence/rich_presence.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=2]
@@ -6,92 +6,142 @@
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=4]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=5]
 [ext_resource path="res://Scenes/weapons/laserturret/laserturret.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/environments/skyboxes/furry_clouds_4k.hdr" type="Texture" id=7]
+
+[sub_resource type="PanoramaSky" id=1]
+radiance_size = 3
+panorama = ExtResource( 7 )
+
+[sub_resource type="Environment" id=2]
+background_mode = 2
+background_sky = SubResource( 1 )
+background_color = Color( 1, 1, 1, 1 )
+ssao_enabled = true
+ssao_intensity = 6.57
+ssao_radius2 = 6.68
+ssao_bias = 0.219
+ssao_light_affect = 0.1
+ssao_quality = 2
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/4 = true
+glow_levels/6 = true
+glow_levels/7 = true
+glow_intensity = 0.65
+glow_strength = 1.07
+glow_bloom = 0.01
+glow_bicubic_upscale = true
+glow_high_quality = true
 
 [node name="Map" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="Geometry" type="CSGCombiner" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 2 )
+
+[node name="Geometry" type="Node" parent="."]
+
+[node name="stage" type="CSGCombiner" parent="Geometry"]
 use_collision = true
 
-[node name="CSGBox" type="CSGBox" parent="Geometry"]
+[node name="CSGBox" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 width = 144.0
 depth = 120.0
 material = ExtResource( 3 )
 
-[node name="CSGBox6" type="CSGBox" parent="Geometry"]
+[node name="CSGBox6" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12 )
 width = 6.0
 depth = 6.0
 material = ExtResource( 5 )
 
-[node name="CSGBox14" type="CSGBox" parent="Geometry"]
+[node name="CSGBox14" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 5, -12 )
 width = 6.0
 height = 12.0
 depth = 6.0
 material = ExtResource( 5 )
 
-[node name="CSGBox7" type="CSGBox" parent="Geometry"]
+[node name="CSGBox7" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, -3 )
 width = 20.0
 depth = 14.0
 material = ExtResource( 4 )
 
-[node name="CSGBox13" type="CSGBox" parent="Geometry"]
+[node name="CSGBox13" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -3 )
 width = 20.0
 depth = 14.0
 material = ExtResource( 4 )
 
-[node name="CSGBox9" type="CSGBox" parent="Geometry"]
+[node name="CSGBox9" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, -9 )
 height = 10.0
 material = ExtResource( 4 )
 
-[node name="CSGBox10" type="CSGBox" parent="Geometry"]
+[node name="CSGBox10" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, 3 )
 height = 10.0
 material = ExtResource( 4 )
 
-[node name="CSGBox11" type="CSGBox" parent="Geometry"]
+[node name="CSGBox11" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 7, 3 )
 height = 10.0
 material = ExtResource( 4 )
 
-[node name="CSGBox12" type="CSGBox" parent="Geometry"]
+[node name="CSGBox12" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 7, -9 )
 height = 10.0
 material = ExtResource( 4 )
 
-[node name="CSGBox8" type="CSGBox" parent="Geometry"]
+[node name="CSGBox8" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, 17 )
 width = 4.0
 depth = 28.0
 material = ExtResource( 4 )
 
-[node name="CSGBox2" type="CSGBox" parent="Geometry"]
+[node name="CSGBox2" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -71, 12, 0 )
 height = 24.0
 depth = 124.0
 material = ExtResource( 3 )
 
-[node name="CSGBox3" type="CSGBox" parent="Geometry"]
+[node name="CSGBox3" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 58, 12, 0 )
 height = 24.0
 depth = 152.0
 material = ExtResource( 3 )
 
-[node name="CSGBox4" type="CSGBox" parent="Geometry"]
+[node name="CSGBox4" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 1.39876e-06, 12, -61 )
 height = 24.0
 depth = 224.0
 material = ExtResource( 3 )
 
-[node name="CSGBox5" type="CSGBox" parent="Geometry"]
+[node name="CSGBox5" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -1.39876e-06, 12, 60 )
 height = 24.0
 depth = 202.0
+material = ExtResource( 3 )
+
+[node name="cool" type="CSGCombiner" parent="Geometry"]
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Geometry/cool"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 6, -35 )
+width = 10.0
+height = 8.0
+depth = 10.0
+material = ExtResource( 5 )
+
+[node name="CSGCylinder" type="CSGCylinder" parent="Geometry/cool/CSGBox"]
+transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 4, 5 )
+operation = 2
+radius = 8.0
+height = 12.0
+sides = 64
 material = ExtResource( 3 )
 
 [node name="DirectionalLight" type="DirectionalLight" parent="."]
