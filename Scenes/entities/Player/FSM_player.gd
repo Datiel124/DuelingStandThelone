@@ -1,7 +1,7 @@
 extends StateMachine
 
 onready var parent = get_parent()
-onready var anim = get_node("../AnimationPlayer")
+#onready var anim = get_node("../AnimationPlayer")
 
 func _ready() -> void:
 	#IDLE state. Not moving, just standing still. Check for movement.
