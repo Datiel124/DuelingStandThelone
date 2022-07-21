@@ -6,9 +6,6 @@ var state  = null setget set_state
 var previous_state = null
 var states = {}
 
-#check conditions, reference parent to tell it what to do
-onready var parent = get_parent()
-
 func _physics_process(delta: float) -> void:
 	if state != null:
 		_state_logic(delta)

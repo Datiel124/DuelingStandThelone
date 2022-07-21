@@ -46,6 +46,8 @@ func playsong(index):
 
 func randomize_and_play():
 		randomize()
+		if UserConfigs.songs.size() <= 0:
+			return
 		var random_song_index:int = randi() % UserConfigs.songs.size()
 		print("Got music index " + str(random_song_index))
 		playsong(random_song_index)

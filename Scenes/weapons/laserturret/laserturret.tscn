@@ -6,6 +6,8 @@
 [sub_resource type="GDScript" id=8]
 script/source = "extends StateMachine
 
+onready var parent = get_parent()
+
 func _ready() -> void:
 	add_state(\"AIR\")
 	add_state(\"DEPLOY\")
