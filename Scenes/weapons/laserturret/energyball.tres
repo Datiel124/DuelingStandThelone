@@ -14,4 +14,5 @@ shader = ExtResource( 1 )
 shader_param/xscroll = 1.0
 shader_param/yscroll = 1.0
 shader_param/edgecolor = Color( 2, 0.56, 0.14, 0.47 )
+shader_param/distortion = 1.0
 shader_param/noisiness = SubResource( 2 )

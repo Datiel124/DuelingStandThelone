@@ -7,6 +7,7 @@
 script/source = "extends StateMachine
 
 onready var parent = get_parent()
+onready var anim = get_node(\"../AnimationPlayer\")
 
 func _ready() -> void:
 	add_state(\"AIR\")
@@ -37,14 +38,12 @@ func _enter_state(new_state, old_state):
 			pass
 		states.SEARCH:
 			#Search for the enemy. Set animation to SPIN if it isn't already playing.
-			var anim = get_node(\"../AnimationPlayer\")
 			if anim.current_animation != \"spin\":
 				anim.stop()
 				anim.play('spin')
 			pass
 		states.ATTACK:
 			#Get ready to attack the enemy. Start up that timer.
-			var anim = get_node(\"../AnimationPlayer\")
 			if anim.current_animation != \"spin\":
 				anim.stop()
 				anim.play('spin')
@@ -365,6 +364,7 @@ anims/spin = SubResource( 6 )
 anims/throw = SubResource( 7 )
 
 [node name="mesh" type="Spatial" parent="."]
+transform = Transform( 0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0 )
 
 [node name="Icosphere" type="MeshInstance" parent="mesh"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.404208, 0 )

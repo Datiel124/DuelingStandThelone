@@ -6,7 +6,7 @@ uniform float xscroll = 1.0;
 uniform float yscroll = 1.0;
 
 uniform vec4 edgecolor : hint_color;
-
+uniform float distortion = 132.0;
 
 
 float map(float value, float low1, float high1, float low2, float high2){
@@ -23,6 +23,7 @@ void fragment(){
 	vec4 noise = texture(noisiness, vec2(UV.x - (TIME*xscroll), UV.y + (TIME*yscroll)));
 	
 	vec2 d = texture(noisiness, vec2(UV.x - (TIME*xscroll), UV.y + (TIME*yscroll))).xy - vec2(0.5);
-	ALBEDO.rgb = texture(SCREEN_TEXTURE, SCREEN_UV + d * 1.0 / (linear_depth / (1.0 - dot(normalize(NORMAL), normalize(VIEW))))).rgb;
-	ALBEDO.rgb += mix(vec4(0.0), edgecolor, pow(1.0 - dot(normalize(NORMAL), normalize(VIEW)),5)).rgb;
+	float fresnel = pow(1.0 - dot(normalize(NORMAL), normalize(VIEW)), 5);
+	ALBEDO.rgb = texture(SCREEN_TEXTURE, SCREEN_UV + d * distortion / (linear_depth) * fresnel).rgb;
+	ALBEDO.rgb += mix(vec4(0.0), edgecolor, fresnel).rgb;
 	}
