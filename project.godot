@@ -277,6 +277,11 @@ gdscript/warnings/unused_argument=false
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
 
+[discord_presence]
+
+first_button/label="Project Stand The Lone"
+first_button/url="https://trello.com/b/zqK4dURv/operation-stand-the-lone"
+
 [display]
 
 window/size/width=1600
