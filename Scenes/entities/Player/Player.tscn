@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Scenes/Sway.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/entities/MusicPlayer/MusicPlayer.gd" type="Script" id=7]
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.7
@@ -114,5 +115,11 @@ custom_styles/panel = SubResource( 7 )
 
 [node name="HpBar" parent="UI/HPPanel/Margin/Hbox" index="1"]
 custom_styles/fg = SubResource( 8 )
+
+[node name="MusicPlayer" type="Node" parent="UI"]
+script = ExtResource( 7 )
+
+[node name="AudioPlayer" type="AudioStreamPlayer" parent="UI/MusicPlayer"]
+bus = "Music"
 
 [editable path="UI/HPPanel"]

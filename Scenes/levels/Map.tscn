@@ -106,7 +106,7 @@ transform = Transform( 0.619589, -0.460546, -0.635616, 0.0790126, -0.76907, 0.63
 shadow_enabled = true
 
 [node name="laserturret" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.605809, 5.05893, -11.5699 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312546, 5.05893, -12.1195 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.62426, 0 )
