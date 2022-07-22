@@ -2,6 +2,7 @@ extends Node
 
 var aim_sens : float = 0.13
 var aim_ADS_mult : float = 0.8
+var custom_songs_enabled = true
 var songs = []
 
 var username : String = "player"

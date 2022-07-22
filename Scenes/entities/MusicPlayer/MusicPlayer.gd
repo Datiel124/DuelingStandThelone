@@ -1,6 +1,6 @@
 extends Node
 
-var custom_songs_enabled = false
+
 var is_playing = false
 var song_array_id = 0
 var file_name
@@ -14,7 +14,7 @@ onready var AudioPlayer = $AudioPlayer
 
 
 func _ready():
-	if custom_songs_enabled:
+	if UserConfigs.custom_songs_enabled:
 		if randomize_playlist == true:
 			randomize_and_play()
 	pass
@@ -25,7 +25,7 @@ func _process(delta):
 		UserConfigs.loadmusic()
 		randomize_and_play()
 		
-	if custom_songs_enabled:
+	if UserConfigs.custom_songs_enabled:
 		pass
 
 func playsong(index):

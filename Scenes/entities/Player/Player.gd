@@ -27,6 +27,7 @@ var primary;
 var secondary;
 
 #References to nodes for simplification
+onready var explosion = preload("res://Scenes/entities/Explosion/explosion.tscn")
 onready var aimcast = $Head/Camera/AimCast
 onready var ground_check = $FloorCheck
 onready var Head = $Head
@@ -109,7 +110,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		Head.rotation.x = clamp(Head.rotation.x, deg2rad(-89), deg2rad(89))
 	
 	if event.is_action_pressed("action"):
+		print("pressed action button, right now this is used for debug crap")
 		var rng = RandomNumberGenerator.new()
+		var explosiontest = explosion.instance()
 		pass
 
 func Damage(damage):
