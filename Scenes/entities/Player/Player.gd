@@ -56,7 +56,7 @@ func view_roll(delta):
 	var rotation_speed : float = speed * delta
 	var roll_amount : int = 2
 	var angle : float = roll_amount * (int(Input.is_action_pressed("MoveRight")) + -int(Input.is_action_pressed("MoveLeft")))
-	camera.rotation.z = lerp(camera.rotation.z, -deg2rad(angle), rotation_speed)
+	Head.rotation.z = lerp(Head.rotation.z, -deg2rad(angle), rotation_speed)
 
 #Checks if colliding with ground, returns flags based on results.
 func check_ground() -> int:
@@ -104,9 +104,9 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if event is InputEventMouseMotion:
 		#TODO - Change Player structure. This should only rotate the mesh, which should have a position node for the camera to inherit transforms from.
-		rotate_y(deg2rad(-event.relative.x * UserConfigs.aim_sens))
-		Head.rotate_x(deg2rad(-event.relative.y * UserConfigs.aim_sens))
-		Head.rotation.x = clamp(Head.rotation.x, deg2rad(-89), deg2rad(89))
+		rotation.y = fmod(rotation.y - event.relative.x * UserConfigs.aim_sens * get_process_delta_time(), 2*PI)
+		Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
+		Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
 
 func Damage(damage):
 	setHealth(health - damage)

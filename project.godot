@@ -266,6 +266,7 @@ Network="*res://scripts/globals/networking/network.gd"
 NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
 UserConfigs="*res://scripts/globals/UserConfigs.gd"
 Discord="*res://addons/discord_game_sdk/discord.gd"
+GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
 
 [debug]
 

@@ -28,6 +28,8 @@ func _state_logic(delta):
 				parent.Velocity.y = clamp(parent.Velocity.y, 0.0, INF)
 			parent.calc_direction(delta)
 			parent.apply_physics(delta)
+	if state != states.DEAD:
+		GlobalCamera.transformoverride = parent.Head.global_transform
 
 func _get_transition(delta):
 	#Under what conditions should I change my state?

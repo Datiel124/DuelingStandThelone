@@ -10,6 +10,7 @@ onready var MusicPlayer : AudioStreamPlayer = $AudioPlayer
 var songs = []
 
 func _ready():
+	randomize()
 	MusicPlayer.set_bus("Music")
 	if UserConfigs.custom_songs_enabled:
 		scansongs()
@@ -52,7 +53,7 @@ func scansongs():
 			songs.append(audio_stream)
 			file.close()
 	print(songs)
-	setSong(0)
+	setSong(randi()%songs.size())
 
 func setSong(idx : int):
 	MusicPlayer.set_stream(songs[idx])
