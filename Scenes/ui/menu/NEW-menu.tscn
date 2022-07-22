@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
-[ext_resource path="res://Scenes/ui/ui_metalheart/Gradient_Map.tres" type="Material" id=1]
+[ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=1]
 [ext_resource path="res://DEV/csgmenuloop.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
+[ext_resource path="res://DEV/UI_MOCKUP/uitest.tscn" type="PackedScene" id=4]
 
 [sub_resource type="Animation" id=2]
 length = 0.001
@@ -117,3 +118,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.10842, -41 )
 material = ExtResource( 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
+
+[node name="MarginContainer" parent="." instance=ExtResource( 4 )]

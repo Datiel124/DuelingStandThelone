@@ -102,6 +102,17 @@ custom_styles/panel = SubResource( 7 )
 [node name="HpBar" parent="UI/HPPanel/Margin/Hbox" index="1"]
 custom_styles/fg = SubResource( 8 )
 
+[node name="speeddisplay" type="Label" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -31.0
+margin_top = -54.0
+margin_right = 31.0
+margin_bottom = -40.0
+text = "h speed - w"
+
 [node name="MusicPlayer" type="Node" parent="UI"]
 script = ExtResource( 7 )
 

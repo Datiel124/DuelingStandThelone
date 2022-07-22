@@ -1,0 +1,140 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://TextureAssets/fonts/roboto/RobotoMedium.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scenes/ui/ui_metalheart/shaders/UIfade.tres" type="Material" id=2]
+
+[sub_resource type="Environment" id=3]
+background_mode = 4
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/4 = true
+glow_levels/6 = true
+glow_levels/7 = true
+glow_intensity = 8.0
+glow_strength = 0.75
+
+[sub_resource type="Animation" id=1]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Button2:material:shader_param/fillIn")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Button2:material:shader_param/rimFade")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.9 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Button2:material:shader_param/fillOut")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "fadein"
+length = 3.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Button2:material:shader_param/fillIn")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 2.0, 2.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Button2:material:shader_param/fillOut")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 2, 3 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, 0.0, 1.0 ]
+}
+
+[node name="shadertest" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 3 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "fadein"
+anims/RESET = SubResource( 1 )
+anims/fadein = SubResource( 2 )
+
+[node name="Button" type="Button" parent="."]
+material = ExtResource( 2 )
+margin_right = 256.0
+margin_bottom = 64.0
+text = "a button with text and the shader"
+
+[node name="Button2" type="Button" parent="."]
+material = ExtResource( 2 )
+margin_top = 72.0
+margin_right = 572.0
+margin_bottom = 136.0
+custom_fonts/font = ExtResource( 1 )
+text = "a button with text and the shader and a custom font"
+
+[node name="Button3" type="Button" parent="."]
+material = ExtResource( 2 )
+margin_top = 152.0
+margin_right = 576.0
+margin_bottom = 200.0
+rect_clip_content = true
+
+[node name="Label" type="Label" parent="Button3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "a button with the label separated"
+align = 1
+valign = 1
+
+[node name="ViewportContainer" type="ViewportContainer" parent="."]
+material = ExtResource( 2 )
+margin_top = 208.0
+margin_right = 512.0
+margin_bottom = 256.0
+
+[node name="Viewport" type="Viewport" parent="ViewportContainer"]
+size = Vector2( 576, 48 )
+size_override_stretch = true
+
+[node name="Button4" type="Button" parent="ViewportContainer/Viewport"]
+margin_right = 576.0
+margin_bottom = 48.0
+custom_fonts/font = ExtResource( 1 )
+text = "a button placed inside of a Viewport"

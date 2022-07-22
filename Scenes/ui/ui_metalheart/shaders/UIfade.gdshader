@@ -23,7 +23,6 @@ void fragment(){
 	else
 		//the fade STARTS  where edge is > rimSize * TEXTURE_PIXEL_SIZE.r, and should END fade distance away
 		COLOR.rgb = mix(COLOR.rgb, rimColor.rgb, clamp(1.0 - (edge - rimSize) / (rimFade), 0, 1));
-	
 	if(UV.r < fillOut)
 		COLOR.a = 0.0;
 }

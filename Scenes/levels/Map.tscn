@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://addons/discord_game_sdk/example/rich_presence/rich_presence.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Scenes/weapons/laserturret/laserturret.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/environments/skyboxes/furry_clouds_4k.hdr" type="Texture" id=7]
 [ext_resource path="res://Scenes/entities/Explosion/explosion.tscn" type="PackedScene" id=8]
+[ext_resource path="res://DEV/UI_MOCKUP/specialtorus.tscn" type="PackedScene" id=9]
 
 [sub_resource type="PanoramaSky" id=1]
 radiance_size = 3
@@ -34,6 +35,10 @@ glow_strength = 1.07
 glow_bloom = 0.01
 glow_bicubic_upscale = true
 glow_high_quality = true
+
+[sub_resource type="SphereShape" id=3]
+
+[sub_resource type="SphereMesh" id=4]
 
 [node name="Map" type="Spatial"]
 script = ExtResource( 1 )
@@ -157,3 +162,16 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.62426, 0 )
 
 [node name="explosion" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 17 )
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 3 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="Spatial" parent="." instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 0 )

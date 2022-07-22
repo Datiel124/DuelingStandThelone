@@ -1,12 +1,14 @@
-[gd_resource type="Environment" load_steps=2 format=2]
+[gd_resource type="Environment" load_steps=3 format=2]
 
-[sub_resource type="ProceduralSky" id=1]
-texture_size = 3
+[ext_resource path="res://Scenes/environments/skyboxes/furry_clouds_4k.hdr" type="Texture" id=1]
+
+[sub_resource type="PanoramaSky" id=2]
+panorama = ExtResource( 1 )
 
 [resource]
 background_mode = 2
-background_sky = SubResource( 1 )
-background_color = Color( 1, 1, 1, 1 )
+background_sky = SubResource( 2 )
+background_color = Color( 0.133333, 0.054902, 0.00784314, 1 )
 ssao_enabled = true
 ssao_intensity = 6.57
 ssao_radius2 = 6.68
