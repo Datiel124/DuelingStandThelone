@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=2]
 
-[ext_resource path="res://DEV/ui_metalheart/Gradient_Map.tres" type="Material" id=1]
+[ext_resource path="res://Scenes/ui/ui_metalheart/Gradient_Map.tres" type="Material" id=1]
 [ext_resource path="res://DEV/csgmenuloop.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
 

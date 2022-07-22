@@ -3,14 +3,12 @@ extends Node
 var aim_sens : float = 0.13
 var aim_ADS_mult : float = 0.8
 var custom_songs_enabled = true
-var songs = []
 
 var username : String = "player"
 
 func _ready() -> void:
 	loadconfigs()
-	loadmusic()
-	
+
 func _notification(what: int) -> void:
 	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
 		saveconfigs()
@@ -56,26 +54,6 @@ func add_music(dir : Directory, files:Array, directories: Array):
 		
 	dir.list_dir_end()
 
-func loadmusic():
-	#Define directory variable
-	var directory = Directory.new()
-	#Open user folder
-	directory.open("user://")
-	#If music directory doesn't exist, create it
-	if not directory.dir_exists("user://music"):
-		print("Couldn't find the music folder, creating..")
-		directory.make_dir("music")
-	#If it does exist, get all files in it and add it to an array
-	else:
-		if directory.open("user://music") == OK:
-			print("Found Music Folder")
-			var directories = []
-			songs.clear()
-			directory.list_dir_begin()
-			add_music(directory, songs, directories)
-			print("Added all the songs!")
-			#emit_signal("got_songs")
-		else:
-			print("Couldn't open the music folder.. Must've not been made!")
+
 
 
