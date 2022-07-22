@@ -57,6 +57,48 @@ width = 144.0
 depth = 120.0
 material = ExtResource( 3 )
 
+[node name="CSGBox18" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 14, -47 )
+width = 32.0
+depth = 26.0
+material = ExtResource( 5 )
+
+[node name="CSGBox25" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 14, -55 )
+depth = 10.0
+material = ExtResource( 5 )
+
+[node name="CSGBox22" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 29, -47 )
+width = 36.0
+depth = 26.0
+material = ExtResource( 3 )
+
+[node name="CSGBox19" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 14, -35 )
+height = 32.0
+material = ExtResource( 3 )
+
+[node name="CSGBox23" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 21, -49 )
+height = 16.0
+material = ExtResource( 3 )
+
+[node name="CSGBox24" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 22, -59 )
+height = 14.0
+material = ExtResource( 3 )
+
+[node name="CSGBox20" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 14, -35 )
+height = 32.0
+material = ExtResource( 3 )
+
+[node name="CSGBox21" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 14, -59 )
+height = 32.0
+material = ExtResource( 3 )
+
 [node name="CSGBox6" type="CSGBox" parent="Geometry/stage"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12 )
 width = 6.0
@@ -74,6 +116,18 @@ material = ExtResource( 5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, -3 )
 width = 20.0
 depth = 14.0
+material = ExtResource( 4 )
+
+[node name="CSGBox15" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 1, 11 )
+width = 4.0
+depth = 54.0
+material = ExtResource( 4 )
+
+[node name="CSGBox17" type="CSGBox" parent="Geometry/stage"]
+transform = Transform( 1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 19, 8, -38 )
+width = 4.0
+depth = 54.0
 material = ExtResource( 4 )
 
 [node name="CSGBox13" type="CSGBox" parent="Geometry/stage"]
@@ -133,6 +187,7 @@ depth = 202.0
 material = ExtResource( 3 )
 
 [node name="cool" type="CSGCombiner" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30611, 0, -14.5488 )
 use_collision = true
 
 [node name="CSGBox" type="CSGBox" parent="Geometry/cool"]
@@ -174,4 +229,4 @@ mesh = SubResource( 4 )
 material/0 = null
 
 [node name="Spatial" parent="." instance=ExtResource( 9 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 70, 0 )
+transform = Transform( 0.920033, 0.368075, 0.134389, -0.240269, 0.259002, 0.935515, 0.309533, -0.892994, 0.326727, -24.7827, 43.9136, -37.422 )

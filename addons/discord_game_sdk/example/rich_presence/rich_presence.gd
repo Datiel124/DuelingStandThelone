@@ -7,7 +7,7 @@ func update_activity() -> void:
 	var activity = Discord.Activity.new()
 	activity.set_type(Discord.ActivityType.Playing)
 	activity.set_state("In DEV Map")
-	activity.set_details("Probably working on gun stuff")
+	activity.set_details("Cooking it up..")
 
 	var assets = activity.get_assets()
 	assets.set_large_image("standthelonedev2")

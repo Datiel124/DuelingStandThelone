@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Scenes/Sway.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -6,7 +6,7 @@
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/entities/MusicPlayer/MusicPlayer.gd" type="Script" id=7]
+[ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/entities/Player/FSM_player.gd" type="Script" id=8]
 
 [sub_resource type="CapsuleMesh" id=1]
@@ -39,6 +39,15 @@ corner_radius_top_right = 16
 corner_radius_bottom_right = 16
 corner_radius_bottom_left = 16
 corner_detail = 1
+
+[sub_resource type="DynamicFontData" id=9]
+font_path = "res://Scenes/ui/options/fonts/Blue.ttf"
+
+[sub_resource type="DynamicFont" id=10]
+size = 30
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+font_data = SubResource( 9 )
 
 [node name="Player" type="KinematicBody" groups=["Players"]]
 script = ExtResource( 2 )
@@ -113,11 +122,16 @@ margin_right = 31.0
 margin_bottom = -40.0
 text = "h speed - w"
 
-[node name="MusicPlayer" type="Node" parent="UI"]
+[node name="fpsdisplay" type="Label" parent="UI"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -125.0
+margin_top = 5.0
+margin_right = -2.0
+margin_bottom = 39.0
+custom_fonts/font = SubResource( 10 )
+text = "FPS:"
 script = ExtResource( 7 )
-
-[node name="AudioPlayer" type="AudioStreamPlayer" parent="UI/MusicPlayer"]
-bus = "Music"
 
 [connection signal="changeHealth" from="." to="UI/HPPanel" method="set_hp"]
 

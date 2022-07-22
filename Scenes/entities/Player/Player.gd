@@ -44,6 +44,11 @@ func _ready():
 	currentWeapon = $Head/Holder.get_child(0)
 
 func _process(delta):
+	#Test Options Menu
+#	if Input.is_action_pressed("pause"):
+#		Options.popup_centered()
+#		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
 	view_roll(delta)
 
 #These functions will be called by the Finite State Machine to determine behavior.
@@ -54,10 +59,11 @@ func _physics_process(delta):
 
 #Tilts camera based on input.
 func view_roll(delta):
-	var rotation_speed : float = max_ground_speed * delta
-	var roll_amount : int = 2
-	var angle : float = roll_amount * (int(Input.is_action_pressed("MoveRight")) + -int(Input.is_action_pressed("MoveLeft")))
-	Head.rotation.z = lerp(Head.rotation.z, -deg2rad(angle), rotation_speed)
+	if UserConfigs.is_view_roll:
+		var rotation_speed : float = max_ground_speed * delta
+		var roll_amount : int = 2
+		var angle : float = roll_amount * (int(Input.is_action_pressed("MoveRight")) + -int(Input.is_action_pressed("MoveLeft")))
+		Head.rotation.z = lerp(Head.rotation.z, -deg2rad(angle), rotation_speed)
 
 #Checks if colliding with ground, returns flags based on results.
 func check_ground() -> int:

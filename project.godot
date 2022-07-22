@@ -267,6 +267,9 @@ NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
 UserConfigs="*res://scripts/globals/UserConfigs.gd"
 Discord="*res://addons/discord_game_sdk/discord.gd"
 GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
+MusicPlayer="*res://Scenes/entities/MusicPlayer/MusicPlayer.tscn"
+GlobalSettings="*res://scripts/globals/global_settings.gd"
+Options="*res://Scenes/ui/options/Options.tscn"
 
 [debug]
 
@@ -336,6 +339,11 @@ action={
 refresh_songs={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777253,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+pause={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 

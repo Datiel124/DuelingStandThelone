@@ -1,8 +1,12 @@
 extends Node
 
-var aim_sens : float = 0.13
+var aim_sens : float = 0.23
 var aim_ADS_mult : float = 0.8
 var custom_songs_enabled = true
+var is_fullscreen = false
+var is_vsync = false
+var show_fps = false
+var is_view_roll = true
 
 var username : String = "player"
 
