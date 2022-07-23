@@ -1,3 +1,26 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
 
-[node name="Spatial" type="Spatial"]
+[ext_resource path="res://default_env.tres" type="Environment" id=1]
+
+[node name="World" type="Node"]
+
+[node name="Level" type="Node" parent="."]
+
+[node name="spawnpoints" type="Node" parent="Level"]
+
+[node name="spawn1" type="Position3D" parent="Level/spawnpoints"]
+
+[node name="geometry" type="Node" parent="Level"]
+
+[node name="objects" type="Node" parent="Level"]
+
+[node name="lights" type="Node" parent="Level"]
+
+[node name="Environment" type="Node" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = ExtResource( 1 )
+
+[node name="Players" type="Node" parent="."]
+
+[node name="UI" type="Node" parent="."]
