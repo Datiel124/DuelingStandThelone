@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://DEV/UI_MOCKUP/abstract_energy.gdshader" type="Shader" id=1]
+[ext_resource path="res://DEV/UI_MOCKUP/uitest.tscn" type="PackedScene" id=2]
 
 [sub_resource type="OpenSimplexNoise" id=3]
 period = 124.8
@@ -13,13 +14,57 @@ noise = SubResource( 3 )
 shader = ExtResource( 1 )
 shader_param/tex = SubResource( 4 )
 
+[sub_resource type="Animation" id=5]
+resource_name = "New Anim"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, -90 ), Vector3( 360, 0, -90 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, -90 ) ]
+}
+
 [node name="Spatial" type="Spatial"]
 
 [node name="CSGTorus" type="CSGTorus" parent="."]
-transform = Transform( 2.98023e-08, 1, 0, -1, 2.98023e-08, 0, 0, 0, 1, 0, 0, 0 )
-inner_radius = 22.834
-outer_radius = 0.001
+transform = Transform( -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0, 1, 0, 0, 0 )
+inner_radius = 36.558
+outer_radius = 56.263
 sides = 64
 ring_sides = 64
 smooth_faces = false
 material = SubResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CSGTorus"]
+autoplay = "New Anim"
+playback_speed = 0.01
+"anims/New Anim" = SubResource( 5 )
+anims/RESET = SubResource( 6 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 0.915448, -0.104468, 0.388641, 0, 0.96572, 0.259588, -0.402437, -0.237639, 0.884066, 56.9819, 28.9559, 10.0192 )
+current = true
+far = 8192.0
+
+[node name="MarginContainer" parent="." instance=ExtResource( 2 )]
