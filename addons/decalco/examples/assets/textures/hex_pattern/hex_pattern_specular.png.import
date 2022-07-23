@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/hex_pattern_specular.png-8fa34e6d5c3d5f467e7defa4d1bb81b8.s3tc.stex"
-path.etc2="res://.import/hex_pattern_specular.png-8fa34e6d5c3d5f467e7defa4d1bb81b8.etc2.stex"
+path.s3tc="res://.import/hex_pattern_specular.png-f533c533ccaa7dd8d37bf0fd4df2abe3.s3tc.stex"
+path.etc2="res://.import/hex_pattern_specular.png-f533c533ccaa7dd8d37bf0fd4df2abe3.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://decalco/examples/assets/textures/hex_pattern/hex_pattern_specular.png"
-dest_files=[ "res://.import/hex_pattern_specular.png-8fa34e6d5c3d5f467e7defa4d1bb81b8.s3tc.stex", "res://.import/hex_pattern_specular.png-8fa34e6d5c3d5f467e7defa4d1bb81b8.etc2.stex" ]
+source_file="res://addons/decalco/examples/assets/textures/hex_pattern/hex_pattern_specular.png"
+dest_files=[ "res://.import/hex_pattern_specular.png-f533c533ccaa7dd8d37bf0fd4df2abe3.s3tc.stex", "res://.import/hex_pattern_specular.png-f533c533ccaa7dd8d37bf0fd4df2abe3.etc2.stex" ]
 
 [params]
 

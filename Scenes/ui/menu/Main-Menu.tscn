@@ -271,9 +271,6 @@ texture_normal = ExtResource( 6 )
 expand = true
 
 [node name="Options" parent="ui/spacer/OPTIONS" instance=ExtResource( 8 )]
-visible = false
-margin_right = 1232.0
-margin_bottom = 819.0
 
 [node name="Label" type="Label" parent="ui/spacer/OPTIONS"]
 anchor_left = 0.347826

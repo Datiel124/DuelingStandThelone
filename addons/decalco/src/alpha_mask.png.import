@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/alpha_mask.png-080af4bc8a98abcb03b02ff7dea7ddd3.s3tc.stex"
-path.etc2="res://.import/alpha_mask.png-080af4bc8a98abcb03b02ff7dea7ddd3.etc2.stex"
+path.s3tc="res://.import/alpha_mask.png-e3bf2c9b4a00f39a14ded72fc4fed998.s3tc.stex"
+path.etc2="res://.import/alpha_mask.png-e3bf2c9b4a00f39a14ded72fc4fed998.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://decalco/src/alpha_mask.png"
-dest_files=[ "res://.import/alpha_mask.png-080af4bc8a98abcb03b02ff7dea7ddd3.s3tc.stex", "res://.import/alpha_mask.png-080af4bc8a98abcb03b02ff7dea7ddd3.etc2.stex" ]
+source_file="res://addons/decalco/src/alpha_mask.png"
+dest_files=[ "res://.import/alpha_mask.png-e3bf2c9b4a00f39a14ded72fc4fed998.s3tc.stex", "res://.import/alpha_mask.png-e3bf2c9b4a00f39a14ded72fc4fed998.etc2.stex" ]
 
 [params]
 

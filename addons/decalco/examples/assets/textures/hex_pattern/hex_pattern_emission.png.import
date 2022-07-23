@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/hex_pattern_emission.png-4bde02a9e37d6b9f0f0733d4127a12dc.s3tc.stex"
-path.etc2="res://.import/hex_pattern_emission.png-4bde02a9e37d6b9f0f0733d4127a12dc.etc2.stex"
+path.s3tc="res://.import/hex_pattern_emission.png-51f2f31e4030b5814bb4314c9ce3270a.s3tc.stex"
+path.etc2="res://.import/hex_pattern_emission.png-51f2f31e4030b5814bb4314c9ce3270a.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://decalco/examples/assets/textures/hex_pattern/hex_pattern_emission.png"
-dest_files=[ "res://.import/hex_pattern_emission.png-4bde02a9e37d6b9f0f0733d4127a12dc.s3tc.stex", "res://.import/hex_pattern_emission.png-4bde02a9e37d6b9f0f0733d4127a12dc.etc2.stex" ]
+source_file="res://addons/decalco/examples/assets/textures/hex_pattern/hex_pattern_emission.png"
+dest_files=[ "res://.import/hex_pattern_emission.png-51f2f31e4030b5814bb4314c9ce3270a.s3tc.stex", "res://.import/hex_pattern_emission.png-51f2f31e4030b5814bb4314c9ce3270a.etc2.stex" ]
 
 [params]
 

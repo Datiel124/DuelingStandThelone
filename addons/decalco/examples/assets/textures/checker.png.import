@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/checker.png-4feeecbe6a15bcb172c05b42241c5d1e.s3tc.stex"
-path.etc2="res://.import/checker.png-4feeecbe6a15bcb172c05b42241c5d1e.etc2.stex"
+path.s3tc="res://.import/checker.png-df1be55fb4b070cbe981ac95e0cb6bac.s3tc.stex"
+path.etc2="res://.import/checker.png-df1be55fb4b070cbe981ac95e0cb6bac.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://decalco/examples/assets/textures/checker.png"
-dest_files=[ "res://.import/checker.png-4feeecbe6a15bcb172c05b42241c5d1e.s3tc.stex", "res://.import/checker.png-4feeecbe6a15bcb172c05b42241c5d1e.etc2.stex" ]
+source_file="res://addons/decalco/examples/assets/textures/checker.png"
+dest_files=[ "res://.import/checker.png-df1be55fb4b070cbe981ac95e0cb6bac.s3tc.stex", "res://.import/checker.png-df1be55fb4b070cbe981ac95e0cb6bac.etc2.stex" ]
 
 [params]
 

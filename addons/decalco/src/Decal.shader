@@ -9,6 +9,7 @@ uniform vec4 albedo_tint : hint_color = vec4(1.0);
 uniform sampler2D emission : hint_black;
 uniform vec4 emission_tint : hint_color = vec4(vec3(0.0), 1.0);
 uniform float emission_strength = 1.0;
+uniform float fade : hint_range(0,1) = 1.0;
 
 uniform sampler2D occlusion : hint_white;
 uniform float occlusion_strength = 1.0;
@@ -114,7 +115,7 @@ void fragment ()
 		
 		ALBEDO = texture(albedo, uv_coords).rgb * albedo_tint.rgb;
 		EMISSION = texture(emission, uv_coords).rgb * emission_tint.rgb * emission_strength;
-		ALPHA = texture(albedo, uv_coords).a * border_alpha;
+		ALPHA = texture(albedo, uv_coords).a * border_alpha * fade;
 	}else{
 		ALPHA = 0.0;
 	}

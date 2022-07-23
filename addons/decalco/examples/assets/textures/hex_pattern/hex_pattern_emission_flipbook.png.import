@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/hex_pattern_emission_flipbook.png-0cb0677c44c00b982c7c853bafbe6c24.s3tc.stex"
-path.etc2="res://.import/hex_pattern_emission_flipbook.png-0cb0677c44c00b982c7c853bafbe6c24.etc2.stex"
+path.s3tc="res://.import/hex_pattern_emission_flipbook.png-1f46c27848890d03c3894bd137bdb212.s3tc.stex"
+path.etc2="res://.import/hex_pattern_emission_flipbook.png-1f46c27848890d03c3894bd137bdb212.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://decalco/examples/assets/textures/hex_pattern/hex_pattern_emission_flipbook.png"
-dest_files=[ "res://.import/hex_pattern_emission_flipbook.png-0cb0677c44c00b982c7c853bafbe6c24.s3tc.stex", "res://.import/hex_pattern_emission_flipbook.png-0cb0677c44c00b982c7c853bafbe6c24.etc2.stex" ]
+source_file="res://addons/decalco/examples/assets/textures/hex_pattern/hex_pattern_emission_flipbook.png"
+dest_files=[ "res://.import/hex_pattern_emission_flipbook.png-1f46c27848890d03c3894bd137bdb212.s3tc.stex", "res://.import/hex_pattern_emission_flipbook.png-1f46c27848890d03c3894bd137bdb212.etc2.stex" ]
 
 [params]
 
