@@ -1,0 +1,358 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://DEV/UI_MOCKUP/niceclouds.jpg" type="Texture" id=1]
+[ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=2]
+[ext_resource path="res://Scenes/ui/ui_metalheart/dot-pattern.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/ui/options/optionsUI.tres" type="Theme" id=4]
+[ext_resource path="res://TextureAssets/fonts/depthcore/depthcore.tres" type="DynamicFont" id=5]
+[ext_resource path="res://Scenes/ui/ui_metalheart/buttons/sword-circuits/button-normal.png" type="Texture" id=6]
+[ext_resource path="res://DEV/csgmenuloop.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/ui/options/Options.tscn" type="PackedScene" id=8]
+[ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=9]
+[ext_resource path="res://Scenes/ui/menu/Main-Menu.gd" type="Script" id=10]
+
+[sub_resource type="Shader" id=12]
+code = "shader_type canvas_item;
+
+uniform sampler2D gradient;
+
+void fragment(){
+	COLOR = texture(TEXTURE, UV);
+	COLOR.a *= texture(gradient, vec2(SCREEN_UV.y, SCREEN_UV.x)).r;
+}"
+
+[sub_resource type="Gradient" id=14]
+
+[sub_resource type="GradientTexture" id=15]
+gradient = SubResource( 14 )
+
+[sub_resource type="ShaderMaterial" id=13]
+shader = SubResource( 12 )
+shader_param/gradient = SubResource( 15 )
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:uv1_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "scroll"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:uv1_offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, -1 ) ]
+}
+
+[sub_resource type="Environment" id=8]
+background_mode = 1
+background_color = Color( 1, 1, 1, 1 )
+ambient_light_color = Color( 0.180392, 0.180392, 0.180392, 1 )
+fog_enabled = true
+fog_depth_end = 58.1
+ssao_enabled = true
+ssao_radius = 10.37
+ssao_intensity = 71.37
+ssao_quality = 2
+dof_blur_far_enabled = true
+dof_blur_far_distance = 8.07
+dof_blur_far_transition = 19.37
+dof_blur_far_amount = 0.22
+dof_blur_far_quality = 2
+glow_enabled = true
+glow_intensity = 8.0
+glow_strength = 0.71
+glow_bloom = 0.08
+
+[sub_resource type="Animation" id=5]
+resource_name = "looping"
+length = 41.0
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("cityloopgroup:translation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 41 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 41 ) ]
+}
+
+[sub_resource type="DynamicFontData" id=9]
+font_path = "res://Scenes/ui/options/fonts/Blue.ttf"
+
+[sub_resource type="DynamicFont" id=10]
+size = 100
+outline_size = 2
+outline_color = Color( 0, 0, 0, 1 )
+use_mipmaps = true
+use_filter = true
+font_data = SubResource( 9 )
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends ConfirmationDialog
+
+
+func _on_ConfirmationDialog_confirmed() -> void:
+	get_tree().quit()
+	pass # Replace with function body.
+"
+
+[node name="Main-Menu" type="Node"]
+script = ExtResource( 10 )
+
+[node name="behind-ui" type="CanvasLayer" parent="."]
+
+[node name="dot-pattern" type="TextureRect" parent="behind-ui"]
+material = SubResource( 13 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 3 )
+stretch_mode = 2
+
+[node name="background" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="CSGBox" type="CSGBox" parent="background"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.404921 )
+width = 1000.0
+depth = 1000.0
+material = ExtResource( 9 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="background/CSGBox"]
+autoplay = "scroll"
+playback_speed = 0.2
+anims/RESET = SubResource( 2 )
+anims/scroll = SubResource( 1 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="background"]
+transform = Transform( 1, 0, 0, 0, -0.23022, 0.973139, 0, -0.973139, -0.23022, 0, 47.118, 0 )
+
+[node name="Camera" type="Camera" parent="background"]
+transform = Transform( 0.866025, -0.469847, 0.17101, 0, 0.34202, 0.939693, -0.5, -0.813798, 0.296198, 14.0207, 15.976, 6.17851 )
+environment = SubResource( 8 )
+current = true
+
+[node name="cityloops" type="Node" parent="background"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="background/cityloops"]
+autoplay = "looping"
+playback_speed = 0.2
+anims/looping = SubResource( 5 )
+
+[node name="cityloopgroup" type="Spatial" parent="background/cityloops"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.5249 )
+
+[node name="cityloop" parent="background/cityloops/cityloopgroup" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.10842, 0 )
+
+[node name="cityloop2" parent="background/cityloops/cityloopgroup" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.10842, 41 )
+
+[node name="cityloop3" parent="background/cityloops/cityloopgroup" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.10842, -41 )
+
+[node name="ui" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="darken" type="Control" parent="ui"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Top" type="ColorRect" parent="ui/darken"]
+modulate = Color( 0, 0, 0, 0.501961 )
+anchor_right = 1.0
+anchor_bottom = 0.129
+margin_bottom = 115.9
+color = Color( 0, 0, 0, 1 )
+
+[node name="Side" type="ColorRect" parent="ui/darken"]
+anchor_right = 0.2
+anchor_bottom = 1.00444
+margin_bottom = -6.10352e-05
+color = Color( 0, 0, 0, 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Title" type="Label" parent="ui"]
+anchor_left = 0.015
+anchor_top = 0.027
+anchor_right = 0.015
+anchor_bottom = 0.027
+margin_top = -0.300001
+margin_right = 712.0
+margin_bottom = 184.7
+theme = ExtResource( 4 )
+custom_fonts/font = SubResource( 10 )
+text = "DUELING 
+STANDALONE "
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="spacer" type="Control" parent="ui"]
+anchor_right = 0.44
+anchor_bottom = 0.213
+margin_right = 896.0
+margin_bottom = 708.3
+
+[node name="MULTIPLAYER" type="TextureButton" parent="ui/spacer"]
+self_modulate = Color( 0.584314, 0.584314, 0.584314, 0.541176 )
+anchor_left = 0.08
+anchor_top = 0.284444
+anchor_right = 0.32
+anchor_bottom = 0.374444
+margin_right = -3.05176e-05
+texture_normal = ExtResource( 6 )
+expand = true
+
+[node name="Label" type="Label" parent="ui/spacer/MULTIPLAYER"]
+anchor_left = 0.333333
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
+text = "MULTIPLAYER."
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TEST ROOM" type="TextureButton" parent="ui/spacer"]
+self_modulate = Color( 0.584314, 0.584314, 0.584314, 0.541176 )
+anchor_left = 0.08
+anchor_top = 0.426667
+anchor_right = 0.32
+anchor_bottom = 0.516667
+texture_normal = ExtResource( 6 )
+expand = true
+
+[node name="Label" type="Label" parent="ui/spacer/TEST ROOM"]
+anchor_left = 0.333333
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
+text = "TEST_ROOM."
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="OPTIONS" type="TextureButton" parent="ui/spacer"]
+self_modulate = Color( 0.584314, 0.584314, 0.584314, 0.541176 )
+anchor_left = 0.08
+anchor_top = 0.568889
+anchor_right = 0.31
+anchor_bottom = 0.658889
+texture_normal = ExtResource( 6 )
+expand = true
+
+[node name="Options" parent="ui/spacer/OPTIONS" instance=ExtResource( 8 )]
+visible = false
+margin_right = 1232.0
+margin_bottom = 819.0
+
+[node name="Label" type="Label" parent="ui/spacer/OPTIONS"]
+anchor_left = 0.347826
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
+text = "OPTIONS."
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="QUIT" type="TextureButton" parent="ui/spacer"]
+modulate = Color( 0.843137, 0.843137, 0.843137, 1 )
+self_modulate = Color( 0.584314, 0.584314, 0.584314, 0.541176 )
+anchor_left = 0.08
+anchor_top = 0.711111
+anchor_right = 0.3
+anchor_bottom = 0.801111
+margin_right = -3.05176e-05
+texture_normal = ExtResource( 6 )
+expand = true
+
+[node name="Label" type="Label" parent="ui/spacer/QUIT"]
+anchor_left = 0.363636
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+custom_fonts/font = ExtResource( 5 )
+text = "QUIT."
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="ui/spacer/QUIT"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -184.0
+margin_top = -64.0
+margin_right = 184.0
+margin_bottom = 64.0
+window_title = "QUIT?"
+dialog_hide_on_ok = false
+script = SubResource( 11 )
+
+[node name="Label2" type="Label" parent="ui/spacer/QUIT/ConfirmationDialog"]
+anchor_right = 1.0
+anchor_bottom = 0.71875
+margin_left = 8.0
+margin_top = 8.0
+margin_right = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Confirm to quit the game..."
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color( 1, 1, 1, 0.160784 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 1 )
+expand = true
+
+[node name="screenfx" type="ColorRect" parent="."]
+material = ExtResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_lock_": true
+}
+
+[connection signal="pressed" from="ui/spacer/OPTIONS" to="ui/spacer/OPTIONS/Options" method="popup"]
+[connection signal="pressed" from="ui/spacer/QUIT" to="ui/spacer/QUIT/ConfirmationDialog" method="popup"]
+[connection signal="confirmed" from="ui/spacer/QUIT/ConfirmationDialog" to="ui/spacer/QUIT/ConfirmationDialog" method="_on_ConfirmationDialog_confirmed"]

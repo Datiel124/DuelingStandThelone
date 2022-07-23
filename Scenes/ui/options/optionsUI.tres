@@ -1,7 +1,58 @@
-[gd_resource type="Theme" load_steps=2 format=2]
+[gd_resource type="Theme" load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/ui/options/fonts/blue.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Scenes/ui/ui_metalheart/panel.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/ui/ui_metalheart/buttons/sword-circuits/button-normal.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/ui/ui_metalheart/tab_fg.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/ui/ui_metalheart/buttons/dropdown-box/cyber-drop-normal.png" type="Texture" id=5]
+[ext_resource path="res://TextureAssets/fonts/depthcore/depthcore.tres" type="DynamicFont" id=6]
+
+[sub_resource type="StyleBoxTexture" id=3]
+texture = ExtResource( 3 )
+region_rect = Rect2( 0, 0, 512, 114 )
+margin_right = 15.0
+
+[sub_resource type="StyleBoxTexture" id=5]
+texture = ExtResource( 5 )
+region_rect = Rect2( 0, 0, 376, 117 )
+margin_left = 22.9559
+margin_top = 14.9835
+margin_bottom = 12.7514
+
+[sub_resource type="StyleBoxTexture" id=1]
+texture = ExtResource( 2 )
+region_rect = Rect2( 0, 0, 512, 512 )
+margin_left = 72.0816
+margin_right = 15.8228
+margin_top = 146.017
+margin_bottom = 87.4511
+
+[sub_resource type="StyleBoxFlat" id=2]
+content_margin_left = 16.0
+content_margin_right = 16.0
+content_margin_top = 13.0
+bg_color = Color( 0, 0, 0, 0 )
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color( 1, 1, 1, 1 )
+
+[sub_resource type="StyleBoxTexture" id=4]
+content_margin_left = 16.0
+content_margin_right = 16.0
+texture = ExtResource( 4 )
+region_rect = Rect2( 0, 0, 64, 64 )
+margin_left = 17.6795
+margin_right = 15.7763
+margin_top = 15.7519
+expand_margin_top = 6.0
 
 [resource]
+default_font = ExtResource( 6 )
 Button/fonts/font = ExtResource( 1 )
-Label/fonts/font = ExtResource( 1 )
+Button/styles/normal = SubResource( 3 )
+OptionButton/styles/normal = SubResource( 5 )
+TabContainer/styles/panel = SubResource( 1 )
+TabContainer/styles/tab_bg = SubResource( 2 )
+TabContainer/styles/tab_fg = SubResource( 4 )

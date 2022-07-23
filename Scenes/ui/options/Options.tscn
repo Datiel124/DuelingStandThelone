@@ -1,292 +1,119 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scenes/ui/options/optionsUI.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/ui/options/Options.gd" type="Script" id=2]
+[ext_resource path="res://TextureAssets/fonts/roboto/RobotoSkinny.tres" type="DynamicFont" id=3]
 
-[node name="Settings" type="Popup"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1600, 900 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "close"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.112656, 1 ),
+"update": 0,
+"values": [ Vector2( 1600, 900 ), Vector2( 1600, 0 ) ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "hide"
+} ]
+}
+
+[sub_resource type="Animation" id=2]
+resource_name = "popup"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:rect_size")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 0.233258, 1 ),
+"update": 0,
+"values": [ Vector2( 1600, 0 ), Vector2( 1600, 900 ) ]
+}
+
+[node name="Options" type="Popup"]
+visible = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 1600.0
+margin_bottom = 900.0
+rect_clip_content = true
 theme = ExtResource( 1 )
+popup_exclusive = true
 script = ExtResource( 2 )
 
-[node name="Background" type="ColorRect" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -634.0
-margin_top = -390.0
-margin_right = 633.0
-margin_bottom = -354.0
-color = Color( 0.396078, 0.419608, 0.439216, 1 )
-
-[node name="CategoryBG" type="ColorRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -609.0
-margin_top = -334.0
-margin_right = 604.0
-margin_bottom = 360.0
-color = Color( 0, 0, 0, 0.478431 )
-
-[node name="OptionCategories" type="TabContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.674
-anchor_bottom = 0.5
-margin_left = -633.0
-margin_top = -386.0
-margin_right = 625.04
-margin_bottom = 384.0
+[node name="TabContainer" type="TabContainer" parent="."]
+anchor_left = 0.104375
+anchor_top = 0.104444
+anchor_right = 0.895625
+anchor_bottom = 0.895556
+custom_constants/side_margin = 61
+custom_fonts/font = ExtResource( 3 )
 tab_align = 0
 
-[node name="Video" type="Tabs" parent="OptionCategories"]
+[node name="_Graphics" type="Control" parent="TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 72.0816
+margin_top = 186.017
+margin_right = -15.8228
+margin_bottom = -87.4511
 
-[node name="MarginContainer" type="MarginContainer" parent="OptionCategories/Video"]
-margin_left = 61.0
-margin_top = 37.0
-margin_right = 1311.0
-margin_bottom = 761.0
-rect_scale = Vector2( 0.920001, 0.920001 )
-
-[node name="VideoSettings" type="GridContainer" parent="OptionCategories/Video/MarginContainer"]
-margin_right = 1296.0
-margin_bottom = 724.0
-custom_constants/vseparation = 57
-custom_constants/hseparation = 571
-columns = 2
-
-[node name="Resolution" type="Label" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_top = 3.0
-margin_right = 391.0
-margin_bottom = 60.0
-text = "Resolution"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Video/MarginContainer/VideoSettings/Resolution"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="Resolutions" type="OptionButton" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_left = 962.0
-margin_right = 1296.0
-margin_bottom = 63.0
-text = "1600x900"
-align = 2
-
-[node name="Displaymode" type="Label" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_top = 123.0
-margin_right = 391.0
-margin_bottom = 180.0
-text = "Display Mode"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Video/MarginContainer/VideoSettings/Displaymode"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="DisplayButton" type="OptionButton" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_left = 962.0
-margin_top = 120.0
-margin_right = 1296.0
-margin_bottom = 183.0
-text = "Windowed"
-align = 2
-items = [ "Windowed", null, false, 0, null, "Fullscreen", null, false, 1, null ]
-selected = 0
-
-[node name="ShowFPS" type="Label" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_top = 244.0
-margin_right = 391.0
-margin_bottom = 301.0
-text = "Show FPS"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Video/MarginContainer/VideoSettings/ShowFPS"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="ShowFPSButton" type="CheckButton" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_left = 962.0
-margin_top = 240.0
-margin_right = 1296.0
-margin_bottom = 305.0
-
-[node name="VSync" type="Label" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_top = 366.0
-margin_right = 391.0
-margin_bottom = 423.0
-text = "VSync"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Video/MarginContainer/VideoSettings/VSync"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="VsyncButton" type="CheckButton" parent="OptionCategories/Video/MarginContainer/VideoSettings"]
-margin_left = 962.0
-margin_top = 362.0
-margin_right = 1296.0
-margin_bottom = 427.0
-
-[node name="Gameplay" type="Tabs" parent="OptionCategories"]
+[node name="_Audio" type="Control" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 72.0816
+margin_top = 186.017
+margin_right = -15.8228
+margin_bottom = -87.4511
 
-[node name="MarginContainer" type="MarginContainer" parent="OptionCategories/Gameplay"]
-margin_left = 61.0
-margin_top = 37.0
-margin_right = 1311.0
-margin_bottom = 761.0
-rect_scale = Vector2( 0.920001, 0.920001 )
-
-[node name="GameplaySettings" type="GridContainer" parent="OptionCategories/Gameplay/MarginContainer"]
-margin_right = 1250.0
-margin_bottom = 724.0
-custom_constants/vseparation = 57
-custom_constants/hseparation = 571
-columns = 2
-
-[node name="FOV" type="Label" parent="OptionCategories/Gameplay/MarginContainer/GameplaySettings"]
-margin_right = 472.0
-margin_bottom = 50.0
-text = "FOV (Field of view)"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Gameplay/MarginContainer/GameplaySettings/FOV"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="FOVSlider" type="HSlider" parent="OptionCategories/Gameplay/MarginContainer/GameplaySettings"]
-margin_left = 1043.0
-margin_right = 1059.0
-margin_bottom = 16.0
-max_value = 190.0
-value = 90.0
-
-[node name="Audio" type="Tabs" parent="OptionCategories"]
+[node name="_controls" type="Control" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
+margin_left = 72.0816
+margin_top = 186.017
+margin_right = -15.8228
+margin_bottom = -87.4511
 
-[node name="MarginContainer" type="MarginContainer" parent="OptionCategories/Audio"]
-margin_left = 61.0
-margin_top = 37.0
-margin_right = 1311.0
-margin_bottom = 761.0
-rect_scale = Vector2( 0.920001, 0.920001 )
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 3 )
+anims/close = SubResource( 1 )
+anims/popup = SubResource( 2 )
 
-[node name="AudioSettings" type="GridContainer" parent="OptionCategories/Audio/MarginContainer"]
-margin_right = 1250.0
-margin_bottom = 724.0
-custom_constants/vseparation = 57
-custom_constants/hseparation = 571
-columns = 2
-
-[node name="MasterVol" type="Label" parent="OptionCategories/Audio/MarginContainer/AudioSettings"]
-margin_right = 380.0
-margin_bottom = 50.0
-text = "Master Volume"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Audio/MarginContainer/AudioSettings/MasterVol"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="MasterSlider" type="HSlider" parent="OptionCategories/Audio/MarginContainer/AudioSettings"]
-margin_left = 951.0
-margin_right = 967.0
-margin_bottom = 16.0
-min_value = -50.0
-max_value = 0.0
-value = -15.0
-
-[node name="MusicVol" type="Label" parent="OptionCategories/Audio/MarginContainer/AudioSettings"]
-margin_top = 107.0
-margin_right = 380.0
-margin_bottom = 157.0
-text = "Music Volume"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Audio/MarginContainer/AudioSettings/MusicVol"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="MusicSlider" type="HSlider" parent="OptionCategories/Audio/MarginContainer/AudioSettings"]
-margin_left = 951.0
-margin_top = 107.0
-margin_right = 967.0
-margin_bottom = 123.0
-min_value = -50.0
-max_value = 0.0
-value = -15.0
-
-[node name="SFXVol" type="Label" parent="OptionCategories/Audio/MarginContainer/AudioSettings"]
-margin_top = 214.0
-margin_right = 380.0
-margin_bottom = 264.0
-text = "Sound Volume"
-
-[node name="ColorRect" type="ColorRect" parent="OptionCategories/Audio/MarginContainer/AudioSettings/SFXVol"]
-margin_left = -18.4782
-margin_top = -20.6522
-margin_right = -4.47824
-margin_bottom = 66.3478
-color = Color( 1, 1, 1, 0.290196 )
-
-[node name="SFXSlide" type="HSlider" parent="OptionCategories/Audio/MarginContainer/AudioSettings"]
-margin_left = 951.0
-margin_top = 214.0
-margin_right = 967.0
-margin_bottom = 230.0
-min_value = -50.0
-max_value = 0.0
-value = -15.0
-
-[node name="Controls" type="Tabs" parent="OptionCategories"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 4.0
-margin_top = 32.0
-margin_right = -4.0
-margin_bottom = -4.0
-
-[connection signal="item_selected" from="OptionCategories/Video/MarginContainer/VideoSettings/Resolutions" to="." method="_on_Resolutions_item_selected"]
-[connection signal="toggled" from="OptionCategories/Video/MarginContainer/VideoSettings/ShowFPSButton" to="." method="_on_ShowFPSButton_toggled"]
-[connection signal="toggled" from="OptionCategories/Video/MarginContainer/VideoSettings/VsyncButton" to="." method="_on_VsyncButton_toggled"]
+[connection signal="about_to_show" from="." to="." method="_on_Options_about_to_show"]
