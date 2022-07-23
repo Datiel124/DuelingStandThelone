@@ -255,7 +255,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Dueling"
-run/main_scene="res://Scenes/levels/Map.tscn"
+run/main_scene="res://Scenes/ui/menu/Main-Menu.tscn"
 config/icon="res://icon.png"
 config/windows_native_icon="res://icon.ico"
 
@@ -280,6 +280,11 @@ gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_argument=false
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
+multirun/number_of_windows=2
+multirun/window_distance=1270
+multirun/add_custom_args=true
+multirun/first_window_args="listen"
+multirun/other_window_args="join"
 
 [discord_presence]
 
@@ -293,7 +298,7 @@ window/size/height=900
 
 [editor_plugins]
 
-enabled=PoolStringArray( "res://addons/CSGStairs/plugin.cfg", "res://addons/discord_game_sdk/plugin.cfg", "res://addons/file_loader/plugin.cfg", "res://addons/godot_editor_discord_presence/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/node_referencer/plugin.cfg" )
+enabled=PoolStringArray( "res://addons/CSGStairs/plugin.cfg", "res://addons/discord_game_sdk/plugin.cfg", "res://addons/file_loader/plugin.cfg", "res://addons/godot_editor_discord_presence/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/multirun/plugin.cfg", "res://addons/node_referencer/plugin.cfg" )
 
 [gdnative]
 

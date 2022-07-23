@@ -1,6 +1,5 @@
 [gd_scene load_steps=15 format=2]
 
-[ext_resource path="res://Scenes/Sway.gd" type="Script" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=4]
@@ -16,6 +15,46 @@ mid_height = 2.0
 [sub_resource type="CapsuleShape" id=2]
 radius = 0.7
 height = 2.0
+
+[sub_resource type="GDScript" id=11]
+script/source = "extends Spatial
+
+var mouse_movement_x
+var mouse_movement_y
+var sway_thres = 1
+var sway_lerp = 5
+
+
+export var sway_left : Vector3
+export var sway_right : Vector3
+export var sway_up : Vector3
+export var sway_down : Vector3
+export var sway_default : Vector3
+
+func _unhandled_input(event: InputEvent) -> void:
+	
+	if event is InputEventMouseMotion:
+		mouse_movement_x = event.relative.x
+		mouse_movement_y = event.relative.y
+		
+func _process(delta):
+	
+	if mouse_movement_x != null:
+		if mouse_movement_x > sway_thres:
+			rotation = rotation.linear_interpolate(sway_left, sway_lerp*delta)
+		elif mouse_movement_x < -sway_thres:
+			rotation = rotation.linear_interpolate(sway_right, sway_lerp*delta)
+		else:
+			rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
+		 
+	if mouse_movement_y != null:
+		if mouse_movement_y > sway_thres:
+			rotation = rotation.linear_interpolate(sway_up, sway_lerp*delta)
+		elif mouse_movement_y < -sway_thres:
+			rotation = rotation.linear_interpolate(sway_down, sway_lerp*delta)
+		else:
+			rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
+"
 
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0, 0, 0, 0.45098 )
@@ -73,7 +112,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19813, 0 )
 
 [node name="Holder" type="Spatial" parent="Head"]
 transform = Transform( 0.999519, 0, 0, 0, 0.999519, 0, 0, 0, 0.999519, 0.642409, -0.648897, -1.71594 )
-script = ExtResource( 1 )
+script = SubResource( 11 )
 sway_left = Vector3( 0, 0.3, -0.2 )
 sway_right = Vector3( 0, -0.3, 0.2 )
 sway_up = Vector3( 0.3, 0, 0 )

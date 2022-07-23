@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://DEV/UI_MOCKUP/niceclouds.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Scenes/ui/options/Options.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=9]
 [ext_resource path="res://Scenes/ui/menu/Main-Menu.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/ui/multiplayer/HostOrJoin.tscn" type="PackedScene" id=11]
 
 [sub_resource type="Shader" id=12]
 code = "shader_type canvas_item;
@@ -240,6 +241,8 @@ __meta__ = {
 "_edit_use_anchors_": true
 }
 
+[node name="Control" parent="ui/spacer/MULTIPLAYER" instance=ExtResource( 11 )]
+
 [node name="TEST ROOM" type="TextureButton" parent="ui/spacer"]
 self_modulate = Color( 0.584314, 0.584314, 0.584314, 0.541176 )
 anchor_left = 0.08
@@ -271,8 +274,8 @@ texture_normal = ExtResource( 6 )
 expand = true
 
 [node name="Options" parent="ui/spacer/OPTIONS" instance=ExtResource( 8 )]
-margin_right = 1232.0
-margin_bottom = 819.0
+margin_right = 1600.0
+margin_bottom = 900.0
 
 [node name="Label" type="Label" parent="ui/spacer/OPTIONS"]
 anchor_left = 0.347826
@@ -352,6 +355,7 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[connection signal="pressed" from="ui/spacer/MULTIPLAYER" to="ui/spacer/MULTIPLAYER/Control" method="popup_centered"]
 [connection signal="pressed" from="ui/spacer/OPTIONS" to="ui/spacer/OPTIONS/Options" method="popup"]
 [connection signal="pressed" from="ui/spacer/QUIT" to="ui/spacer/QUIT/ConfirmationDialog" method="popup"]
 [connection signal="confirmed" from="ui/spacer/QUIT/ConfirmationDialog" to="ui/spacer/QUIT/ConfirmationDialog" method="_on_ConfirmationDialog_confirmed"]
