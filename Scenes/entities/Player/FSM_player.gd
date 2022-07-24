@@ -29,7 +29,8 @@ func _state_logic(delta):
 			parent.calc_direction(delta)
 			parent.apply_physics(delta)
 	if state != states.DEAD:
-		GlobalCamera.transformoverride = parent.Head.global_transform
+		if is_network_master():
+			GlobalCamera.transformoverride = parent.Head.global_transform
 
 func _get_transition(delta):
 	#Under what conditions should I change my state?

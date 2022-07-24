@@ -9,7 +9,10 @@ func _on_Button_pressed() -> void:
 	if $Panel/upnp.pressed:
 		Network.startUPNP(port)
 	Network.createServer(port, maxplayers)
-	pass # Replace with function body.
+	#Changes scene to the Lobby scene.
+#	yield(NetworkLobby, 'registeredPlayer')
+	var lobbee :PackedScene= preload('res://Scenes/levels/lobbies/lobby.tscn')
+	get_tree().change_scene_to(lobbee)
 "
 
 [node name="HOSTdialogue" type="Popup"]

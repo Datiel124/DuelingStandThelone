@@ -16,7 +16,7 @@ func _ready():
 #Info of other players. Associate ID to data
 var player_info = {}
 #Info we need to send to other players.
-var my_info = {name = "username", iconcolor = Color.orange}
+var my_info = {name = "username"}
 
 #A log of my client's messages sent through the Chat feed.
 var MessagesSent = [""]
@@ -29,7 +29,6 @@ func _player_connected(id):
 	rpc_id(id, "register_player", my_info)
 	for wait in range(5):
 		yield(get_tree(),"idle_frame")
-	instance_player(id)
 
 func _player_disconnected(id):
 	var players = get_node("/root/World/Players")
@@ -70,16 +69,21 @@ remote func loadData(datapath):
 	#Server - Tells everyone to load data, then waits for them to load it.
 	var x = load(datapath)
 	#Tell the server you finished loading your data.
-	emit_signal("finishedLoadingData", get_tree().get_network_unique_id())
 	rpc_id(1, "emit_signal", "finishedLoadingData", get_tree().get_network_unique_id())
 	print("Finished loading data at " + str(datapath) + " !")
 	return x
 
+var network_instance_name_id = 0
+
+remotesync func increment_network_instance_name_id():
+	if get_tree().get_network_unique_id() == 1:
+		network_instance_name_id += 1
+
+#spawn players and stuff
 func instance_player(id):
 	print("calling instance player")
 	var player = preload("res://Scenes/entities/Player/Player.tscn")
 	var _player = player.instance()
-	var players = get_node("/root/World/Players")
-	players.add_child(_player)
 	_player.set_name(str(id))
 	_player.set_network_master(id)
+	return _player

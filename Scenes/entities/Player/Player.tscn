@@ -33,27 +33,27 @@ export var sway_default : Vector3
 
 func _unhandled_input(event: InputEvent) -> void:
 	
-	if event is InputEventMouseMotion:
+	if event is InputEventMouseMotion and is_network_master():
 		mouse_movement_x = event.relative.x
 		mouse_movement_y = event.relative.y
 		
 func _process(delta):
-	
-	if mouse_movement_x != null:
-		if mouse_movement_x > sway_thres:
-			rotation = rotation.linear_interpolate(sway_left, sway_lerp*delta)
-		elif mouse_movement_x < -sway_thres:
-			rotation = rotation.linear_interpolate(sway_right, sway_lerp*delta)
-		else:
-			rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
-		 
-	if mouse_movement_y != null:
-		if mouse_movement_y > sway_thres:
-			rotation = rotation.linear_interpolate(sway_up, sway_lerp*delta)
-		elif mouse_movement_y < -sway_thres:
-			rotation = rotation.linear_interpolate(sway_down, sway_lerp*delta)
-		else:
-			rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
+	if is_network_master():
+		if mouse_movement_x != null:
+			if mouse_movement_x > sway_thres:
+				rotation = rotation.linear_interpolate(sway_left, sway_lerp*delta)
+			elif mouse_movement_x < -sway_thres:
+				rotation = rotation.linear_interpolate(sway_right, sway_lerp*delta)
+			else:
+				rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
+			 
+		if mouse_movement_y != null:
+			if mouse_movement_y > sway_thres:
+				rotation = rotation.linear_interpolate(sway_up, sway_lerp*delta)
+			elif mouse_movement_y < -sway_thres:
+				rotation = rotation.linear_interpolate(sway_down, sway_lerp*delta)
+			else:
+				rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
 "
 
 [sub_resource type="StyleBoxFlat" id=7]
@@ -172,6 +172,11 @@ custom_fonts/font = SubResource( 10 )
 text = "FPS:"
 script = ExtResource( 7 )
 
+[node name="networktick" type="Timer" parent="."]
+process_mode = 0
+autostart = true
+
 [connection signal="changeHealth" from="." to="UI/HPPanel" method="set_hp"]
+[connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
 
 [editable path="UI/HPPanel"]

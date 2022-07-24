@@ -1,32 +1,42 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=1]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/levels/lobbies/lobby.gd" type="Script" id=3]
+[ext_resource path="res://addons/CSGStairs/csg_stairs.gd" type="Script" id=4]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, -2, 0, 0, 0, 0, 0, 0, 3, 0, -5, 0, 0, 0, 0, 0, 0, 2, 0, -7, 0, 0, 0, 0, 0, 0, -1, 0, -8, 0, 0, 0, 0, 0, 0, -8, 0, -8 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
+}
 
 [node name="World" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 
+[node name="spawn0" parent="Level/spawnpoints" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 6, 0 )
+
 [node name="spawn1" type="Position3D" parent="Level/spawnpoints" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17, -11 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 11, 8, -11 )
 
 [node name="spawn2" type="Position3D" parent="Level/spawnpoints" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 17, 5 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 11.2, 8, 5 )
 
 [node name="spawn3" type="Position3D" parent="Level/spawnpoints" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 13, 4 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2, 4, 4 )
 
 [node name="spawn4" type="Position3D" parent="Level/spawnpoints" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 13, -20 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 10.4, 4, -20 )
 
 [node name="spawn5" type="Position3D" parent="Level/spawnpoints" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 13, 0 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 9.5, 4, 0 )
 
 [node name="spawn6" type="Position3D" parent="Level/spawnpoints" index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 35, 13, -14 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 14.5, 4, -14 )
 
 [node name="spawn7" type="Position3D" parent="Level/spawnpoints" index="7"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 17.2962, -9 )
+transform = Transform( 0.1, 0, 0, 0, 1, 0, 0, 0, 1, 13.5, 8.2962, -9 )
 
 [node name="World" type="CSGCombiner" parent="Level/geometry" index="0"]
 use_collision = true
@@ -37,13 +47,192 @@ width = 98.0
 depth = 90.0
 material = ExtResource( 2 )
 
-[node name="CSGBox2" type="CSGBox" parent="Level/geometry/World" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 48, 0 )
-width = 98.0
-depth = 90.0
-material = ExtResource( 2 )
+[node name="Walls" type="Spatial" parent="Level/geometry" index="1"]
+
+[node name="CSGBox2" type="CSGBox" parent="Level/geometry/Walls" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 6, -20 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox3" type="CSGBox" parent="Level/geometry/Walls" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -11, 6, -26 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox4" type="CSGBox" parent="Level/geometry/Walls" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 6, -28 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox6" type="CSGBox" parent="Level/geometry/Walls" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 6, -27 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox7" type="CSGBox" parent="Level/geometry/Walls" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 6, -28 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox8" type="CSGBox" parent="Level/geometry/Walls" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 6, -25 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox9" type="CSGBox" parent="Level/geometry/Walls" index="6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 23, 6, -19 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox10" type="CSGBox" parent="Level/geometry/Walls" index="7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 27, 6, -10 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox11" type="CSGBox" parent="Level/geometry/Walls" index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 31, 6, -1 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox12" type="CSGBox" parent="Level/geometry/Walls" index="9"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 33, 6, 8 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox13" type="CSGBox" parent="Level/geometry/Walls" index="10"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 6, 15 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox14" type="CSGBox" parent="Level/geometry/Walls" index="11"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 6, 21 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox15" type="CSGBox" parent="Level/geometry/Walls" index="12"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 22, 6, 25 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox16" type="CSGBox" parent="Level/geometry/Walls" index="13"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14, 6, 28 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox17" type="CSGBox" parent="Level/geometry/Walls" index="14"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 6, 29 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox18" type="CSGBox" parent="Level/geometry/Walls" index="15"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 6, 28 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox19" type="CSGBox" parent="Level/geometry/Walls" index="16"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 6, 25 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox20" type="CSGBox" parent="Level/geometry/Walls" index="17"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -8, 6, 23 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox21" type="CSGBox" parent="Level/geometry/Walls" index="18"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 6, 17 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox22" type="CSGBox" parent="Level/geometry/Walls" index="19"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -17, 6, 13 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox23" type="CSGBox" parent="Level/geometry/Walls" index="20"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 6, 7 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox24" type="CSGBox" parent="Level/geometry/Walls" index="21"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 6, 1 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox25" type="CSGBox" parent="Level/geometry/Walls" index="22"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -20, 6, -6 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox26" type="CSGBox" parent="Level/geometry/Walls" index="23"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -21, 6, -13 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGBox5" type="CSGBox" parent="Level/geometry/Walls" index="24"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 6, -28 )
+use_collision = true
+width = 8.0
+height = 16.0
+depth = 10.0
+
+[node name="CSGStairs" type="Path" parent="Level/geometry" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+curve = SubResource( 1 )
+script = ExtResource( 4 )
+height = 6.0
+width = 2.0
+use_collision = true
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Level/lights" index="0"]
-transform = Transform( 0.44102, 0.769801, 0.46142, -0.53189, 0.638284, -0.556494, -0.722907, 0, 0.690946, 0, 18.7764, 0 )
+transform = Transform( 0.44102, 0.769801, 0.46142, -0.840412, 0.173782, 0.51333, 0.314976, -0.614172, 0.723591, 0, 18.7764, 0 )
 light_energy = 0.413
 shadow_enabled = true

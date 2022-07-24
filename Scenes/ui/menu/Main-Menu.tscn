@@ -356,6 +356,7 @@ __meta__ = {
 }
 
 [connection signal="pressed" from="ui/spacer/MULTIPLAYER" to="ui/spacer/MULTIPLAYER/Control" method="popup_centered"]
+[connection signal="pressed" from="ui/spacer/TEST ROOM" to="." method="_on_TEST_ROOM_pressed"]
 [connection signal="pressed" from="ui/spacer/OPTIONS" to="ui/spacer/OPTIONS/Options" method="popup"]
 [connection signal="pressed" from="ui/spacer/QUIT" to="ui/spacer/QUIT/ConfirmationDialog" method="popup"]
 [connection signal="confirmed" from="ui/spacer/QUIT/ConfirmationDialog" to="ui/spacer/QUIT/ConfirmationDialog" method="_on_ConfirmationDialog_confirmed"]

@@ -1,11 +1,15 @@
-extends Node
+extends "res://Scenes/World.gd"
 
-onready var players = $Players
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
-		
-	
+	print("Connecting lobby signals...")
+	NetworkLobby.connect('registeredPlayer', self, 'refreshLobby')
+	#add de Host
+	addPlayerToWorld(1)
 
-	
+func _process(delta: float) -> void:
+	print(NetworkLobby.player_info)
+
+func refreshLobby(id):
+	addPlayerToWorld(id)
+	for players in NetworkLobby.player_info:
+		addPlayerToWorld(players)
