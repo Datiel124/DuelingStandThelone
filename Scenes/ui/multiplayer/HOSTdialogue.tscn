@@ -68,7 +68,7 @@ margin_right = 567.0
 margin_bottom = 120.0
 min_value = 2000.0
 max_value = 8000.0
-value = 2000.0
+value = 7777.0
 
 [node name="max players" type="SpinBox" parent="Panel"]
 margin_left = 368.0

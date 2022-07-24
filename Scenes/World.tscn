@@ -8,7 +8,7 @@
 
 [node name="spawnpoints" type="Node" parent="Level"]
 
-[node name="spawn1" type="Position3D" parent="Level/spawnpoints"]
+[node name="spawn0" type="Position3D" parent="Level/spawnpoints"]
 
 [node name="geometry" type="Node" parent="Level"]
 
