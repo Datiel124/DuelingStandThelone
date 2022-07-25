@@ -92,7 +92,6 @@ func calc_direction(delta):
 func apply_physics(delta):
 	#Applies physics. Typically called last.
 	#Apply friction first.
-	
 	var horizontal = Vector3.ZERO
 	if check_ground() > 0b00:
 		#On ground. Apply friction
