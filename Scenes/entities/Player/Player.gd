@@ -132,13 +132,19 @@ func _unhandled_input(event: InputEvent) -> void:
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
 
-func Damage(damage):
+func Damage(damage, dealer : KinematicBody):
 	setHealth(health - damage)
 	if health <= 0:
 		kill()
+		$respawnTimer.start()
 
 func kill():
 	queue_free()
+	
+func respawn():
+	setHealth(100)
+	Velocity = Vector3.ZERO
+	global_transform = GameFuncts.get_map_spawns()
 
 remote func syncPosition(transforms, vel, input):
 	global_transform = transforms
@@ -150,3 +156,7 @@ func _on_networktick_timeout() -> void:
 	if is_network_master():
 		rpc_unreliable("syncPosition", global_transform, Velocity, direction)
 	pass # Replace with function body.
+
+
+func _on_respawnTimer_timeout() -> void:
+	respawn()

@@ -2,15 +2,6 @@ extends Node
 
 #Define option functions here
 
-func instance_node_at_location(node: Object, location : Vector3) -> Object:
-	var instance = instance_node(node)
-	instance.transform.origin = location
-	return instance
-
-func instance_node(node: Object) -> Object:
-	var node_to_instance = node
-	return node_to_instance
-
 #Fullscreen Toggle
 func toggle_fullscreen(toggle):
 	OS.window_fullscreen = toggle

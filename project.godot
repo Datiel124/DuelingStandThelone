@@ -270,6 +270,7 @@ GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
 MusicPlayer="*res://Scenes/entities/MusicPlayer/MusicPlayer.tscn"
 GlobalSettings="*res://scripts/globals/global_settings.gd"
 Options="*res://Scenes/ui/options/Options.tscn"
+GameFuncts="*res://scripts/globals/game_functs.gd"
 
 [debug]
 

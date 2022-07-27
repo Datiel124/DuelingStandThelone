@@ -177,7 +177,12 @@ process_mode = 0
 wait_time = 0.017
 autostart = true
 
+[node name="respawnTimer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="changeHealth" from="." to="UI/HPPanel" method="set_hp"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
+[connection signal="timeout" from="respawnTimer" to="." method="_on_respawnTimer_timeout"]
 
 [editable path="UI/HPPanel"]
