@@ -267,9 +267,9 @@ NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
 UserConfigs="*res://scripts/globals/UserConfigs.gd"
 Discord="*res://addons/discord_game_sdk/discord.gd"
 GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
+Options="res://Scenes/ui/options/Options.tscn"
+GlobalSettings="res://scripts/globals/global_settings.gd"
 MusicPlayer="*res://Scenes/entities/MusicPlayer/MusicPlayer.tscn"
-GlobalSettings="*res://scripts/globals/global_settings.gd"
-Options="*res://Scenes/ui/options/Options.tscn"
 GameFuncts="*res://scripts/globals/game_functs.gd"
 
 [debug]
@@ -282,7 +282,7 @@ gdscript/warnings/unused_argument=false
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
 multirun/number_of_windows=2
-multirun/window_distance=1270
+multirun/window_distance=200
 multirun/add_custom_args=true
 multirun/first_window_args="listen"
 multirun/other_window_args="join"
@@ -335,6 +335,11 @@ MoveBackward={
 Jump={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":32,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+Crouch={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777237,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
 action={

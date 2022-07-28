@@ -1,7 +1,6 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://addons/discord_game_sdk/example/rich_presence/rich_presence.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=4]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=5]
@@ -210,9 +209,6 @@ shadow_enabled = true
 
 [node name="laserturret" parent="." instance=ExtResource( 6 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0312546, 5.05893, -12.1195 )
-
-[node name="Player" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.62426, 0 )
 
 [node name="explosion" parent="." instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 1 )

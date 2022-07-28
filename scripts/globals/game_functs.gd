@@ -10,13 +10,25 @@ func instance_node_at_location(node: Object, location : Vector3) -> Object:
 func instance_node(node: Object) -> Object:
 	var node_to_instance = node
 	return node_to_instance
-	
-func get_map_spawns():
+
+func get_map_spawns() -> Array:
 	var spawns = get_node("/root/World/Level/spawnpoints")
 	if spawns:
-		return spawns.get_child(randi() % spawns.get_child_count()).global_transform
+		return spawns.get_children()
 	else:
-		return Transform(Basis.IDENTITY, Vector3(0.0, 10.0 + randf(), 0.0))
+		printerr("Current level is missing spawns. Creating spawnpoint at (0, 0)")
+		var newspawn = Position3D.new()
+		newspawn.global_transform = Transform.IDENTITY
+		if get_node_or_null("root/World/Level/spawnpoints"):
+			get_node("root/World/Level/spawnpoints").add_child(newspawn)
+		else:
+			printerr("Error - called get_map_spawns() while outside of a level.")
+			return []
+		return [newspawn]
+
+func get_random_spawnpoint() -> Position3D:
+	var list = get_map_spawns()
+	return list[randi()%list.size()]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

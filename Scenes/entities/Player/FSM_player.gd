@@ -39,6 +39,8 @@ func _get_transition(delta):
 #Entering a state. Play an animation or something.
 func _enter_state(new_state, old_state):
 	match new_state:
+		states.DEAD:
+			return
 		_:
 			return
 

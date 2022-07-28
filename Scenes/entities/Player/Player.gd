@@ -34,7 +34,7 @@ onready var Hand = $Head/Holder
 onready var hand_default_Pos : Vector3 = Hand.translation
 onready var FSM = $StateMachine
 
-func _ready():
+func _ready() -> void:
 	if is_network_master():
 		setHealth(health)
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
@@ -42,23 +42,19 @@ func _ready():
 	else:
 		$UI.queue_free()
 
-func _process(delta):
-	#Test Options Menu
-#	if Input.is_action_pressed("pause"):
-#		Options.popup_centered()
-#		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+func _process(delta) -> void:
 	if is_network_master():
 		view_roll(delta)
 
 #These functions will be called by the Finite State Machine to determine behavior.
-func _physics_process(delta):
+func _physics_process(delta) -> void:
 	if is_network_master():
 		direction = Vector3.ZERO
 		FSM._state_logic(delta)
 		$UI/speeddisplay.text = "h-speed : " + str(Vector2(Velocity.x, Velocity.z).length())
 
 #Tilts camera based on input.
-func view_roll(delta):
+func view_roll(delta) -> void:
 	if is_network_master():
 		if UserConfigs.is_view_roll:
 			var rotation_speed : float = max_ground_speed * delta
@@ -76,20 +72,21 @@ func check_ground() -> int:
 	return int(is_on_floor()) + (int(full_contact) << 1)
 
 #Applies gravity.
-func apply_gravity(delta):
+func apply_gravity(delta) -> void:
 	Velocity.y -= gravity * delta
 
 #Calculates movement direction of input.
-func calc_direction(delta):
+func calc_direction(delta) -> Vector3:
 	if is_network_master():
 		direction -= transform.basis.z * Input.get_action_strength('MoveForward')
 		direction += transform.basis.z * Input.get_action_strength('MoveBackward')
 		direction -= transform.basis.x * Input.get_action_strength('MoveLeft')
 		direction += transform.basis.x * Input.get_action_strength('MoveRight')
 		direction = direction.normalized()
+	return direction
 
 #Applies the physics- just does move_and_slide.
-func apply_physics(delta):
+func apply_physics(delta) -> void:
 	#Applies physics. Typically called last.
 	#Apply friction first.
 	var horizontal = Vector3.ZERO
@@ -132,30 +129,32 @@ func _unhandled_input(event: InputEvent) -> void:
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
 
-func Damage(damage, dealer : KinematicBody):
+func Damage(damage, dealer : int = -1) -> void:
+	#-1 = no source specified
 	setHealth(health - damage)
 	if health <= 0:
 		kill()
 		$respawnTimer.start()
 
-func kill():
-	queue_free()
+func kill() -> void:
+	#enter DEAD state
+	FSM._enter_state(FSM.states.DEAD)
+	#set camera's target to the corpse's viewtarget node
+	GlobalCamera.transformoverride
 	
-func respawn():
+func respawn() -> void:
 	setHealth(100)
 	Velocity = Vector3.ZERO
-	global_transform = GameFuncts.get_map_spawns()
+	global_transform.origin = GameFuncts.get_random_spawnpoint().global_transform.origin
 
 remote func syncPosition(transforms, vel, input):
 	global_transform = transforms
 	Velocity = vel
 	direction = input
-	pass
 
 func _on_networktick_timeout() -> void:
 	if is_network_master():
 		rpc_unreliable("syncPosition", global_transform, Velocity, direction)
-	pass # Replace with function body.
 
 
 func _on_respawnTimer_timeout() -> void:

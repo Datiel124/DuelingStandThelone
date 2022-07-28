@@ -4,7 +4,6 @@ extends Node
 signal loaded_file
 
 
-
 func load_external_texture(path):
 	var image = Image.new()
 	image.load(path)
