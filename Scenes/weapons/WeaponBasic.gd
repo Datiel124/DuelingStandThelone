@@ -45,7 +45,6 @@ remote func renderShot(startpos : Vector3, endpos : Vector3) -> void:
 	$RayCast.add_child(newray)
 	newray.force_raycast_update()
 	var missposition = newray.global_transform.basis.z * -_range
-	
 	pass
 
 #The 'puppet' key word means the owner of this node cannot call this function. It must be called externally.
@@ -57,6 +56,7 @@ puppet func calculateDamage(startpos : Vector3, endpos : Vector3) -> void:
 	#In order to do this, we need to re-do the ray casting, so we need to convert startpos and endpos to a startpos and direction.
 	#Then, cast the ray, and then, get collisions, check for players, etc.
 	if !get_tree().is_network_server():
+		#Only the server should be calculating damage.
 		return
 	#Convert start/end to a direction.
 	var dir = startpos.direction_to(endpos)
