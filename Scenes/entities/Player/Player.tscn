@@ -121,7 +121,7 @@ sway_down = Vector3( -0.3, 0, 0 )
 [node name="Weapon" parent="Head/Holder" instance=ExtResource( 4 )]
 
 [node name="FloorCheck" type="RayCast" parent="."]
-transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.741208, 0 )
+transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.527019, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
 

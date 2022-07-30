@@ -1,6 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://addons/discord_game_sdk/example/rich_presence/rich_presence.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/World.gd" type="Script" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=4]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=5]
@@ -39,6 +40,9 @@ glow_high_quality = true
 [sub_resource type="SphereMesh" id=4]
 
 [node name="Map" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="richpresence" type="Node" parent="."]
 script = ExtResource( 1 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]

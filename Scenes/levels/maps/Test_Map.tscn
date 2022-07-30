@@ -7,8 +7,8 @@
 
 [node name="World" instance=ExtResource( 2 )]
 
-[node name="spawn1" parent="Level/spawnpoints" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 19 )
+[node name="spawn0" parent="Level/spawnpoints" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.4, 0 )
 
 [node name="spawn2" type="Position3D" parent="Level/spawnpoints" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4, 4 )

@@ -22,7 +22,7 @@ func _state_logic(delta):
 	match state:
 		states.IDLE, states.FALL, states.RUN:
 			#In these states, you'll always calculate input, gravity, and physics.
-			if parent.check_ground() == 0b00:
+			if parent.check_ground() != 0b11:
 				parent.apply_gravity(delta)
 			else:
 				parent.Velocity.y = clamp(parent.Velocity.y, 0.0, INF)

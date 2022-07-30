@@ -64,6 +64,7 @@ func view_roll(delta) -> void:
 
 #Checks if colliding with ground, returns flags based on results.
 func check_ground() -> int:
+	test_move(transform, Vector3.ZERO)
 	if ground_check.is_colliding():
 		full_contact = true
 	else:
@@ -77,6 +78,7 @@ func apply_gravity(delta) -> void:
 
 #Calculates movement direction of input.
 func calc_direction(delta) -> Vector3:
+	#Client - calcualte movement trajectory based on input
 	if is_network_master():
 		direction -= transform.basis.z * Input.get_action_strength('MoveForward')
 		direction += transform.basis.z * Input.get_action_strength('MoveBackward')
@@ -115,9 +117,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		if event.is_action_pressed("fire"):
 			if(currentWeapon): #Check isn't required- but just in case.
-				if is_network_master():
-					currentWeapon.rpc("shoot")
-					currentWeapon.shoot()
+				currentWeapon.shoot()
 			else:
 				#There is never a case where currentWeapon should be null- print an error.
 				printerr("Error! 'currentWeapon' not set.")
@@ -129,7 +129,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
 
-func Damage(damage, dealer : int = -1) -> void:
+remote func Damage(damage, dealer : int = -1) -> void:
 	#-1 = no source specified
 	setHealth(health - damage)
 	if health <= 0:
@@ -153,7 +153,7 @@ remote func syncPosition(transforms, vel, input):
 	direction = input
 
 func _on_networktick_timeout() -> void:
-	if is_network_master():
+	if is_network_master() and get_tree().get_network_connected_peers().size() > 0:
 		rpc_unreliable("syncPosition", global_transform, Velocity, direction)
 
 

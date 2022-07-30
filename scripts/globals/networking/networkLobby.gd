@@ -18,8 +18,15 @@ var player_info = {}
 #Info we need to send to other players.
 var my_info = {name = "username"}
 
+#Server snapshot system
+var players_ready :int= 0
+var server_tickrate := 0.00833333 #120-tick servers
+var server_time := 0.0 #what time is it in the server
+var server_snapshot_list := {} #{id : [info,info,info,...], id : [...] , ...}
+var server_instance_list := [] #stores instances created by the server, so late-joiners can recieve and load the instances
+
 #A log of my client's messages sent through the Chat feed.
-var MessagesSent = [""]
+var MessagesSent := []
 
 func _player_connected(id):
 	print("Say Hello To : " + str(id))
@@ -64,17 +71,12 @@ remote func register_player(info):
 #REMOTE keyword : rpc() will go via network and execute remotely.
 #REMOTESYNC keyword : rpc() will go via network and execute remotely, and locally. (does normal function call)
 
-signal finishedLoadingData(id)
-remote func loadData(datapath):
-	#Server - Tells everyone to load data, then waits for them to load it.
-	var x = load(datapath)
-	#Tell the server you finished loading your data.
-	rpc_id(1, "emit_signal", "finishedLoadingData", get_tree().get_network_unique_id())
-	print("Finished loading data at " + str(datapath) + " !")
-	return x
+func store_snapshot(snapshot) -> void:
+	if !server_snapshot_list[get_tree().get_rpc_sender_id()]:
+		server_snapshot_list[get_tree().get_rpc_sender_id()] = []
+	server_snapshot_list[get_tree().get_rpc_sender_id()].append(snapshot)
 
 var network_instance_name_id = 0
-
 remotesync func increment_network_instance_name_id():
 	if get_tree().get_network_unique_id() == 1:
 		network_instance_name_id += 1

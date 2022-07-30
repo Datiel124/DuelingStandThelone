@@ -7,7 +7,8 @@ func _ready() -> void:
 	addPlayerToWorld(1)
 
 func _process(delta: float) -> void:
-	print(NetworkLobby.player_info)
+#	print(NetworkLobby.player_info)
+	pass
 
 func refreshLobby(id):
 	addPlayerToWorld(id)
