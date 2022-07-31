@@ -1,9 +1,31 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=4]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends RayCast
+
+
+# Declare member variables here. Examples:
+# var a: int = 2
+# var b: String = \"text\"
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	
+	pass # Replace with function body.
+
+func _process(delta: float) -> void:
+	print(get_collision_point())
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(delta: float) -> void:
+#	pass
+"
 
 [node name="World" instance=ExtResource( 2 )]
 
@@ -179,3 +201,8 @@ material = ExtResource( 3 )
 [node name="DirectionalLight" type="DirectionalLight" parent="Level/lights" index="0"]
 transform = Transform( 0.619589, -0.460546, -0.635616, 0.0790126, -0.76907, 0.634262, -0.78094, -0.443204, -0.440118, 0, 18.945, -20.0077 )
 shadow_enabled = true
+
+[node name="RayCast" type="RayCast" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 28.4, 0 )
+cast_to = Vector3( 0, -1, 9999 )
+script = SubResource( 1 )

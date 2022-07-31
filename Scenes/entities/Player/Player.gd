@@ -88,26 +88,46 @@ func calc_direction(delta) -> Vector3:
 	return direction
 
 #Applies the physics- just does move_and_slide.
+var lastnormal = Vector3.ZERO
 func apply_physics(delta) -> void:
+	var snap = Vector3.DOWN if Velocity.y <= 0 else Vector3.ZERO
+	move_and_slide_with_snap(Velocity, snap, Vector3.UP)
 	#Applies physics. Typically called last.
 	#Apply friction first.
+
 	var horizontal = Vector3.ZERO
-	if check_ground() > 0b00:
+	#valid values = 0b11, 0b01
+	var col = null
+	if get_slide_count() > 0: 
+		col = get_slide_collision(0)
+	var normal = col.normal if col else "---"
+	if col:
+		lastnormal = normal
+		if normal.dot(Vector3.UP) > 0.9: # 0.9 high sameness
+			normal = Vector3.UP
+		if normal.dot(Vector3.DOWN) > 0.9: # 0.9 high sameness
+			normal = Vector3.DOWN
+	$UI/debug.text = ("collision normal " + str(normal) + 
+	"\nlast normal " + str(lastnormal) + 
+	"\nstate " + str(FSM.get_state()))
+	var gc = check_ground()
+	if gc >= 0b01: #ground, ground + ray, ray
 		#On ground. Apply friction
 		Velocity = Velocity.move_toward(Vector3.ZERO, friction * delta)
-		
-		var cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z))
+		var cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z)) #?????
 		var add_speed = clamp(max_ground_speed - cur_speed, 0, max_ground_speed)
+		
 		horizontal = lerp(Velocity, Velocity + (add_speed * direction), normal_accel * delta)
 	else:
 		#Player is airborne. Do air physics.
 		var cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z))
 		var add_speed = clamp(max_air_speed - cur_speed, 0, max_ground_speed)
 		horizontal = lerp(Velocity, Velocity + (add_speed * direction), air_accel * delta)
+
 	Velocity.z = horizontal.z
 	Velocity.x = horizontal.x
-	#After doing that movement stuff, check for collisions with ground and adjust to match slope
-	move_and_slide(Velocity, Vector3.UP)
+	if col and gc == 0b00:
+		Velocity = Velocity.bounce(normal) * 1.1
 
 #Useful for things that sort of override other effects.
 func _unhandled_input(event: InputEvent) -> void:
@@ -133,27 +153,30 @@ remote func Damage(damage, dealer : int = -1) -> void:
 	#-1 = no source specified
 	setHealth(health - damage)
 	if health <= 0:
+		#Ur dead as far as im concerned (probably make it servercliented again as this is just cliyent but it should be synced)
 		kill()
 		$respawnTimer.start()
 
-func kill() -> void:
+remote func kill() -> void:
 	#enter DEAD state
 	FSM._enter_state(FSM.states.DEAD)
-	#set camera's target to the corpse's viewtarget node
-	GlobalCamera.transformoverride
-	
+	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
+	#set camera's target to the spawned corpse's viewtarget node
+
 func respawn() -> void:
 	setHealth(100)
 	Velocity = Vector3.ZERO
 	global_transform.origin = GameFuncts.get_random_spawnpoint().global_transform.origin
 
 remote func syncPosition(transforms, vel, input):
+	#sync the position
 	global_transform = transforms
 	Velocity = vel
 	direction = input
 
 func _on_networktick_timeout() -> void:
 	if is_network_master() and get_tree().get_network_connected_peers().size() > 0:
+		#Tell the server your new location, it will sync to the other clients
 		rpc_unreliable("syncPosition", global_transform, Velocity, direction)
 
 

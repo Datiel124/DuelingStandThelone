@@ -130,6 +130,13 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
+[node name="debug" type="Label" parent="UI"]
+margin_left = 25.0
+margin_top = 427.0
+margin_right = 65.0
+margin_bottom = 441.0
+text = "floor normal = "
+
 [node name="Crosshair" type="TextureRect" parent="UI"]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -164,12 +171,15 @@ text = "h speed - w"
 [node name="fpsdisplay" type="Label" parent="UI"]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -125.0
-margin_top = 5.0
-margin_right = -2.0
-margin_bottom = 39.0
+margin_left = -84.0
+margin_top = 16.0
+margin_right = -21.0
+margin_bottom = 75.0
+grow_horizontal = 0
+grow_vertical = 0
 custom_fonts/font = SubResource( 10 )
-text = "FPS:"
+text = "FPS: 60
+client"
 script = ExtResource( 7 )
 
 [node name="networktick" type="Timer" parent="."]

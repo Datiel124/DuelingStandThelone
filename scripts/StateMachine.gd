@@ -2,7 +2,7 @@ extends Node
 class_name StateMachine, 'res://DEV/icon_statemachine.png'
 
 #keep track of state we're currently in
-var state  = null setget set_state
+var state  = null setget set_state, get_state
 var previous_state = null
 var states = {}
 
@@ -40,6 +40,11 @@ func set_state(new_state):
 		_exit_state(previous_state, new_state)
 	if new_state != null:
 		_enter_state(new_state, previous_state)
+
+func get_state():
+	for st in states:
+		if states[st] == state:
+			return st
 
 func add_state(state_name):
 	states[state_name] = states.size()

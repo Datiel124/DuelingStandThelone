@@ -7,9 +7,10 @@ func _ready() -> void:
 		pass
 	else:
 		#do stuff when user is offline
-		var player = addPlayerToWorld(get_tree().get_network_unique_id())
-#		player.global_transform.origin = 
-		player.global_transform.origin = GameFuncts.get_map_spawns()[0].global_transform.origin
+		if get_tree().network_peer :
+			var player = addPlayerToWorld(get_tree().get_network_unique_id())
+#			player.global_transform.origin = 
+			player.global_transform.origin = GameFuncts.get_map_spawns()[0].global_transform.origin
 		pass
 	pass
 
