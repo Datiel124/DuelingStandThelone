@@ -20,9 +20,9 @@ func _ready() -> void:
 
 func _state_logic(delta):
 	match state:
-		states.IDLE, states.FALL, states.RUN:
+		states.IDLE, states.FALL, states.RUN, states.JUMP:
 			#In these states, you'll always calculate input, gravity, and physics.
-			if parent.check_ground() != 0b11:
+			if parent.check_ground() == 0b00:
 				parent.apply_gravity(delta)
 			else:
 				parent.Velocity.y = clamp(parent.Velocity.y, 0.0, INF)
@@ -34,6 +34,26 @@ func _state_logic(delta):
 
 func _get_transition(delta):
 	#Under what conditions should I change my state?
+	match state:
+		states.IDLE:
+			if parent.direction:
+				return states.RUN
+			if parent.Velocity.y < 0 && (parent.check_ground() == 0b00):
+				return states.FALL
+		states.FALL:
+			if parent.check_ground() != 0b00:
+				if parent.direction.length() < 0.1:
+					return states.IDLE
+				else:
+					return states.RUN
+		states.RUN:
+			if parent.check_ground() == 0b00:
+				return states.FALL
+			if parent.Velocity.length() < 1:
+				return states.IDLE
+		states.JUMP:
+			if parent.Velocity.y < 0:
+				return states.FALL
 	return null
 
 #Entering a state. Play an animation or something.

@@ -1,5 +1,6 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=18 format=2]
 
+[ext_resource path="res://Scenes/entities/Player/jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=4]
@@ -7,6 +8,21 @@
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/entities/Player/FSM_player.gd" type="Script" id=8]
+[ext_resource path="res://Scenes/entities/Player/wallbounce.wav" type="AudioStream" id=9]
+
+[sub_resource type="GDScript" id=12]
+script/source = "extends Spatial
+
+export(AudioStream) var jump_sound
+export(AudioStream) var wallbounce_sound
+export(Array, AudioStream) var hurt_sounds 
+
+export(Array, AudioStream) var footstep_sounds_generic
+export(Array, AudioStream) var footstep_sounds_wood
+export(Array, AudioStream) var footstep_sounds_dirt
+export(Array, AudioStream) var footstep_sounds_metal
+export(Array, AudioStream) var footstep_sounds_water
+"
 
 [sub_resource type="CapsuleMesh" id=1]
 radius = 0.7
@@ -90,6 +106,35 @@ font_data = SubResource( 9 )
 
 [node name="Player" type="KinematicBody" groups=["Players"]]
 script = ExtResource( 2 )
+
+[node name="sounds" type="Spatial" parent="."]
+script = SubResource( 12 )
+jump_sound = ExtResource( 1 )
+wallbounce_sound = ExtResource( 9 )
+
+[node name="stationary" type="Node" parent="sounds"]
+
+[node name="jumps" type="AudioStreamPlayer3D" parent="sounds"]
+unit_db = -12.0
+unit_size = 2.0
+max_db = 0.0
+attenuation_filter_cutoff_hz = 20500.0
+attenuation_filter_db = 0.0
+__meta__ = {
+"_editor_description_": "hops (wallbounce, jump off floor, etc)"
+}
+
+[node name="hurt" type="AudioStreamPlayer3D" parent="sounds"]
+attenuation_filter_db = 0.0
+__meta__ = {
+"_editor_description_": "gettin hurt, gettin killed"
+}
+
+[node name="footstep" type="AudioStreamPlayer3D" parent="sounds"]
+attenuation_filter_db = 0.0
+__meta__ = {
+"_editor_description_": "foot step sound player, after figuring out what the floor material is"
+}
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 8 )

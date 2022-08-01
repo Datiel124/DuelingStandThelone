@@ -13,6 +13,9 @@ var jump_force:float 	= 8.0
 var full_contact:bool 	= true
 var Velocity:Vector3 	= Vector3()
 
+var lastjumptime = 0.0;
+var is_airjump = false;
+var airtime = 0.0;
 #health
 var health = 100 setget setHealth
 func setHealth(newhealth):
@@ -45,6 +48,7 @@ func _ready() -> void:
 func _process(delta) -> void:
 	if is_network_master():
 		view_roll(delta)
+	lastjumptime += delta
 
 #These functions will be called by the Finite State Machine to determine behavior.
 func _physics_process(delta) -> void:
@@ -75,6 +79,10 @@ func check_ground() -> int:
 #Applies gravity.
 func apply_gravity(delta) -> void:
 	Velocity.y -= gravity * delta
+	if check_ground() == 0b00:
+		airtime += delta
+	else:
+		airtime = 0.0
 
 #Calculates movement direction of input.
 func calc_direction(delta) -> Vector3:
@@ -89,6 +97,7 @@ func calc_direction(delta) -> Vector3:
 
 #Applies the physics- just does move_and_slide.
 var lastnormal = Vector3.ZERO
+var wallbouncecount = 0.0
 func apply_physics(delta) -> void:
 	var snap = Vector3.DOWN if Velocity.y <= 0 else Vector3.ZERO
 	move_and_slide_with_snap(Velocity, snap, Vector3.UP)
@@ -107,17 +116,30 @@ func apply_physics(delta) -> void:
 			normal = Vector3.UP
 		if normal.dot(Vector3.DOWN) > 0.9: # 0.9 high sameness
 			normal = Vector3.DOWN
-	$UI/debug.text = ("collision normal " + str(normal) + 
-	"\nlast normal " + str(lastnormal) + 
-	"\nstate " + str(FSM.get_state()))
+	if is_network_master():
+		$UI/debug.text = ("collision normal " + str(normal) + 
+		"\nis on floor " + str(is_on_floor()) +
+		"\nray check" + str($FloorCheck.is_colliding()) +
+		"\nlast normal " + str(lastnormal) + 
+		"\nstate " + str(FSM.get_state()) + 
+		"\nairtime " + str(airtime))
 	var gc = check_ground()
 	if gc >= 0b01: #ground, ground + ray, ray
-		#On ground. Apply friction
-		Velocity = Velocity.move_toward(Vector3.ZERO, friction * delta)
-		var cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z)) #?????
-		var add_speed = clamp(max_ground_speed - cur_speed, 0, max_ground_speed)
-		
-		horizontal = lerp(Velocity, Velocity + (add_speed * direction), normal_accel * delta)
+		#On ground. Apply friction. Unless you're holding space, in which case you will be frictionless, but your control is limited.
+		var cur_speed
+		var add_speed
+		wallbouncecount = 0
+		airtime = 0.0
+		if !Input.is_action_pressed('Jump'):
+			Velocity = Velocity.move_toward(Vector3.ZERO, friction * delta)
+			cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z)) #?????
+			add_speed = clamp(max_ground_speed - cur_speed, 0, max_ground_speed)
+			horizontal = lerp(Velocity, Velocity + (add_speed * direction), normal_accel * delta)
+			if col:
+				horizontal = horizontal.slide(normal)
+		else:
+			var downhill = (Vector3.DOWN * gravity).bounce(get_floor_normal())
+			horizontal = Velocity + (downhill * delta)
 	else:
 		#Player is airborne. Do air physics.
 		var cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z))
@@ -127,13 +149,43 @@ func apply_physics(delta) -> void:
 	Velocity.z = horizontal.z
 	Velocity.x = horizontal.x
 	if col and gc == 0b00:
-		Velocity = Velocity.bounce(normal) * 1.1
+		if is_airjump and lastjumptime < 0.5:
+			#preform a wallbounce
+			var newbounce = $sounds/jumps.duplicate()
+			$sounds/stationary.add_child(newbounce)
+			newbounce.global_transform = global_transform
+			newbounce.unit_db = 0
+			newbounce.stream = $sounds.wallbounce_sound
+			newbounce.play()
+			wallbouncecount += 1
+			#clamp the wallbounce angle to be 45 degrees from the normal at most, based on input. 1.25x Velocity bonus.
+			var bounceoff = normal * min(Velocity.length() * (1.25 if (wallbouncecount == 1 || Velocity.length() > 16) else 1.0), 16)
+			Velocity = Vector3(bounceoff.x, max(0.0, Velocity.y + (jump_force if wallbouncecount == 1 else 0)), bounceoff.z)
+			is_airjump = false
+		else:
+			#hit the wall and lose speed in the direction of the wall
+			if col:
+				Velocity = Velocity.slide(normal)
 
 #Useful for things that sort of override other effects.
 func _unhandled_input(event: InputEvent) -> void:
 	if is_network_master():
-		if event.is_action_pressed('Jump') and full_contact:
-			Velocity.y = jump_force
+		if event.is_action_pressed('Jump'):
+			if check_ground() > 0b00:
+				FSM.set_state(FSM.states.JUMP)
+				Velocity.y = jump_force
+				$sounds/jumps.stream = $sounds.jump_sound
+				$sounds/jumps.play()
+				is_airjump = false
+			else:
+				if airtime < 0.5 && (FSM.state != "JUMP") && (Velocity.y <= 0.0):
+					#user has been airborn for a short period of time, do coyotetime jump	
+					Velocity.y = jump_force
+					$sounds/jumps.stream = $sounds.jump_sound
+					$sounds/jumps.play()
+					is_airjump = false
+				is_airjump = true
+			lastjumptime = 0.0
 		
 		if event.is_action_pressed("fire"):
 			if(currentWeapon): #Check isn't required- but just in case.
@@ -159,7 +211,7 @@ remote func Damage(damage, dealer : int = -1) -> void:
 
 remote func kill() -> void:
 	#enter DEAD state
-	FSM._enter_state(FSM.states.DEAD)
+	FSM.set_state(FSM.states.DEAD)
 	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
 	#set camera's target to the spawned corpse's viewtarget node
 
