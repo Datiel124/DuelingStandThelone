@@ -18,8 +18,10 @@ onready var dirt = $dirt
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.rotation_degrees.z = randi()
-	var nods = get_tree().get_nodes_in_group(\"BulletHoles\")
-	if nods.size() >= 10:
+	var n_group = \"bullethole\" + get_filename()
+	add_to_group(n_group)
+	var nods = get_tree().get_nodes_in_group(n_group)
+	if nods.size() >= 120:
 		nods[randi()%10].get_node(\"dissapear\").play('fade')
 	set_process(false)
 	$smoke.emitting = true
@@ -39,7 +41,6 @@ func _process(delta: float) -> void:
 func _on_VisibilityEnabler_screen_entered() -> void:
 	visible = true
 	pass # Replace with function body.
-
 
 func _on_VisibilityEnabler_screen_exited() -> void:
 	visible = false

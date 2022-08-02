@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/death-05.wav-e8464fdc0d7f0f1f2b2f6579a2394852.sample"
+
+[deps]
+
+source_file="res://Scenes/entities/Player/sounds/death-05.wav"
+dest_files=[ "res://.import/death-05.wav-e8464fdc0d7f0f1f2b2f6579a2394852.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=true
+edit/loop=false
+compress/mode=0

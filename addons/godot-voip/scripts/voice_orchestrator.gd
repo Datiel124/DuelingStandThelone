@@ -23,9 +23,11 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if get_tree().has_network_peer() && get_tree().is_network_server() && _id == null:
+		#has network peer, is server, _id is null
 		_create_instance(get_tree().get_network_unique_id())
 
 	if (!get_tree().has_network_peer() || !get_tree().is_network_server()) && _id == 1:
+		#no network peer, is not server, id is 1
 		_reset()
 
 func _create_instance(id: int) -> void:

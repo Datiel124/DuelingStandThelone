@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=34 format=2]
 
 [ext_resource path="res://Scenes/entities/Player/jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -9,6 +9,18 @@
 [ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
 [ext_resource path="res://Scenes/entities/Player/FSM_player.gd" type="Script" id=8]
 [ext_resource path="res://Scenes/entities/Player/wallbounce.wav" type="AudioStream" id=9]
+[ext_resource path="res://TextureAssets/pain-vignette.png" type="Texture" id=10]
+[ext_resource path="res://Scenes/entities/Player/pain_vignette.gdshader" type="Shader" id=11]
+[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-03.wav" type="AudioStream" id=12]
+[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-01.wav" type="AudioStream" id=13]
+[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-05.wav" type="AudioStream" id=14]
+[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-02.wav" type="AudioStream" id=15]
+[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-04.wav" type="AudioStream" id=16]
+[ext_resource path="res://Scenes/entities/Player/sounds/death-01.wav" type="AudioStream" id=17]
+[ext_resource path="res://Scenes/entities/Player/sounds/death-04.wav" type="AudioStream" id=18]
+[ext_resource path="res://Scenes/entities/Player/sounds/death-03.wav" type="AudioStream" id=19]
+[ext_resource path="res://Scenes/entities/Player/sounds/death-05.wav" type="AudioStream" id=20]
+[ext_resource path="res://Scenes/entities/Player/sounds/death-02.wav" type="AudioStream" id=21]
 
 [sub_resource type="GDScript" id=12]
 script/source = "extends Spatial
@@ -16,6 +28,7 @@ script/source = "extends Spatial
 export(AudioStream) var jump_sound
 export(AudioStream) var wallbounce_sound
 export(Array, AudioStream) var hurt_sounds 
+export(Array, AudioStream) var death_sounds
 
 export(Array, AudioStream) var footstep_sounds_generic
 export(Array, AudioStream) var footstep_sounds_wood
@@ -72,6 +85,40 @@ func _process(delta):
 				rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
 "
 
+[sub_resource type="OpenSimplexNoise" id=15]
+octaves = 9
+period = 0.1
+persistence = 0.817
+lacunarity = 2.2
+
+[sub_resource type="NoiseTexture" id=16]
+seamless = true
+noise = SubResource( 15 )
+
+[sub_resource type="ShaderMaterial" id=14]
+shader = ExtResource( 11 )
+shader_param/thresh = 1.0
+shader_param/color = Color( 1, 0, 0, 1 )
+shader_param/noise = SubResource( 16 )
+
+[sub_resource type="GDScript" id=19]
+script/source = "extends TextureRect
+
+var ouchiness = 1.0;
+
+func _on_Player_changeHealth(old, new) -> void:
+	var newt = $Tween
+	newt.stop_all()
+	var dur = (old/(max(0.1,new)) * 6)
+	newt.interpolate_property(self, \"ouchiness\", float(new)/100.0, 1.0, dur, Tween.TRANS_CIRC, Tween.EASE_OUT)
+	newt.start()
+	pass # Replace with function body.
+
+func _process(delta: float) -> void:
+	get_material().set_shader_param('thresh', ouchiness)
+	print(ouchiness)
+"
+
 [sub_resource type="StyleBoxFlat" id=7]
 bg_color = Color( 0, 0, 0, 0.45098 )
 border_color = Color( 0, 0, 0, 1 )
@@ -107,10 +154,15 @@ font_data = SubResource( 9 )
 [node name="Player" type="KinematicBody" groups=["Players"]]
 script = ExtResource( 2 )
 
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource( 8 )
+
 [node name="sounds" type="Spatial" parent="."]
 script = SubResource( 12 )
 jump_sound = ExtResource( 1 )
 wallbounce_sound = ExtResource( 9 )
+hurt_sounds = [ ExtResource( 13 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 16 ), ExtResource( 14 ) ]
+death_sounds = [ ExtResource( 17 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 20 ) ]
 
 [node name="stationary" type="Node" parent="sounds"]
 
@@ -118,6 +170,7 @@ wallbounce_sound = ExtResource( 9 )
 unit_db = -12.0
 unit_size = 2.0
 max_db = 0.0
+bus = "Gameplay"
 attenuation_filter_cutoff_hz = 20500.0
 attenuation_filter_db = 0.0
 __meta__ = {
@@ -125,19 +178,18 @@ __meta__ = {
 }
 
 [node name="hurt" type="AudioStreamPlayer3D" parent="sounds"]
+bus = "Gameplay"
 attenuation_filter_db = 0.0
 __meta__ = {
 "_editor_description_": "gettin hurt, gettin killed"
 }
 
 [node name="footstep" type="AudioStreamPlayer3D" parent="sounds"]
+bus = "Gameplay"
 attenuation_filter_db = 0.0
 __meta__ = {
 "_editor_description_": "foot step sound player, after figuring out what the floor material is"
 }
-
-[node name="StateMachine" type="Node" parent="."]
-script = ExtResource( 8 )
 
 [node name="Capsule" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
@@ -170,19 +222,32 @@ transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.527019, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
 
-[node name="UI" type="Control" parent="."]
+[node name="painvignette" type="TextureRect" parent="."]
+modulate = Color( 0.701961, 0, 0, 1 )
+material = SubResource( 14 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+texture = ExtResource( 10 )
+expand = true
+stretch_mode = 1
+script = SubResource( 19 )
+
+[node name="Tween" type="Tween" parent="painvignette"]
+
+[node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
 
-[node name="debug" type="Label" parent="UI"]
+[node name="debug" type="Label" parent="HUD"]
 margin_left = 25.0
 margin_top = 427.0
 margin_right = 65.0
 margin_bottom = 441.0
 text = "floor normal = "
 
-[node name="Crosshair" type="TextureRect" parent="UI"]
+[node name="Crosshair" type="TextureRect" parent="HUD"]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -196,13 +261,13 @@ texture = ExtResource( 3 )
 expand = true
 stretch_mode = 6
 
-[node name="HPPanel" parent="UI" instance=ExtResource( 5 )]
+[node name="HPPanel" parent="HUD" instance=ExtResource( 5 )]
 custom_styles/panel = SubResource( 7 )
 
-[node name="HpBar" parent="UI/HPPanel/Margin/Hbox" index="1"]
+[node name="HpBar" parent="HUD/HPPanel/Margin/Hbox" index="1"]
 custom_styles/fg = SubResource( 8 )
 
-[node name="speeddisplay" type="Label" parent="UI"]
+[node name="speeddisplay" type="Label" parent="HUD"]
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
@@ -213,7 +278,7 @@ margin_right = 31.0
 margin_bottom = -40.0
 text = "h speed - w"
 
-[node name="fpsdisplay" type="Label" parent="UI"]
+[node name="fpsdisplay" type="Label" parent="HUD"]
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -84.0
@@ -236,8 +301,9 @@ autostart = true
 wait_time = 3.0
 one_shot = true
 
-[connection signal="changeHealth" from="." to="UI/HPPanel" method="set_hp"]
+[connection signal="changeHealth" from="." to="painvignette" method="_on_Player_changeHealth"]
+[connection signal="changeHealth" from="." to="HUD/HPPanel" method="set_hp"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
 [connection signal="timeout" from="respawnTimer" to="." method="_on_respawnTimer_timeout"]
 
-[editable path="UI/HPPanel"]
+[editable path="HUD/HPPanel"]

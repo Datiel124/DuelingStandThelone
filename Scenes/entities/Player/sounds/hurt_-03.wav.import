@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/hurt_-03.wav-d0ad881794efc7d2e8b0c0eca8aaef57.sample"
+
+[deps]
+
+source_file="res://Scenes/entities/Player/sounds/hurt_-03.wav"
+dest_files=[ "res://.import/hurt_-03.wav-d0ad881794efc7d2e8b0c0eca8aaef57.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=true
+edit/loop=false
+compress/mode=0

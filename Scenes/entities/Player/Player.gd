@@ -17,12 +17,14 @@ var lastjumptime = 0.0;
 var is_airjump = false;
 var airtime = 0.0;
 #health
-var health = 100 setget setHealth
+var health : float = 100.0 setget setHealth
 func setHealth(newhealth):
 	newhealth = clamp(newhealth, 0, 100)
 	emit_signal('changeHealth', health, newhealth)
 	health = newhealth
 signal changeHealth(old, new)
+var spawn_invuln_time := 1.0
+var invulnerable := false
 
 #Weapon-selection references
 var currentWeapon
@@ -38,12 +40,14 @@ onready var hand_default_Pos : Vector3 = Hand.translation
 onready var FSM = $StateMachine
 
 func _ready() -> void:
+	if !get_tree().network_peer:
+		Network.createClient('192.168.0.0', 0)
 	if is_network_master():
 		setHealth(health)
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		currentWeapon = $Head/Holder.get_child(0)
 	else:
-		$UI.queue_free()
+		$HUD.queue_free()
 
 func _process(delta) -> void:
 	if is_network_master():
@@ -55,7 +59,7 @@ func _physics_process(delta) -> void:
 	if is_network_master():
 		direction = Vector3.ZERO
 		FSM._state_logic(delta)
-		$UI/speeddisplay.text = "h-speed : " + str(Vector2(Velocity.x, Velocity.z).length())
+		$HUD/speeddisplay.text = "h-speed : " + str(Vector2(Velocity.x, Velocity.z).length())
 
 #Tilts camera based on input.
 func view_roll(delta) -> void:
@@ -98,6 +102,7 @@ func calc_direction(delta) -> Vector3:
 #Applies the physics- just does move_and_slide.
 var lastnormal = Vector3.ZERO
 var wallbouncecount = 0.0
+
 func apply_physics(delta) -> void:
 	var snap = Vector3.DOWN if Velocity.y <= 0 else Vector3.ZERO
 	move_and_slide_with_snap(Velocity, snap, Vector3.UP)
@@ -117,7 +122,7 @@ func apply_physics(delta) -> void:
 		if normal.dot(Vector3.DOWN) > 0.9: # 0.9 high sameness
 			normal = Vector3.DOWN
 	if is_network_master():
-		$UI/debug.text = ("collision normal " + str(normal) + 
+		$HUD/debug.text = ("collision normal " + str(normal) + 
 		"\nis on floor " + str(is_on_floor()) +
 		"\nray check" + str($FloorCheck.is_colliding()) +
 		"\nlast normal " + str(lastnormal) + 
@@ -138,7 +143,7 @@ func apply_physics(delta) -> void:
 			if col:
 				horizontal = horizontal.slide(normal)
 		else:
-			var downhill = (Vector3.DOWN * gravity).bounce(get_floor_normal())
+			var downhill = (Vector3.DOWN).bounce(get_floor_normal())
 			horizontal = Velocity + (downhill * delta)
 	else:
 		#Player is airborne. Do air physics.
@@ -171,7 +176,7 @@ func apply_physics(delta) -> void:
 func _unhandled_input(event: InputEvent) -> void:
 	if is_network_master():
 		if event.is_action_pressed('Jump'):
-			if check_ground() > 0b00:
+			if check_ground() > 0b00 and FSM.states[FSM.state] != FSM.states.DEAD:
 				FSM.set_state(FSM.states.JUMP)
 				Velocity.y = jump_force
 				$sounds/jumps.stream = $sounds.jump_sound
@@ -203,22 +208,39 @@ func _unhandled_input(event: InputEvent) -> void:
 
 remote func Damage(damage, dealer : int = -1) -> void:
 	#-1 = no source specified
+	if FSM.states[FSM.state] == FSM.states.DEAD:
+		return
+	if invulnerable:
+		return
 	setHealth(health - damage)
 	if health <= 0:
 		#Ur dead as far as im concerned (probably make it servercliented again as this is just cliyent but it should be synced)
+		$sounds/hurt.stream = $sounds.death_sounds[randi()%$sounds.death_sounds.size()]
+		$sounds/hurt.play()
 		kill()
 		$respawnTimer.start()
+	else:
+		$sounds/hurt.stream = $sounds.hurt_sounds[randi()%$sounds.hurt_sounds.size()]
+		$sounds/hurt.play()
 
 remote func kill() -> void:
 	#enter DEAD state
 	FSM.set_state(FSM.states.DEAD)
 	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
 	#set camera's target to the spawned corpse's viewtarget node
+	visible = false
 
 func respawn() -> void:
 	setHealth(100)
 	Velocity = Vector3.ZERO
 	global_transform.origin = GameFuncts.get_random_spawnpoint().global_transform.origin
+	FSM.set_state(FSM.states.IDLE)
+	visible = true
+	invulnerable = true
+	$painvignette.ouchiness = 1.0;
+	$painvignette/Tween.stop_all()
+	yield(get_tree().create_timer(spawn_invuln_time), 'timeout')
+	invulnerable = false
 
 remote func syncPosition(transforms, vel, input):
 	#sync the position
@@ -230,7 +252,6 @@ func _on_networktick_timeout() -> void:
 	if is_network_master() and get_tree().get_network_connected_peers().size() > 0:
 		#Tell the server your new location, it will sync to the other clients
 		rpc_unreliable("syncPosition", global_transform, Velocity, direction)
-
 
 func _on_respawnTimer_timeout() -> void:
 	respawn()
