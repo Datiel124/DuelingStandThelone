@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://addons/godot-voip/scripts/voice_orchestrator.gd" type="Script" id=1]
 [ext_resource path="res://addons/godot-voip/demo/Network.gd" type="Script" id=2]
-[ext_resource path="res://icon.svg" type="Texture" id=3]
 
 [sub_resource type="GDScript" id=1]
 script/source = "extends Control
@@ -24,7 +23,7 @@ onready var labelLog: RichTextLabel = $MarginContainer/HBoxContainer/VBoxContain
 onready var spinBoxInputThreshold: SpinBox = $MarginContainer/HBoxContainer/VBoxContainer/HBoxContainer/Value
 
 onready var voice: VoiceOrchestrator = $VoiceOrchestrator
-onready var network: Network = $Network
+onready var network: vNetwork = $Network
 
 func _ready() -> void:
 	voice.connect(\"received_voice_data\", self, \"_received_voice_data\")
@@ -185,8 +184,8 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
 margin_left = 50.0
 margin_top = 50.0
-margin_right = 974.0
-margin_bottom = 550.0
+margin_right = 1550.0
+margin_bottom = 850.0
 custom_constants/separation = 50
 __meta__ = {
 "_edit_use_anchors_": false
@@ -194,7 +193,7 @@ __meta__ = {
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_right = 250.0
-margin_bottom = 500.0
+margin_bottom = 800.0
 rect_min_size = Vector2( 250, 0 )
 custom_constants/separation = 10
 __meta__ = {
@@ -388,7 +387,7 @@ __meta__ = {
 [node name="CenterContainer" type="CenterContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 margin_top = 344.0
 margin_right = 250.0
-margin_bottom = 500.0
+margin_bottom = 800.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -397,23 +396,22 @@ __meta__ = {
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/CenterContainer"]
 margin_left = 50.0
-margin_top = 3.0
+margin_top = 153.0
 margin_right = 200.0
-margin_bottom = 153.0
+margin_bottom = 303.0
 rect_min_size = Vector2( 150, 150 )
-texture = ExtResource( 3 )
 expand = true
 stretch_mode = 5
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
 margin_left = 300.0
-margin_right = 924.0
-margin_bottom = 500.0
+margin_right = 1500.0
+margin_bottom = 800.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 624.0
+margin_right = 1200.0
 margin_bottom = 14.0
 
 [node name="Label" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
@@ -434,8 +432,8 @@ __meta__ = {
 
 [node name="Log" type="RichTextLabel" parent="MarginContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 18.0
-margin_right = 624.0
-margin_bottom = 500.0
+margin_right = 1200.0
+margin_bottom = 800.0
 focus_mode = 2
 size_flags_vertical = 3
 scroll_following = true

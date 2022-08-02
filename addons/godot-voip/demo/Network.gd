@@ -1,5 +1,5 @@
 extends Node
-class_name Network
+class_name vNetwork
 
 var server_port := 3000
 var server_ip := "127.0.0.1"
