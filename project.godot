@@ -295,8 +295,6 @@ NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
 UserConfigs="*res://scripts/globals/UserConfigs.gd"
 Discord="*res://addons/discord_game_sdk/discord.gd"
 GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
-Options="res://Scenes/ui/options/Options.tscn"
-GlobalSettings="res://scripts/globals/global_settings.gd"
 MusicPlayer="*res://Scenes/entities/MusicPlayer/MusicPlayer.tscn"
 GameFuncts="*res://scripts/globals/game_functs.gd"
 
