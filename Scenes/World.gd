@@ -3,7 +3,7 @@ extends Node
 func _ready() -> void:
 	#check if online
 	get_tree().connect('server_disconnected', get_tree(), 'change_scene', ['res://Scenes/ui/menu/Main-Menu.tscn'])
-	Network.terminatePeer()
+	get_tree().connect('server_disconnected', Network, 'terminatePeer')
 	if get_tree().get_network_connected_peers().size() > 0:
 		#do stuff when user is online
 		pass

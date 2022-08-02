@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=2]
@@ -39,6 +39,32 @@ proximity_fade_distance = 2.0
 material = SubResource( 4 )
 radius = 14.0
 height = 28.0
+
+[sub_resource type="GDScript" id=5]
+script/source = "extends Area
+
+func _on_huirts_timeout() -> void:
+	for i in get_overlapping_bodies():
+		if i is Player:
+			if i.FSM.states[i.FSM.state] != i.FSM.states.DEAD:
+				i.Damage(pow(rand_range(0, 1.42281), 10))
+#				var canca = Timer.new()
+#				add_child(canca)
+#				var rate = randf()
+#				canca.start(rate)
+#				canca.connect('timeout', i, 'Damage', [randf()])
+#				yield(get_tree().create_timer(rate * rand_range(10, 100)), 'timeout')
+#				canca.queue_free()
+	pass # Replace with function body.
+"
+
+[sub_resource type="SphereShape" id=6]
+radius = 4.0
+
+[sub_resource type="SphereMesh" id=7]
+material = SubResource( 4 )
+radius = 4.0
+height = 9.0
 
 [node name="World" instance=ExtResource( 2 )]
 
@@ -215,8 +241,25 @@ process_mode = 0
 wait_time = 0.2
 autostart = true
 
+[node name="Area2" type="Area" parent="Level/objects" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9, 2.9, 52.2 )
+script = SubResource( 5 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Level/objects/Area2" index="0"]
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Level/objects/Area2" index="1"]
+mesh = SubResource( 7 )
+material/0 = null
+
+[node name="huirts" type="Timer" parent="Level/objects/Area2" index="2"]
+process_mode = 0
+wait_time = 0.2
+autostart = true
+
 [node name="DirectionalLight" type="DirectionalLight" parent="Level/lights" index="0"]
 transform = Transform( 0.619589, -0.460546, -0.635616, 0.0790126, -0.76907, 0.634262, -0.78094, -0.443204, -0.440118, 0, 18.945, -20.0077 )
 shadow_enabled = true
 
 [connection signal="timeout" from="Level/objects/Area/huirts" to="Level/objects/Area" method="_on_huirts_timeout"]
+[connection signal="timeout" from="Level/objects/Area2/huirts" to="Level/objects/Area2" method="_on_huirts_timeout"]

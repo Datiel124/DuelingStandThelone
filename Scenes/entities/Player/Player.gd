@@ -216,10 +216,14 @@ remote func Damage(damage, dealer : int = -1) -> void:
 	if health <= 0:
 		#Ur dead as far as im concerned (probably make it servercliented again as this is just cliyent but it should be synced)
 		$sounds/hurt.stream = $sounds.death_sounds[randi()%$sounds.death_sounds.size()]
+		$sounds/hurt.unit_db = 0.0
+		$sounds/hurt.pitch_scale = rand_range(1.3, 3.65)
 		$sounds/hurt.play()
 		kill()
 		$respawnTimer.start()
 	else:
+		$sounds/hurt.pitch_scale = rand_range(0.95, 1.05)
+		$sounds/hurt.unit_db = lerp(-15, 0, clamp(damage / 34, 0, 1))
 		$sounds/hurt.stream = $sounds.hurt_sounds[randi()%$sounds.hurt_sounds.size()]
 		$sounds/hurt.play()
 
