@@ -3,9 +3,12 @@
 [ext_resource path="res://Scenes/weapons/ParticleMaterial.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/weapons/projectiles/Projectile.gd" type="Script" id=2]
 
-[sub_resource type="CapsuleShape" id=1]
+[sub_resource type="SphereShape" id=9]
+radius = 0.1
 
 [sub_resource type="SphereMesh" id=8]
+radius = 0.1
+height = 0.2
 
 [sub_resource type="ParticlesMaterial" id=2]
 
@@ -23,10 +26,13 @@ material = ExtResource( 1 )
 material = ExtResource( 1 )
 
 [node name="Projectile" type="KinematicBody"]
+collision_layer = 0
+collision_mask = 7
 script = ExtResource( 2 )
+gravitymult = 0.1
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-shape = SubResource( 1 )
+shape = SubResource( 9 )
 
 [node name="substep" type="RayCast" parent="."]
 visible = false

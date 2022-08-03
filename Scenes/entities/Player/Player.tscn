@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/weapons/ProjectileWeaponBase.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
@@ -103,16 +103,15 @@ script/source = "extends TextureRect
 var ouchiness = 1.0;
 
 func _on_Player_changeHealth(old, new) -> void:
-	var newt = $Tween
-	newt.stop_all()
+	$Tween.stop_all()
 	var dur = (old/(max(0.1,new)) * 6)
-	newt.interpolate_property(self, \"ouchiness\", float(new)/100.0, 1.0, dur, Tween.TRANS_CIRC, Tween.EASE_OUT)
-	newt.start()
+	$Tween.interpolate_property(self, \"ouchiness\", float(new)/100.0, 1.0, dur, Tween.TRANS_CIRC, Tween.EASE_OUT)
+	$Tween.start()
 	pass # Replace with function body.
 
 func _process(delta: float) -> void:
 	get_material().set_shader_param('thresh', ouchiness)
-	print(ouchiness)
+#	print(ouchiness)
 "
 
 [sub_resource type="StyleBoxFlat" id=7]
@@ -149,6 +148,8 @@ font_data = SubResource( 9 )
 
 [node name="Player" type="KinematicBody" groups=["Players"]]
 script = ExtResource( 2 )
+
+[node name="projectiles" type="Node" parent="."]
 
 [node name="StateMachine" type="Node" parent="."]
 script = ExtResource( 8 )
@@ -213,8 +214,9 @@ sway_right = Vector3( 0, -0.3, 0.2 )
 sway_up = Vector3( 0.3, 0, 0 )
 sway_down = Vector3( -0.3, 0, 0 )
 
-[node name="ProjectileWeapon" parent="Head/Holder" instance=ExtResource( 4 )]
-transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.100048, 0, 0.600289 )
+[node name="Weapon" parent="Head/Holder" instance=ExtResource( 4 )]
+cooldown = 0.05
+bullet_speed = 200.0
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.527019, 0 )
@@ -302,6 +304,7 @@ one_shot = true
 
 [connection signal="changeHealth" from="." to="painvignette" method="_on_Player_changeHealth"]
 [connection signal="changeHealth" from="." to="HUD/HPPanel" method="set_hp"]
+[connection signal="spawnABullet" from="Head/Holder/Weapon" to="projectiles" method="add_child"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
 [connection signal="timeout" from="respawnTimer" to="." method="_on_respawnTimer_timeout"]
 

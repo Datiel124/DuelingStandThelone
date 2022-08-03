@@ -193,15 +193,12 @@ func _unhandled_input(event: InputEvent) -> void:
 					is_airjump = false
 				is_airjump = true
 			lastjumptime = 0.0
-		
-		if event.is_action_pressed("fire"):
-			if(currentWeapon): #Check isn't required- but just in case.
-				currentWeapon.shoot(event, get_tree().get_network_unique_id())
-			else:
-				#There is never a case where currentWeapon should be null- print an error.
-				printerr("Error! 'currentWeapon' not set.")
-				push_error("Error! 'currentWeapon' not set.")
-		
+		if(currentWeapon): #Check isn't required- but just in case.
+			currentWeapon._InputFromPlayer(event)
+		else:
+			#There is never a case where currentWeapon should be null- print an error.
+			printerr("Error! 'currentWeapon' not set.")
+			push_error("Error! 'currentWeapon' not set.")
 		if event is InputEventMouseMotion:
 			#TODO - Change Player structure. This should only rotate the mesh, which should have a position node for the camera to inherit transforms from.
 			rotation.y = fmod(rotation.y - event.relative.x * UserConfigs.aim_sens * get_process_delta_time(), 2*PI)
@@ -221,7 +218,7 @@ remote func Damage(damage, dealer : int = -1) -> void:
 		$respawnTimer.start()
 	else:
 		$sounds/hurt.pitch_scale = rand_range(0.95, 1.05)
-		$sounds/hurt.unit_db = lerp(-15, 0, clamp(damage / 34, 0, 1))
+		$sounds/hurt.unit_db = lerp(-10, 0, clamp(damage / 34, 0, 1))
 		$sounds/hurt.stream = $sounds.hurt_sounds[randi()%$sounds.hurt_sounds.size()]
 		$sounds/hurt.play()
 

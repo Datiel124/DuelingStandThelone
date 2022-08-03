@@ -4,99 +4,80 @@ class_name Weapon, 'res://DEV/class_icons/gunicon.png'
 onready var anim_player = $AnimationPlayer
 
 export(String) var WeaponName = "test_weapon"
-export var damage = 5
-export var _range = 8000
+export(PackedScene) var projectile
+export var fullauto : bool = false 
+export var cooldown = 0.2 setget setCooldown
+func setCooldown(new):
+	cooldown = new
+	$cooldown.wait_time = new
+export var bullet_speed = 20.0;
+
+#overrides bullet damage and explosion on spawn if available
+export var override_dmg = 0.0;
+export(PackedScene) var override_explosion;
 
 onready var b_hole = preload('res://Scenes/entities/BulletHole.tscn')
 onready var spark = preload("res://Scenes/entities/Spark/spark.tscn")
 
-func shoot(event : InputEvent, id : int = -1) -> void:
-	print("Shot fired by " + str(id) + " rpc called by " + str(get_tree().get_rpc_sender_id()))
-	#If called on server- calculate bullet trajectory (raycast), and calculate damage.
-	#If called on client- do the visuals of the shot.
-	var calc = getShotRay()
-	
+func _ready() -> void:
+	$cooldown.wait_time = cooldown
+
+var shooting : bool = false
+puppet var canShoot : bool = true
+func _InputFromPlayer(event:InputEvent) -> void:
+	if !is_network_master():
+		printerr("invalid Weapon access")
+		return
+	if fullauto:
+		if event.is_action_released('fire') || !canShoot:
+			#set shooting to false to disable autofire
+			shooting = false
+			$cooldown.disconnect('timeout', self, "rpc_id")
+			$cooldown.disconnect('timeout', self, "fire")
+	if $cooldown.time_left <= 0 && canShoot:
+		if fullauto:
+			if event.is_action_pressed('fire'):
+				#set shooting to true to enable autofire
+				shooting = true
+				rpc_id(1, "fire")
+				fire()
+				$cooldown.connect('timeout', self, "rpc_id", [1, "fire"])
+				$cooldown.connect('timeout', self, "fire")
+		else:
+			if event.is_action_pressed('fire'):
+				rpc_id(1, "fire")
+				fire()
+
+signal spawnABullet(bullet)
+remote func fire():
+	#When called by the client, it should rpc to the server. The server should then spawn the projectile.
+	#Check if you are the server.
 	if !get_tree().is_network_server():
-		#If client...
-		#display the visuals of the shot.
-		renderShot(calc.startpos, calc.endpos)
-		if get_tree().get_network_connected_peers().size() > 0:
-			#Tell the server to calculate damage.
-			rpc_id(1, "calculateDamage", calc.startpos, calc.endpos)
-		else:
-			#Singleplayer. Calculate damage yourself.
-			calculateDamage(calc.startpos, calc.endpos)
-	else:
-		#If server...
+		#Clients- Play the animations. Do nothing else.
 		if is_network_master():
-			#non-dedicated peer-to-peer compat
-			renderShot(calc.startpos, calc.endpos)
+			$cooldown.start(cooldown)
+		$sounds/shoot.stream = $sounds.shoot_sounds[randi()%$sounds.shoot_sounds.size()]
+		$sounds/shoot.play()
+		anim_player.stop()
+		anim_player.play("BaseShoot")
+		return
 
-func getShotRay(direction : Vector3 = Vector3(0, 0, -1)) -> Dictionary:
-	var startpos = get_viewport().get_camera().global_transform.origin
-	var newray = $RayCast.duplicate()
-	get_tree().get_root().add_child(newray)
-	newray.global_transform = get_viewport().get_camera().global_transform
-	newray.cast_to = direction.normalized() * _range
-	newray.force_raycast_update()
-	var missposition = newray.global_transform.basis.z * -_range
-	var endpos = newray.get_collision_point() if newray.is_colliding() else missposition
-	newray.queue_free()
-	return {"startpos":startpos, "endpos":endpos}
+#SERVER STUFF
+	if projectile:
+		var newproj :Projectile= projectile.instance()
+		newproj.name = filename + str(randi())
+		#Spawn the bullet locally, on the server.
+		emit_signal('spawnABullet', newproj)
+		#Tell everyone to spawn this bullet.
+		rpc("emit_signal", 'spawnABullet', newproj)
+		newproj.global_transform.origin = $MeshInstance/MuzzlePoint.global_transform.origin
+		newproj.Velocity = Vector3.FORWARD * bullet_speed
+		newproj.shooter = get_tree().get_rpc_sender_id()
+		if override_dmg:
+			newproj.damage = override_dmg
+		if override_explosion:
+			newproj.Explosion = override_explosion
 
-remote func renderShot(startpos : Vector3, endpos : Vector3) -> void:
-	#Convert start/end to a direction.
-	$AnimationPlayer.stop()
-	$AnimationPlayer.play('BaseShoot')
-	var dir = startpos.direction_to(endpos)
-	
-	#Create a raycast. 
-	var newray = RayCast.new()
-	$RayCast.add_child(newray)
-	newray.global_transform.origin = startpos
-	newray.cast_to = -_range * dir
-	newray.force_raycast_update()
-	var missposition = newray.global_transform.basis.z * -_range
+remote func createProjectile():
 	pass
 
-#The 'puppet' key word means the owner of this node cannot call this function. It must be called externally.
-remote func createBulletHole(pos, looktgt):
-	print("smack that at " + str(pos) + str(looktgt))
-	var newb : Spatial = b_hole.instance()
-	get_tree().get_root().add_child(newb)
-	newb.global_transform.origin = pos
-	newb.look_at(looktgt, Vector3.UP)
-	pass
-
-puppet func calculateDamage(startpos : Vector3, endpos : Vector3) -> void:
-	#Calculate whether or not the raycast sent by the client actually hits an enemy.
-	#In order to do this, we need to re-do the ray casting, so we need to convert startpos and endpos to a startpos and direction.
-	#Then, cast the ray, and then, get collisions, check for players, etc.
-	#Convert start/end to a direction.
-	var dir = startpos.direction_to(endpos)
-	
-	#Create a raycast. 
-	var newray = RayCast.new()
-	$RayCast.add_child(newray)
-	newray.global_transform.origin = startpos
-	newray.cast_to = -_range * dir
-	newray.force_raycast_update()
-	var missposition = newray.global_transform.basis.z * -_range
-	
-	#Check for collisions within the raycast.
-	if newray.is_colliding():
-		var hitobj = newray.get_collider()
-		if hitobj is Player || hitobj.has_method("Damage"):
-			#Broadcast to everyone that the player is getting hit, and is taking damage.
-			hitobj.rpc("Damage", damage)
-			#Do it on the server so the health is known. yea
-			hitobj.Damage(damage)
-		else:
-			print("Hit a thing")
-			#Spawn a bullet hole at the destination position pointing away from the collision normal.
-			#Unreliable cuz idk how many bullet holes will be made, probably too many, doesnt matter so much
-			rpc_unreliable("createBulletHole", endpos, (endpos + newray.get_collision_normal()))
-			if is_network_master():
-				#compat
-				createBulletHole(endpos, (endpos + newray.get_collision_normal()))
-	pass

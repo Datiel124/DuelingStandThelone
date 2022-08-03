@@ -2,7 +2,7 @@ extends KinematicBody
 class_name Projectile, 'res://DEV/class_icons/projectile.png'
 
 var Velocity : Vector3 = Vector3.ZERO
-
+var shooter : int = -1
 var spawnpos : Vector3
 
 export(PackedScene) var Explosion
@@ -18,11 +18,17 @@ func _ready() -> void:
 	spawnpos = global_transform.origin
 
 func _physics_process(delta: float) -> void:
+	#Server - tell all of the clients where this bullet should 'actually' be.
+	if get_tree().is_network_server():
+		rpc("syncpos", global_transform)
+	
 	look_at(global_transform.origin + Velocity, Vector3.UP)
-	var hit = move_and_collide(Velocity)
+	var hit = move_and_collide(Velocity * delta)
 	if hit:
 		var col = hit.collider
 		if col is Player:
+			if col.get_network_master() == shooter:
+				return
 			if impactAdditive:
 				var launchdir = impactLaunch * Velocity.normalized()
 				col.Velocity += Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z);
@@ -30,8 +36,11 @@ func _physics_process(delta: float) -> void:
 				var launchdir = impactLaunch * Velocity.normalized()
 				col.Velocity = Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z);
 			col.Damage(damage)
-			explode()
+		explode()
 	Velocity.y -= delta * gravitymult * 98
+
+remote func syncpos(t : Transform):
+	global_transform = t
 
 func explode():
 	if Explosion:
