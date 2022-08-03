@@ -175,8 +175,10 @@ func apply_physics(delta) -> void:
 #Useful for things that sort of override other effects.
 func _unhandled_input(event: InputEvent) -> void:
 	if is_network_master():
+		if FSM.state == "DEAD":
+				return
 		if event.is_action_pressed('Jump'):
-			if check_ground() > 0b00 and FSM.states[FSM.state] != FSM.states.DEAD:
+			if check_ground() > 0b00:
 				FSM.set_state(FSM.states.JUMP)
 				Velocity.y = jump_force
 				$sounds/jumps.stream = $sounds.jump_sound
@@ -194,7 +196,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		
 		if event.is_action_pressed("fire"):
 			if(currentWeapon): #Check isn't required- but just in case.
-				currentWeapon.shoot()
+				currentWeapon.shoot(event, get_tree().get_network_unique_id())
 			else:
 				#There is never a case where currentWeapon should be null- print an error.
 				printerr("Error! 'currentWeapon' not set.")
@@ -215,10 +217,6 @@ remote func Damage(damage, dealer : int = -1) -> void:
 	setHealth(health - damage)
 	if health <= 0:
 		#Ur dead as far as im concerned (probably make it servercliented again as this is just cliyent but it should be synced)
-		$sounds/hurt.stream = $sounds.death_sounds[randi()%$sounds.death_sounds.size()]
-		$sounds/hurt.unit_db = 0.0
-		$sounds/hurt.pitch_scale = rand_range(1.3, 3.65)
-		$sounds/hurt.play()
 		kill()
 		$respawnTimer.start()
 	else:
@@ -229,6 +227,10 @@ remote func Damage(damage, dealer : int = -1) -> void:
 
 remote func kill() -> void:
 	#enter DEAD state
+	$sounds/hurt.stream = $sounds.death_sounds[randi()%$sounds.death_sounds.size()]
+	$sounds/hurt.unit_db = 0.0
+	$sounds/hurt.pitch_scale = rand_range(0.99, 1.01)
+	$sounds/hurt.play()
 	FSM.set_state(FSM.states.DEAD)
 	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
 	#set camera's target to the spawned corpse's viewtarget node

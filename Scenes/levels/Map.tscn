@@ -7,7 +7,7 @@
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=5]
 [ext_resource path="res://Scenes/weapons/laserturret/laserturret.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/environments/skyboxes/furry_clouds_4k.hdr" type="Texture" id=7]
-[ext_resource path="res://Scenes/entities/Explosion/explosion.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=8]
 
 [sub_resource type="PanoramaSky" id=1]
 radiance_size = 3

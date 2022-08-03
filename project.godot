@@ -149,6 +149,16 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/entities/Player/Player.gd"
 }, {
+"base": "KinematicBody",
+"class": "Projectile",
+"language": "GDScript",
+"path": "res://Scenes/weapons/projectiles/Projectile.gd"
+}, {
+"base": "Spatial",
+"class": "ProjectileWeapon",
+"language": "GDScript",
+"path": "res://Scenes/weapons/ProjectileWeapon.gd"
+}, {
 "base": "Reference",
 "class": "RichPresence",
 "language": "GDScript",
@@ -258,6 +268,8 @@ _global_script_class_icons={
 "Mod": "",
 "ModPlayer": "res://addons/modplayer/icon.png",
 "Player": "",
+"Projectile": "res://DEV/class_icons/projectile.png",
+"ProjectileWeapon": "res://DEV/class_icons/gunicon.png",
 "RichPresence": "",
 "RichPresenceButton": "",
 "RichPresenceModule": "",
@@ -270,7 +282,7 @@ _global_script_class_icons={
 "VoiceInstance": "",
 "VoiceMic": "",
 "VoiceOrchestrator": "",
-"Weapon": "",
+"Weapon": "res://DEV/class_icons/gunicon.png",
 "WindowsPipe": "",
 "XM": "",
 "vNetwork": ""
@@ -383,6 +395,27 @@ pause={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777217,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
  ]
 }
+
+[layer_names]
+
+3d_render/layer_1="Detail 0"
+3d_render/layer_2="Detail 1"
+3d_render/layer_3="Detail 2"
+3d_render/layer_4="Detail 3"
+3d_render/layer_5="Detail 4"
+3d_render/layer_6="Foliage_extra"
+3d_render/layer_7="Particles_extra"
+3d_render/layer_8="Lights_extra"
+3d_render/layer_9="CUSTOM-server"
+3d_render/layer_10="CUSTOM-user"
+3d_physics/layer_1="Terrain"
+3d_physics/layer_2="Player"
+3d_physics/layer_3="Rigidbodies"
+3d_physics/layer_4="Water"
+3d_physics/layer_5="Hardness_25"
+3d_physics/layer_6="Hardness_50"
+3d_physics/layer_7="Hardness_75"
+3d_physics/layer_8="Hardness_100"
 
 [physics]
 

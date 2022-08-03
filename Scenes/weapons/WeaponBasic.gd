@@ -1,6 +1,5 @@
 extends Spatial
-
-class_name Weapon
+class_name Weapon, 'res://DEV/class_icons/gunicon.png'
 
 onready var anim_player = $AnimationPlayer
 
@@ -11,7 +10,7 @@ export var _range = 8000
 onready var b_hole = preload('res://Scenes/entities/BulletHole.tscn')
 onready var spark = preload("res://Scenes/entities/Spark/spark.tscn")
 
-func shoot(id : int = -1) -> void:
+func shoot(event : InputEvent, id : int = -1) -> void:
 	print("Shot fired by " + str(id) + " rpc called by " + str(get_tree().get_rpc_sender_id()))
 	#If called on server- calculate bullet trajectory (raycast), and calculate damage.
 	#If called on client- do the visuals of the shot.

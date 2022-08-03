@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/weapons/ProjectileWeaponBase.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
@@ -206,14 +206,15 @@ shape = SubResource( 2 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19813, 0 )
 
 [node name="Holder" type="Spatial" parent="Head"]
-transform = Transform( 0.999519, 0, 0, 0, 0.999519, 0, 0, 0, 0.999519, 0.642409, -0.648897, -1.71594 )
+transform = Transform( 0.999519, 0, 0, 0, 0.999519, 0, 0, 0, 0.999519, 0.842409, -0.648897, -1.71594 )
 script = SubResource( 11 )
 sway_left = Vector3( 0, 0.3, -0.2 )
 sway_right = Vector3( 0, -0.3, 0.2 )
 sway_up = Vector3( 0.3, 0, 0 )
 sway_down = Vector3( -0.3, 0, 0 )
 
-[node name="Weapon" parent="Head/Holder" instance=ExtResource( 4 )]
+[node name="ProjectileWeapon" parent="Head/Holder" instance=ExtResource( 4 )]
+transform = Transform( 0.999999, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0.100048, 0, 0.600289 )
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.527019, 0 )
