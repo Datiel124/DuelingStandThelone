@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Scenes/weapons/ParticleMaterial.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/weapons/projectiles/Projectile.gd" type="Script" id=2]
@@ -6,9 +6,17 @@
 [sub_resource type="SphereShape" id=9]
 radius = 0.1
 
+[sub_resource type="SpatialMaterial" id=10]
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+albedo_color = Color( 6, 6, 0, 1 )
+
 [sub_resource type="SphereMesh" id=8]
+material = SubResource( 10 )
 radius = 0.1
 height = 0.2
+radial_segments = 4
+rings = 1
 
 [sub_resource type="ParticlesMaterial" id=2]
 
@@ -64,6 +72,7 @@ draw_pass_1 = SubResource( 7 )
 
 [node name="lifetime" type="Timer" parent="."]
 wait_time = 10.0
+one_shot = true
 autostart = true
 
 [connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]

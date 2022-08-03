@@ -19,6 +19,7 @@ var airtime = 0.0;
 #health
 var health : float = 100.0 setget setHealth
 func setHealth(newhealth):
+	#if server - sync health across all clients
 	newhealth = clamp(newhealth, 0, 100)
 	emit_signal('changeHealth', health, newhealth)
 	health = newhealth
@@ -205,14 +206,22 @@ func _unhandled_input(event: InputEvent) -> void:
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
 
-remote func Damage(damage, dealer : int = -1) -> void:
-	#-1 = no source specified
+remote func Damage(damage, dealer : int = -1, currentHealth : int = health) -> void:
+	#-1 = no source(id) specified
+	#various exit states
+	
+	# ////  CURRENT ISSUE
+	# Not very secure in terms of cheats. Should preferrably have damage handled entirely on the server- currently it is handled both between client and server in a weird way.
+	# leads to potential desyncs. leads to multi-hits. Buggin.
+	
 	if FSM.states[FSM.state] == FSM.states.DEAD:
 		return
 	if invulnerable:
 		return
-	setHealth(health - damage)
-	if health <= 0:
+
+	#actual damaging
+	setHealth(currentHealth - damage)
+	if (currentHealth - damage) <= 0:
 		#Ur dead as far as im concerned (probably make it servercliented again as this is just cliyent but it should be synced)
 		kill()
 		$respawnTimer.start()
@@ -246,15 +255,23 @@ func respawn() -> void:
 	invulnerable = false
 
 remote func syncPosition(transforms, vel, input):
-	#sync the position
+	#Server - Update the locally stored position of the player. Notify all of the other players.
 	global_transform = transforms
 	Velocity = vel
 	direction = input
+	if get_tree().is_network_server():
+		#if you are the server, notify everyone except the sender about their position
+		for i in get_tree().get_network_connected_peers():
+			if i != get_tree().get_rpc_sender_id():
+				rpc_unreliable_id(i, "syncPosition", global_transform, Velocity, direction)
 
 func _on_networktick_timeout() -> void:
 	if is_network_master() and get_tree().get_network_connected_peers().size() > 0:
 		#Tell the server your new location, it will sync to the other clients
-		rpc_unreliable("syncPosition", global_transform, Velocity, direction)
+		if !get_tree().is_network_server():
+			rpc_unreliable_id(1, "syncPosition", global_transform, Velocity, direction)
+		else:
+			syncPosition(global_transform, Velocity, direction)
 
 func _on_respawnTimer_timeout() -> void:
 	respawn()

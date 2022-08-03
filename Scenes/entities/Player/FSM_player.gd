@@ -60,13 +60,15 @@ func _get_transition(delta):
 func _enter_state(new_state, old_state):
 	match new_state:
 		states.DEAD:
-			get_node("../HUD").visible = false
+			if is_network_master():
+				get_node("../HUD").visible = false
 			return
 
 #Sometimes exitting a state should do something.
 func _exit_state(old_state, new_state):
 	match old_state:
 		states.DEAD:
-			get_node("../HUD").visible = true
+			if is_network_master():
+				get_node("../HUD").visible = true
 			return
 	pass

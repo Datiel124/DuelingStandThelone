@@ -42,7 +42,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ), Vector3( 8.967, 0, 0 ), Vector3( 7.52259, 0.184251, 1.40711 ), Vector3( 6.308, 0, 0 ), Vector3( 3.27221, -0.175116, -3.065 ), Vector3( 0, 0, 0 ), Vector3( -0.934, 0, 0 ), Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("MeshInstance/MuzzlePoint/flash:light_energy")
+tracks/2/path = NodePath("MuzzlePoint/flash:light_energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -81,7 +81,7 @@ tracks/1/keys = {
 "values": [ Vector3( 0, 0, 0 ) ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("MeshInstance/MuzzlePoint/flash:light_energy")
+tracks/2/path = NodePath("MuzzlePoint/flash:light_energy")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
@@ -114,17 +114,17 @@ attenuation_filter_db = 0.0
 mesh = SubResource( 1 )
 material/0 = null
 
-[node name="MuzzlePoint" type="Position3D" parent="MeshInstance"]
+[node name="MuzzlePoint" type="Position3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1.63739, 0, 0, 0, 0.261205, 0.110189, 0.0181168, -1.07296 )
 
-[node name="flash" type="OmniLight" parent="MeshInstance/MuzzlePoint"]
+[node name="flash" type="OmniLight" parent="MuzzlePoint"]
 transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, 0, 0, 0 )
 light_color = Color( 1, 0.788235, 0.0588235, 1 )
 light_energy = 0.0
 shadow_enabled = true
 omni_range = 10.0
 
-[node name="Particles" type="Particles" parent="MeshInstance/MuzzlePoint"]
+[node name="Particles" type="Particles" parent="MuzzlePoint"]
 transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.107879, -0.0114185, 0.320132 )
 emitting = false
 amount = 16

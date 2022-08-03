@@ -217,6 +217,7 @@ sway_down = Vector3( -0.3, 0, 0 )
 [node name="Weapon" parent="Head/Holder" instance=ExtResource( 4 )]
 cooldown = 0.05
 bullet_speed = 200.0
+override_dmg = 9.0
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.527019, 0 )

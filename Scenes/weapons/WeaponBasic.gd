@@ -39,45 +39,47 @@ func _InputFromPlayer(event:InputEvent) -> void:
 			if event.is_action_pressed('fire'):
 				#set shooting to true to enable autofire
 				shooting = true
-				rpc_id(1, "fire")
-				fire()
+				rpc_id(1, "fire", $MuzzlePoint.global_transform)
+				fire($MuzzlePoint.global_transform)
 				$cooldown.connect('timeout', self, "rpc_id", [1, "fire"])
 				$cooldown.connect('timeout', self, "fire")
 		else:
 			if event.is_action_pressed('fire'):
-				rpc_id(1, "fire")
-				fire()
+				rpc_id(1, "fire", $MuzzlePoint.global_transform)
+				fire($MuzzlePoint.global_transform)
 
 signal spawnABullet(bullet)
-remote func fire():
-	#When called by the client, it should rpc to the server. The server should then spawn the projectile.
-	#Check if you are the server.
+remote func fire(muzzletf : Transform):
+	#Clients- Play the animations. Do nothing else.
+	if is_network_master():
+		$cooldown.start(cooldown)
+	$sounds/shoot.stream = $sounds.shoot_sounds[randi()%$sounds.shoot_sounds.size()]
+	$sounds/shoot.play()
+	anim_player.stop()
+	anim_player.play("BaseShoot")
 	if !get_tree().is_network_server():
-		#Clients- Play the animations. Do nothing else.
-		if is_network_master():
-			$cooldown.start(cooldown)
-		$sounds/shoot.stream = $sounds.shoot_sounds[randi()%$sounds.shoot_sounds.size()]
-		$sounds/shoot.play()
-		anim_player.stop()
-		anim_player.play("BaseShoot")
 		return
 
 #SERVER STUFF
 	if projectile:
-		var newproj :Projectile= projectile.instance()
-		newproj.name = filename + str(randi())
-		#Spawn the bullet locally, on the server.
-		emit_signal('spawnABullet', newproj)
-		#Tell everyone to spawn this bullet.
-		rpc("emit_signal", 'spawnABullet', newproj)
-		newproj.global_transform.origin = $MeshInstance/MuzzlePoint.global_transform.origin
-		newproj.Velocity = Vector3.FORWARD * bullet_speed
-		newproj.shooter = get_tree().get_rpc_sender_id()
-		if override_dmg:
-			newproj.damage = override_dmg
-		if override_explosion:
-			newproj.Explosion = override_explosion
+		var id = str(randi())
+		rpc("createProjectile", muzzletf, id)
+		createProjectile(muzzletf, id)
+	for i in get_tree().get_network_connected_peers():
+		if i != get_tree().get_rpc_sender_id():
+			rpc_id(i, "fire", muzzletf)
 
-remote func createProjectile():
+remote func createProjectile(spawntransforms : Transform, suffix : String):
+	var newproj :Projectile= projectile.instance()
+	newproj.name = filename + suffix
+	#Spawn the bullet locally, on the server.
+	emit_signal('spawnABullet', newproj)
+	newproj.global_transform.origin = spawntransforms.origin
+	newproj.Velocity = -spawntransforms.basis.z * bullet_speed
+	newproj.shooter = get_tree().get_rpc_sender_id()
+	if override_dmg:
+		newproj.damage = override_dmg
+	if override_explosion:
+		newproj.Explosion = override_explosion
 	pass
 
