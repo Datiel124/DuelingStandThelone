@@ -5,6 +5,7 @@
 [ext_resource path="res://Scenes/ui/multiplayer/HOSTdialogue.tscn" type="PackedScene" id=3]
 
 [node name="Control" type="PopupPanel"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_right = -904.0
@@ -53,6 +54,13 @@ text = "JOIN"
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="usernamefield" type="TextEdit" parent="Control"]
+margin_left = 52.0
+margin_top = 76.0
+margin_right = 608.0
+margin_bottom = 144.0
+text = "username"
 
 [node name="HOSTdialogue" parent="." instance=ExtResource( 3 )]
 margin_left = -344.0

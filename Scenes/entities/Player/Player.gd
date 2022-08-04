@@ -136,16 +136,12 @@ func apply_physics(delta) -> void:
 		var add_speed
 		wallbouncecount = 0
 		airtime = 0.0
-		if !Input.is_action_pressed('Jump'):
-			Velocity = Velocity.move_toward(Vector3.ZERO, friction * delta)
-			cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z)) #?????
-			add_speed = clamp(max_ground_speed - cur_speed, 0, max_ground_speed)
-			horizontal = lerp(Velocity, Velocity + (add_speed * direction), normal_accel * delta)
-			if col:
-				horizontal = horizontal.slide(normal)
-		else:
-			var downhill = (Vector3.DOWN).bounce(get_floor_normal())
-			horizontal = Velocity + (downhill * delta)
+		Velocity = Velocity.move_toward(Vector3.ZERO, friction * delta)
+		cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z)) #?????
+		add_speed = clamp(max_ground_speed - cur_speed, 0, max_ground_speed)
+		horizontal = lerp(Velocity, Velocity + (add_speed * direction), normal_accel * delta)
+		if col:
+			horizontal = horizontal.slide(normal)
 	else:
 		#Player is airborne. Do air physics.
 		var cur_speed = Vector2(Velocity.x,Velocity.z).dot(Vector2(direction.x, direction.z))

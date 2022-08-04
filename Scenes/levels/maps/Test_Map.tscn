@@ -47,14 +47,13 @@ func _on_huirts_timeout() -> void:
 	for i in get_overlapping_bodies():
 		if i is Player:
 			if i.FSM.states[i.FSM.state] != i.FSM.states.DEAD:
-				i.Damage(pow(rand_range(0, 1.42281), 10))
-#				var canca = Timer.new()
-#				add_child(canca)
-#				var rate = randf()
-#				canca.start(rate)
-#				canca.connect('timeout', i, 'Damage', [randf()])
-#				yield(get_tree().create_timer(rate * rand_range(10, 100)), 'timeout')
-#				canca.queue_free()
+				i.Damage(5)
+				var canca = Timer.new()
+				add_child(canca)
+				canca.start(0.666666)
+				canca.connect('timeout', i, 'Damage', [1.0])
+				yield(get_tree().create_timer(0.666667 * 5.0), 'timeout')
+				canca.queue_free()
 	pass # Replace with function body.
 "
 

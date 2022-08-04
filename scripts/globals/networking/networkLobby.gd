@@ -16,7 +16,7 @@ func _ready():
 #Info of other players. Associate ID to data
 var player_info = {}
 #Info we need to send to other players.
-var my_info = {name = "username"}
+var my_info = {username = "username"}
 
 #Server snapshot system
 var players_ready :int= 0

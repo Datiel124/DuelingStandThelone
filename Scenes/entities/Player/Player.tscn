@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=2]
+[gd_scene load_steps=35 format=2]
 
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -21,6 +21,7 @@
 [ext_resource path="res://Scenes/entities/Player/sounds/death-03.wav" type="AudioStream" id=19]
 [ext_resource path="res://Scenes/entities/Player/sounds/death-05.wav" type="AudioStream" id=20]
 [ext_resource path="res://Scenes/entities/Player/sounds/death-02.wav" type="AudioStream" id=21]
+[ext_resource path="res://Scenes/ui/hud/playerlist.tscn" type="PackedScene" id=22]
 
 [sub_resource type="GDScript" id=12]
 script/source = "extends Spatial
@@ -103,7 +104,6 @@ script/source = "extends TextureRect
 var ouchiness = 1.0;
 
 func _on_Player_changeHealth(old, new) -> void:
-	$Tween.stop_all()
 	var dur = (old/(max(0.1,new)) * 6)
 	$Tween.interpolate_property(self, \"ouchiness\", float(new)/100.0, 1.0, dur, Tween.TRANS_CIRC, Tween.EASE_OUT)
 	$Tween.start()
@@ -293,6 +293,8 @@ custom_fonts/font = SubResource( 10 )
 text = "FPS: 60
 client"
 script = ExtResource( 7 )
+
+[node name="playerlist" parent="HUD" instance=ExtResource( 22 )]
 
 [node name="networktick" type="Timer" parent="."]
 process_mode = 0

@@ -4,7 +4,7 @@
 script/source = "extends Popup
 
 func _ready() -> void:
-	get_tree().connect('connected_to_server', get_tree(), 'change_scene', ['res://Scenes/levels/lobbies/lobby.tscn'])
+	get_tree().connect('connected_to_server', get_tree(), 'change_scene', ['res://Scenes/levels/lobbies/Lobby_Map.tscn'])
 
 func _on_Button_pressed() -> void:
 	var port = $Panel/port.value
