@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://TextureAssets/cobblestone/TexturesCom_Pavement_CobblestoneMedieval10_2x2_512_roughness.png" type="Texture" id=2]
+[ext_resource path="res://TextureAssets/cobblestone/TexturesCom_Pavement_CobblestoneMedieval10_2x2_512_ao.png" type="Texture" id=3]
+[ext_resource path="res://TextureAssets/cobblestone/TexturesCom_Pavement_CobblestoneMedieval10_2x2_512_normal.png" type="Texture" id=4]
+
+[sub_resource type="SpatialMaterial" id=2]
+albedo_color = Color( 0.172549, 0.172549, 0.172549, 1 )
+roughness_texture = ExtResource( 2 )
+normal_enabled = true
+normal_scale = 0.1
+normal_texture = ExtResource( 4 )
+ao_enabled = true
+ao_light_affect = 1.0
+ao_texture = ExtResource( 3 )
+ao_on_uv2 = false
+ao_texture_channel = 0
+uv1_scale = Vector3( 0.1, 0.1, 0.1 )
+uv1_triplanar = true
+uv1_triplanar_sharpness = 3.13833
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 14, 8, 18, 0, 0, 24, 0, 0, -24, 14, 18, -32, 0, 0, 0, 0, 0, 0, 14, 8, -82 ),
+"tilts": PoolRealArray( 0, 0, 0 )
+}
+
+[node name="CsgBridge" type="CSGPolygon"]
+polygon = PoolVector2Array( -7.05664, 2.99846, -7.95, 3, -7.95, 0, 13.9, 0, 13.9, 3, 13.05, 3, 11.95, 2, -6.05, 2.05 )
+mode = 2
+path_node = NodePath("Path")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 2.5
+path_rotation = 1
+path_local = true
+path_continuous_u = false
+path_u_distance = 1.0
+path_joined = false
+smooth_faces = true
+material = SubResource( 2 )
+
+[node name="Path" type="Path" parent="."]
+curve = SubResource( 1 )

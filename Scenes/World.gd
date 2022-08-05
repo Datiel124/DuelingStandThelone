@@ -10,10 +10,16 @@ func _ready() -> void:
 	else:
 		#do stuff when user is offline
 		if get_tree().network_peer :
+			if $Players.get_children().size() > 0:
+				#player already exists in map for debugging purpsoes
+				return
 			var player = addPlayerToWorld(get_tree().get_network_unique_id())
 #			player.global_transform.origin = 
 			player.global_transform.origin = GameFuncts.get_map_spawns()[0].global_transform.origin
-		pass
+		else:
+			Network.createClient("192.168.0.0", 0)
+			var player = addPlayerToWorld(get_tree().get_network_unique_id())
+			player.global_transform.origin = GameFuncts.get_map_spawns()[0].global_transform.origin
 	pass
 
 func addPlayerToWorld(id) -> Player:

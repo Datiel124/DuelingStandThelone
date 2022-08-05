@@ -329,6 +329,11 @@ first_button/url="https://trello.com/b/zqK4dURv/operation-stand-the-lone"
 window/size/width=1600
 window/size/height=900
 
+[editor]
+
+version_control_autoload_on_startup=true
+version_control_plugin_name="GitAPI"
+
 [editor_plugins]
 
 enabled=PoolStringArray( "res://addons/CSGStairs/plugin.cfg", "res://addons/discord_game_sdk/plugin.cfg", "res://addons/file_loader/plugin.cfg", "res://addons/godot-voip/plugin.cfg", "res://addons/modplayer/plugin.cfg", "res://addons/multirun/plugin.cfg", "res://addons/node_referencer/plugin.cfg" )
@@ -416,6 +421,11 @@ show_playerlist={
 3d_physics/layer_7="Hardness_75"
 3d_physics/layer_8="Hardness_100"
 
+[network]
+
+limits/debugger_stdout/max_errors_per_second=60
+limits/debugger_stdout/max_warnings_per_second=60
+
 [physics]
 
 common/physics_fps=144
@@ -423,4 +433,5 @@ common/enable_pause_aware_picking=true
 
 [rendering]
 
+gles3/shaders/shader_compilation_mode=2
 environment/default_environment="res://default_env.tres"

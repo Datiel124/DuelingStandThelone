@@ -11,6 +11,7 @@ func setCooldown(new):
 	cooldown = new
 	$cooldown.wait_time = new
 export var bullet_speed = 20.0;
+onready var mesh = $MeshInstance
 
 #overrides bullet damage and explosion on spawn if available
 export var override_dmg = 0.0;
@@ -24,6 +25,12 @@ func _ready() -> void:
 
 var shooting : bool = false
 puppet var canShoot : bool = true
+
+func stopShooting() -> void:
+	shooting = false
+	$cooldown.disconnect('timeout', self, "rpc_id")
+	$cooldown.disconnect('timeout', self, "_InputFromPlayer")
+
 func _InputFromPlayer(event:InputEvent) -> void:
 	if !is_network_master():
 		printerr("invalid Weapon access")
@@ -33,23 +40,37 @@ func _InputFromPlayer(event:InputEvent) -> void:
 			#set shooting to false to disable autofire
 			shooting = false
 			$cooldown.disconnect('timeout', self, "rpc_id")
-			$cooldown.disconnect('timeout', self, "fire")
+			$cooldown.disconnect('timeout', self, "_InputFromPlayer")
 	if $cooldown.time_left <= 0 && canShoot:
 		if fullauto:
 			if event.is_action_pressed('fire'):
 				#set shooting to true to enable autofire
 				shooting = true
-				rpc_id(1, "fire", $MuzzlePoint.global_transform)
-				fire($MuzzlePoint.global_transform)
-				$cooldown.connect('timeout', self, "rpc_id", [1, "fire"])
-				$cooldown.connect('timeout', self, "fire")
+				rpc_id(1, "fire", $ProjectileSpawn.global_transform)
+				fire($ProjectileSpawn.global_transform)
+				$cooldown.connect('timeout', self, "rpc_id", [1, "_InputFromPlayer", event])
+				$cooldown.connect('timeout', self, "_InputFromPlayer", [event])
 		else:
 			if event.is_action_pressed('fire'):
-				rpc_id(1, "fire", $MuzzlePoint.global_transform)
-				fire($MuzzlePoint.global_transform)
+				rpc_id(1, "fire", $ProjectileSpawn.global_transform)
+				fire($ProjectileSpawn.global_transform)
+
+
+func _physics_process(delta: float) -> void:
+	var camray = RayCast.new()
+	get_tree().get_root().add_child(camray)
+	camray.global_transform = get_viewport().get_camera().get_global_transform()
+	camray.cast_to = Vector3.FORWARD * 5000
+	camray.force_raycast_update()
+	if camray.is_colliding():
+		$ProjectileSpawn.look_at(camray.get_collision_point(), Vector3.UP)
+	else:
+		pass
+	camray.queue_free()
+
 
 signal spawnABullet(bullet)
-remote func fire(muzzletf : Transform):
+remote func fire(muzzletf):
 	#Clients- Play the animations. Do nothing else.
 	if is_network_master():
 		$cooldown.start(cooldown)
@@ -57,7 +78,7 @@ remote func fire(muzzletf : Transform):
 	$sounds/shoot.play()
 	anim_player.stop()
 	anim_player.play("BaseShoot")
-	if !get_tree().is_network_server():
+	if !get_tree().is_network_server() && get_tree().get_network_connected_peers().size() :
 		return
 
 #SERVER STUFF
@@ -71,9 +92,9 @@ remote func fire(muzzletf : Transform):
 
 remote func createProjectile(spawntransforms : Transform, suffix : String):
 	var newproj :Projectile= projectile.instance()
+	emit_signal('spawnABullet', newproj)
 	newproj.name = filename + suffix
 	#Spawn the bullet locally, on the server.
-	emit_signal('spawnABullet', newproj)
 	newproj.global_transform.origin = spawntransforms.origin
 	newproj.Velocity = -spawntransforms.basis.z * bullet_speed
 	newproj.shooter = get_tree().get_rpc_sender_id()
@@ -81,5 +102,3 @@ remote func createProjectile(spawntransforms : Transform, suffix : String):
 		newproj.damage = override_dmg
 	if override_explosion:
 		newproj.Explosion = override_explosion
-	pass
-

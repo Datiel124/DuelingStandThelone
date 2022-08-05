@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
-[ext_resource path="res://Scenes/weapons/ParticleMaterial.tres" type="Material" id=1]
+[ext_resource path="res://DEV/UI_MOCKUP/thinRing.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/weapons/projectiles/Projectile.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=3]
 
 [sub_resource type="SphereShape" id=9]
 radius = 0.1
@@ -13,62 +14,81 @@ albedo_color = Color( 6, 6, 0, 1 )
 
 [sub_resource type="SphereMesh" id=8]
 material = SubResource( 10 )
-radius = 0.1
-height = 0.2
-radial_segments = 4
-rings = 1
+radius = 0.2
+height = 0.4
+radial_segments = 6
+rings = 3
 
-[sub_resource type="ParticlesMaterial" id=2]
+[sub_resource type="SpatialMaterial" id=20]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 1 )
+proximity_fade_enable = true
+proximity_fade_distance = 1.0
 
-[sub_resource type="QuadMesh" id=3]
-material = ExtResource( 1 )
+[sub_resource type="QuadMesh" id=14]
+material = SubResource( 20 )
 
-[sub_resource type="ParticlesMaterial" id=4]
+[sub_resource type="Gradient" id=16]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.124424, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 0.0585938, 0.296703, 1, 1, 1, 1, 1, 0 )
 
-[sub_resource type="QuadMesh" id=5]
-material = ExtResource( 1 )
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 16 )
 
-[sub_resource type="ParticlesMaterial" id=6]
+[sub_resource type="Curve" id=18]
+_data = [ Vector2( 0, 0.482955 ), 0.0, 3.0094, 0, 0, Vector2( 0.108333, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.492045 ), -0.519481, 0.0, 0, 0 ]
 
-[sub_resource type="QuadMesh" id=7]
-material = ExtResource( 1 )
+[sub_resource type="CurveTexture" id=19]
+curve = SubResource( 18 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+direction = Vector3( 0, 0, 1 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 2.61
+angle = 720.0
+angle_random = 1.0
+scale = 0.3
+scale_curve = SubResource( 19 )
+color = Color( 3, 3, 3, 1 )
+color_ramp = SubResource( 17 )
 
 [node name="Projectile" type="KinematicBody"]
 collision_layer = 0
 collision_mask = 7
 script = ExtResource( 2 )
+Explosion = ExtResource( 3 )
 gravitymult = 0.1
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 9 )
 
-[node name="substep" type="RayCast" parent="."]
-visible = false
-enabled = true
-collide_with_areas = true
-debug_shape_custom_color = Color( 1, 0, 0.913725, 1 )
-debug_shape_thickness = 5
-
 [node name="MeshInstance" type="MeshInstance" parent="."]
 mesh = SubResource( 8 )
-material/0 = null
 
-[node name="effects" type="Particles" parent="."]
+[node name="corona" type="Particles" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.7, 0 )
+visible = false
 layers = 95
 emitting = false
-process_material = SubResource( 2 )
-draw_pass_1 = SubResource( 3 )
+local_coords = false
+draw_pass_1 = SubResource( 14 )
 
-[node name="close-trail" type="Particles" parent="."]
+[node name="trail" type="Particles" parent="."]
 layers = 64
-emitting = false
-process_material = SubResource( 4 )
-draw_pass_1 = SubResource( 5 )
-
-[node name="far-trail" type="Particles" parent="."]
-emitting = false
-process_material = SubResource( 6 )
-draw_pass_1 = SubResource( 7 )
+amount = 6
+lifetime = 0.15
+local_coords = false
+process_material = SubResource( 15 )
+draw_pass_1 = SubResource( 14 )
 
 [node name="lifetime" type="Timer" parent="."]
 wait_time = 10.0

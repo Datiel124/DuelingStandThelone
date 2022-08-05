@@ -66,24 +66,26 @@ func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion and is_network_master():
 		mouse_movement_x = event.relative.x
 		mouse_movement_y = event.relative.y
-		
+
 func _process(delta):
 	if is_network_master():
 		if mouse_movement_x != null:
 			if mouse_movement_x > sway_thres:
-				rotation = rotation.linear_interpolate(sway_left, sway_lerp*delta)
+				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_left, sway_lerp*delta)
 			elif mouse_movement_x < -sway_thres:
-				rotation = rotation.linear_interpolate(sway_right, sway_lerp*delta)
+				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_right, sway_lerp*delta)
 			else:
-				rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
+				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_default, sway_lerp*delta)
 			 
 		if mouse_movement_y != null:
 			if mouse_movement_y > sway_thres:
-				rotation = rotation.linear_interpolate(sway_up, sway_lerp*delta)
+				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_up, sway_lerp*delta)
 			elif mouse_movement_y < -sway_thres:
-				rotation = rotation.linear_interpolate(sway_down, sway_lerp*delta)
+				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_down, sway_lerp*delta)
 			else:
-				rotation = rotation.linear_interpolate(sway_default, sway_lerp*delta)
+				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_default, sway_lerp*delta)
+	mouse_movement_x = 0
+	mouse_movement_y = 0
 "
 
 [sub_resource type="OpenSimplexNoise" id=15]
@@ -103,15 +105,23 @@ script/source = "extends TextureRect
 
 var ouchiness = 1.0;
 
-func _on_Player_changeHealth(old, new) -> void:
-	var dur = (old/(max(0.1,new)) * 6)
-	$Tween.interpolate_property(self, \"ouchiness\", float(new)/100.0, 1.0, dur, Tween.TRANS_CIRC, Tween.EASE_OUT)
-	$Tween.start()
-	pass # Replace with function body.
-
 func _process(delta: float) -> void:
 	get_material().set_shader_param('thresh', ouchiness)
-#	print(ouchiness)
+
+var damagetween
+
+func _on_Player_Damage(old, new) -> void:
+	if abs(old - new) < 0.1:
+		return
+	var dur = (old/(max(0.1,new)) * 6)
+	ouchiness = new/100
+	if damagetween is SceneTreeTween:
+		damagetween.kill()
+	damagetween = create_tween()
+	damagetween.set_trans(Tween.TRANS_CIRC)
+	damagetween.set_ease(Tween.EASE_OUT)
+	damagetween.tween_property(self, 'ouchiness', 1.0, dur);
+	pass # Replace with function body.
 "
 
 [sub_resource type="StyleBoxFlat" id=7]
@@ -192,8 +202,8 @@ __meta__ = {
 
 [node name="Capsule" type="MeshInstance" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
+generate_lightmap = false
 mesh = SubResource( 1 )
-material/0 = null
 
 [node name="basicman" parent="." instance=ExtResource( 6 )]
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.245365, -0.121447 )
@@ -215,12 +225,12 @@ sway_up = Vector3( 0.3, 0, 0 )
 sway_down = Vector3( -0.3, 0, 0 )
 
 [node name="Weapon" parent="Head/Holder" instance=ExtResource( 4 )]
-cooldown = 0.05
-bullet_speed = 200.0
+cooldown = 0.75
+bullet_speed = 500.0
 override_dmg = 9.0
 
 [node name="FloorCheck" type="RayCast" parent="."]
-transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.527019, 0 )
+transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )
 enabled = true
 cast_to = Vector3( 0, -1.5, 0 )
 
@@ -234,8 +244,6 @@ texture = ExtResource( 10 )
 expand = true
 stretch_mode = 1
 script = SubResource( 19 )
-
-[node name="Tween" type="Tween" parent="painvignette"]
 
 [node name="HUD" type="Control" parent="."]
 anchor_right = 1.0
@@ -305,7 +313,7 @@ autostart = true
 wait_time = 3.0
 one_shot = true
 
-[connection signal="changeHealth" from="." to="painvignette" method="_on_Player_changeHealth"]
+[connection signal="Damage" from="." to="painvignette" method="_on_Player_Damage"]
 [connection signal="changeHealth" from="." to="HUD/HPPanel" method="set_hp"]
 [connection signal="spawnABullet" from="Head/Holder/Weapon" to="projectiles" method="add_child"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]

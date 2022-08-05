@@ -1,0 +1,185 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://MaterialAssets/Ground/Sandiness.tres" type="Material" id=1]
+[ext_resource path="res://Scenes/levels/levelassets/CsgBridge.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Scenes/environments/skyboxes/goegap_8k.hdr" type="Texture" id=8]
+[ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=9]
+[ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=10]
+
+[sub_resource type="PanoramaSky" id=2]
+panorama = ExtResource( 8 )
+
+[sub_resource type="Environment" id=3]
+background_mode = 2
+background_sky = SubResource( 2 )
+background_color = Color( 0.133333, 0.054902, 0.00784314, 1 )
+ambient_light_color = Color( 0.364706, 0.517647, 0.72549, 1 )
+ambient_light_sky_contribution = 0.0
+tonemap_mode = 1
+auto_exposure_enabled = true
+auto_exposure_min_luma = 0.5
+ssao_enabled = true
+ssao_intensity = 6.57
+ssao_radius2 = 6.68
+ssao_bias = 0.219
+ssao_light_affect = 0.1
+ssao_quality = 2
+glow_enabled = true
+glow_levels/1 = true
+glow_levels/2 = true
+glow_levels/4 = true
+glow_levels/6 = true
+glow_levels/7 = true
+glow_intensity = 0.01
+glow_bloom = 0.01
+glow_blend_mode = 1
+glow_bicubic_upscale = true
+glow_high_quality = true
+
+[node name="World" instance=ExtResource( 6 )]
+
+[node name="spawn0" parent="Level/spawnpoints" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.6, 0 )
+
+[node name="floor-geometry" type="CSGCombiner" parent="Level/geometry" index="0"]
+material_override = ExtResource( 1 )
+use_collision = true
+collision_mask = 0
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/floor-geometry" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5, -34 )
+width = 64.0
+depth = 90.0
+
+[node name="sandwedge" type="CSGPolygon" parent="Level/geometry/floor-geometry" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 6, 6 )
+use_collision = true
+polygon = PoolVector2Array( -6, 0, 4, 4, 4, 0 )
+depth = 80.0
+material = ExtResource( 1 )
+
+[node name="sandwedge2" type="CSGPolygon" parent="Level/geometry/floor-geometry" index="2"]
+transform = Transform( -1, 0, 9.68575e-08, 0, 1, 0, -9.68575e-08, 0, -1, -26, 6, -74 )
+use_collision = true
+polygon = PoolVector2Array( -6, 0, 4, 4, 4, 0 )
+depth = 80.0
+material = ExtResource( 1 )
+
+[node name="walls" type="CSGCombiner" parent="Level/geometry" index="1"]
+use_collision = true
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/walls" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, 10 )
+width = 64.0
+height = 24.0
+material = ExtResource( 10 )
+
+[node name="CSGBox2" type="CSGBox" parent="Level/geometry/walls" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 18, -78 )
+width = 64.0
+height = 24.0
+material = ExtResource( 10 )
+
+[node name="CSGBox3" type="CSGBox" parent="Level/geometry/walls" index="2"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -31, 18, -34 )
+width = 86.0
+height = 24.0
+material = ExtResource( 10 )
+
+[node name="CSGBox4" type="CSGBox" parent="Level/geometry/walls" index="3"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 31, 18, -34 )
+width = 86.0
+height = 24.0
+material = ExtResource( 10 )
+
+[node name="cornerwedges" type="CSGCombiner" parent="Level/geometry" index="2"]
+use_collision = true
+
+[node name="wedge" type="CSGBox" parent="Level/geometry/cornerwedges" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 25, 15, 4 )
+width = 10.0
+height = 18.0
+depth = 10.0
+material = ExtResource( 10 )
+
+[node name="sub" type="CSGBox" parent="Level/geometry/cornerwedges/wedge" index="0"]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -4.94975 )
+operation = 2
+width = 12.0
+height = 20.0
+depth = 10.0
+material = ExtResource( 9 )
+
+[node name="wedge2" type="CSGBox" parent="Level/geometry/cornerwedges" index="1"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -25, 15, 4 )
+width = 10.0
+height = 18.0
+depth = 10.0
+material = ExtResource( 10 )
+
+[node name="sub" type="CSGBox" parent="Level/geometry/cornerwedges/wedge2" index="0"]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -4.94975 )
+operation = 2
+width = 12.0
+height = 20.0
+depth = 10.0
+material = ExtResource( 9 )
+
+[node name="wedge3" type="CSGBox" parent="Level/geometry/cornerwedges" index="2"]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -25, 15, -72 )
+width = 10.0
+height = 18.0
+depth = 10.0
+material = ExtResource( 10 )
+
+[node name="sub" type="CSGBox" parent="Level/geometry/cornerwedges/wedge3" index="0"]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -4.94975 )
+operation = 2
+width = 12.0
+height = 20.0
+depth = 10.0
+material = ExtResource( 9 )
+
+[node name="wedge4" type="CSGBox" parent="Level/geometry/cornerwedges" index="3"]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 25, 15, -72 )
+width = 10.0
+height = 18.0
+depth = 10.0
+material = ExtResource( 10 )
+
+[node name="sub" type="CSGBox" parent="Level/geometry/cornerwedges/wedge4" index="0"]
+transform = Transform( 0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, -4.94975, 0, -4.94975 )
+operation = 2
+width = 12.0
+height = 20.0
+depth = 10.0
+material = ExtResource( 9 )
+
+[node name="CsgBridge" parent="Level/geometry" index="3" instance=ExtResource( 2 )]
+transform = Transform( -8.14603e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -8.14603e-08, -16, 2.56673, -43 )
+use_collision = true
+path_interval_type = 1
+path_interval = 0.25
+path_simplify_angle = 0.0
+smooth_faces = false
+material = ExtResource( 10 )
+
+[node name="WorldEnvironment" parent="Environment" index="0"]
+environment = SubResource( 3 )
+
+[node name="DirectionalLight" type="DirectionalLight" parent="Environment" index="1"]
+transform = Transform( 0.766621, 0.478528, -0.428138, -0.0202057, 0.684427, 0.728801, 0.641781, -0.550064, 0.534365, 0, 13.9, 0 )
+shadow_enabled = true
+shadow_bias = -0.019
+shadow_contact = 0.424
+
+[node name="Player" parent="Players" index="0" instance=ExtResource( 7 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.7, 0 )

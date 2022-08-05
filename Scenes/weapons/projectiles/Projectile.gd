@@ -14,8 +14,10 @@ export var damage : float = 25.0;
 export var gravitymult : float = 0.0;
 export var explodeOnTimeout : bool = false;
 
+
 func _ready() -> void:
 	spawnpos = global_transform.origin
+
 
 func _physics_process(delta: float) -> void:
 	#Server - tell all of the clients where this bullet should 'actually' be.
@@ -24,7 +26,7 @@ func _physics_process(delta: float) -> void:
 	
 	look_at(global_transform.origin + Velocity, Vector3.UP)
 	var hit = move_and_collide(Velocity * delta)
-	if hit && get_tree().is_network_server():
+	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		var col = hit.collider
 		if col is Player:
 			if col.get_network_master() == shooter:
@@ -53,6 +55,7 @@ remote func explode(uniquename : String):
 		get_parent().add_child(kabommies)
 		kabommies.global_transform = global_transform
 	queue_free()
+
 
 func _on_lifetime_timeout() -> void:
 	if explodeOnTimeout:
