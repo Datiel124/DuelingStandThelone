@@ -39,8 +39,9 @@ func _InputFromPlayer(event:InputEvent) -> void:
 		if event.is_action_released('fire') || !canShoot:
 			#set shooting to false to disable autofire
 			shooting = false
-			$cooldown.disconnect('timeout', self, "rpc_id")
-			$cooldown.disconnect('timeout', self, "_InputFromPlayer")
+			if $cooldown.is_connected('timeout', self, 'rpc_id'):
+				$cooldown.disconnect('timeout', self, "rpc_id")
+				$cooldown.disconnect('timeout', self, "_InputFromPlayer")
 	if $cooldown.time_left <= 0 && canShoot:
 		if fullauto:
 			if event.is_action_pressed('fire'):
@@ -48,8 +49,9 @@ func _InputFromPlayer(event:InputEvent) -> void:
 				shooting = true
 				rpc_id(1, "fire", $ProjectileSpawn.global_transform)
 				fire($ProjectileSpawn.global_transform)
-				$cooldown.connect('timeout', self, "rpc_id", [1, "_InputFromPlayer", event])
-				$cooldown.connect('timeout', self, "_InputFromPlayer", [event])
+				if !$cooldown.is_connected('timeout', self, 'rpc_id'):
+					$cooldown.connect('timeout', self, "rpc_id", [1, "_InputFromPlayer", event])
+					$cooldown.connect('timeout', self, "_InputFromPlayer", [event])
 		else:
 			if event.is_action_pressed('fire'):
 				rpc_id(1, "fire", $ProjectileSpawn.global_transform)
@@ -65,7 +67,7 @@ func _physics_process(delta: float) -> void:
 	if camray.is_colliding():
 		$ProjectileSpawn.look_at(camray.get_collision_point(), Vector3.UP)
 	else:
-		pass
+		$ProjectileSpawn.look_at(camray.global_transform.origin + -camray.global_transform.basis.z * 100000, Vector3.UP)
 	camray.queue_free()
 
 
@@ -78,7 +80,7 @@ remote func fire(muzzletf):
 	$sounds/shoot.play()
 	anim_player.stop()
 	anim_player.play("BaseShoot")
-	if !get_tree().is_network_server() && get_tree().get_network_connected_peers().size() :
+	if !get_tree().is_network_server() && get_tree().get_network_connected_peers().size() > 0:
 		return
 
 #SERVER STUFF
