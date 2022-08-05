@@ -13,8 +13,10 @@ export var impulse_Falloff : Curve = preload('res://TextureAssets/curves/spheric
 var body_check = false
 
 func _ready() -> void:
-	yield(get_tree(), 'idle_frame')
-	$explosionArea/explosionshape.shape.radius = boom_radius
+	$explosionArea.scale *= boom_radius
+	force_update_transform()
+	yield(get_tree(), 'physics_frame')
+	yield(get_tree(), 'physics_frame')
 	if get_tree().is_network_server():
 		rpc("explode")
 		explode()
