@@ -1,0 +1,89 @@
+[gd_scene load_steps=14 format=2]
+
+[ext_resource path="res://Scenes/weapons/projectiles/BounceProjectile.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Audio/lit-fuse.wav" type="AudioStream" id=2]
+[ext_resource path="res://Scenes/weapons/cloud.png" type="Texture" id=3]
+
+[sub_resource type="SphereShape" id=27]
+radius = 0.4
+
+[sub_resource type="SpatialMaterial" id=20]
+vertex_color_use_as_albedo = true
+albedo_color = Color( 0.921569, 0.921569, 0.921569, 1 )
+metallic = 1.0
+roughness = 0.0
+
+[sub_resource type="SphereMesh" id=28]
+material = SubResource( 20 )
+radius = 0.4
+height = 0.8
+radial_segments = 12
+rings = 8
+
+[sub_resource type="Gradient" id=22]
+interpolation_mode = 2
+offsets = PoolRealArray( 0, 0.124424, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 1, 0.679688, 0, 1, 1, 0, 0, 0 )
+
+[sub_resource type="GradientTexture" id=23]
+gradient = SubResource( 22 )
+
+[sub_resource type="Curve" id=18]
+_data = [ Vector2( 0, 0.482955 ), 0.0, 3.0094, 0, 0, Vector2( 0.108333, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0.492045 ), -0.519481, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=19]
+curve = SubResource( 18 )
+
+[sub_resource type="ParticlesMaterial" id=24]
+direction = Vector3( 0, 0, 1 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 1.0
+angle = 720.0
+angle_random = 1.0
+scale = 0.8
+scale_curve = SubResource( 19 )
+color = Color( 3, 3, 3, 1 )
+color_ramp = SubResource( 23 )
+
+[sub_resource type="SpatialMaterial" id=25]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 3 )
+proximity_fade_enable = true
+proximity_fade_distance = 1.0
+
+[sub_resource type="QuadMesh" id=26]
+material = SubResource( 25 )
+
+[node name="BounceBomb" instance=ExtResource( 1 )]
+impactPush = 10.0
+impactLaunch = 5.0
+damage = 25.0
+gravitymult = 0.8
+maxBounces = 1000
+elasticity = 0.9
+
+[node name="Loop" parent="." index="0"]
+stream = ExtResource( 2 )
+
+[node name="CollisionShape" parent="." index="1"]
+shape = SubResource( 27 )
+
+[node name="MeshInstance" parent="." index="2"]
+mesh = SubResource( 28 )
+
+[node name="trail" parent="." index="4"]
+amount = 12
+lifetime = 0.4
+process_material = SubResource( 24 )
+draw_pass_1 = SubResource( 26 )
+
+[node name="lifetime" parent="." index="5"]
+wait_time = 2.0

@@ -69,6 +69,14 @@ Explosion = ExtResource( 3 )
 gravitymult = 1.0
 explodeOnTimeout = true
 
+[node name="Loop" type="AudioStreamPlayer3D" parent="."]
+unit_size = 0.3
+max_db = 0.0
+autoplay = true
+bus = "Gameplay"
+attenuation_filter_db = 0.0
+doppler_tracking = 2
+
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 9 )
 
@@ -76,8 +84,6 @@ shape = SubResource( 9 )
 mesh = SubResource( 8 )
 
 [node name="corona" type="Particles" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.7, 0 )
-visible = false
 layers = 95
 emitting = false
 local_coords = false

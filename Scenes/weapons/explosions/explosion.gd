@@ -13,7 +13,7 @@ export var impulse_Falloff : Curve = preload('res://TextureAssets/curves/spheric
 var body_check = false
 
 func _ready() -> void:
-	$boom.pitch_scale = rand_range(0.9, 1.5)
+	$boom.pitch_scale += rand_range(-0.1, 0.1)
 	yield(get_tree(), 'physics_frame')
 	yield(get_tree(), 'physics_frame')
 	if get_tree().is_network_server():

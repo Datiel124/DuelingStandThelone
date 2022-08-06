@@ -15,7 +15,7 @@ material = ExtResource( 2 )
 
 [sub_resource type="Animation" id=7]
 resource_name = "BaseShoot"
-length = 0.185
+length = 0.5
 step = 0.09
 tracks/0/type = "value"
 tracks/0/path = NodePath("MeshInstance:translation")
@@ -24,7 +24,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 0.0325812, 0.0582118, 0.112953, 0.143558, 0.184454 ),
+"times": PoolRealArray( 0, 0.0325812, 0.206704, 0.261445, 0.29205, 0.332946 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 0, -0.0759687, 0.349445 ), Vector3( 0.0120138, -0.0443879, 0.309709 ), Vector3( 0, 0, 0 ), Vector3( 0, -0.00884008, -0.0291976 ), Vector3( 0, 0, 0 ) ]
@@ -36,7 +36,7 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0, 0.0325812, 0.0464826, 0.0582118, 0.0738508, 0.112519, 0.143769, 0.184454 ),
+"times": PoolRealArray( 0, 0.0325812, 0.0589726, 0.176173, 0.222343, 0.261011, 0.292261, 0.332946 ),
 "transitions": PoolRealArray( 1, 1, 1, 1, 1, 1, 1, 1 ),
 "update": 0,
 "values": [ Vector3( 0, 0, 0 ), Vector3( 8.967, 0, 0 ), Vector3( 7.52259, 0.184251, 1.40711 ), Vector3( 6.308, 0, 0 ), Vector3( 3.27221, -0.175116, -3.065 ), Vector3( 0, 0, 0 ), Vector3( -0.934, 0, 0 ), Vector3( 0, 0, 0 ) ]
@@ -48,7 +48,7 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0, 0.1 ),
+"times": PoolRealArray( 0, 0.248492 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
@@ -104,7 +104,6 @@ script = ExtResource( 5 )
 shoot_sounds = [ ExtResource( 4 ) ]
 
 [node name="shoot" type="AudioStreamPlayer3D" parent="sounds"]
-pitch_scale = 20.0
 bus = "Gameplay"
 attenuation_filter_cutoff_hz = 20500.0
 attenuation_filter_db = 0.0

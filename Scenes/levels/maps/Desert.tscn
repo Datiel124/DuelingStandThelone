@@ -17,6 +17,9 @@ albedo_color = Color( 0.411765, 0.411765, 0.411765, 1 )
 [node name="spawn0" parent="Level/spawnpoints" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.6, 0 )
 
+[node name="spawn1" type="Position3D" parent="Level/spawnpoints" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.2, -68 )
+
 [node name="inviswalls" type="CSGCombiner" parent="Level/geometry" index="0"]
 layers = 0
 cast_shadow = 0

@@ -10,7 +10,9 @@ export var cooldown = 0.2 setget setCooldown
 func setCooldown(new):
 	cooldown = new
 	$cooldown.wait_time = new
+export var bullet_count : int = 1
 export var bullet_speed = 20.0;
+export var bullet_spread : float = 2.5
 onready var mesh = $MeshInstance
 
 #overrides bullet damage and explosion on spawn if available
@@ -47,15 +49,15 @@ func _InputFromPlayer(event:InputEvent) -> void:
 			if event.is_action_pressed('fire'):
 				#set shooting to true to enable autofire
 				shooting = true
-				rpc_id(1, "fire", $ProjectileSpawn.global_transform)
-				fire($ProjectileSpawn.global_transform)
 				if !$cooldown.is_connected('timeout', self, 'rpc_id'):
 					$cooldown.connect('timeout', self, "rpc_id", [1, "_InputFromPlayer", event])
 					$cooldown.connect('timeout', self, "_InputFromPlayer", [event])
-		else:
-			if event.is_action_pressed('fire'):
-				rpc_id(1, "fire", $ProjectileSpawn.global_transform)
-				fire($ProjectileSpawn.global_transform)
+		if event.is_action_pressed('fire'):
+			for i in bullet_count:
+				var transforms : Transform = $ProjectileSpawn.global_transform
+				transforms.basis = transforms.basis.rotated(transform.basis.x, rand_range(deg2rad(-bullet_spread), deg2rad(bullet_spread))).rotated(transform.basis.z, rand_range(deg2rad(-bullet_spread), deg2rad(bullet_spread))).rotated(transform.basis.y, rand_range(deg2rad(-bullet_spread), deg2rad(bullet_spread)))
+				rpc_id(1, "fire", transforms)
+				fire(transforms)
 
 
 func _physics_process(delta: float) -> void:
@@ -103,7 +105,7 @@ remote func createProjectile(spawntransforms : Transform, suffix : String, is_ac
 	newproj.global_transform.origin = spawntransforms.origin
 	newproj.Velocity = -spawntransforms.basis.z * bullet_speed
 	newproj.active = is_active
-	print(get_tree().get_rpc_sender_id())
+#	print(get_tree().get_rpc_sender_id())
 	newproj.shooter = get_tree().get_rpc_sender_id()
 	if override_dmg:
 		newproj.damage = override_dmg

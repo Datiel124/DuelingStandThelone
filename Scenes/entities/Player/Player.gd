@@ -12,7 +12,7 @@ var gravity:float		= 15.0
 var jump_force:float 	= 9.0
 var full_contact:bool 	= true
 var Velocity:Vector3 	= Vector3() setget setVelocity, getVelocity
-func setVelocity(newvelocity):
+remote func setVelocity(newvelocity):
 	Velocity = newvelocity
 func getVelocity():
 	return Velocity
@@ -205,6 +205,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if is_network_master():
 		if FSM.state == "DEAD":
 				return
+
 		if event.is_action_pressed('Jump'):
 			if check_ground() > 0b00:
 				jump()
@@ -215,17 +216,25 @@ func _unhandled_input(event: InputEvent) -> void:
 					is_airjump = false
 				is_airjump = true
 			lastjumptime = 0.0
+
 		if(currentWeapon): #Check isn't required- but just in case.
 			currentWeapon._InputFromPlayer(event)
 		else:
 			#There is never a case where currentWeapon should be null- print an error.
 			printerr("Error! 'currentWeapon' not set.")
 			push_error("Error! 'currentWeapon' not set.")
+
 		if event is InputEventMouseMotion:
 			#TODO - Change Player structure. This should only rotate the mesh, which should have a position node for the camera to inherit transforms from.
 			rotation.y = fmod(rotation.y - event.relative.x * UserConfigs.aim_sens * get_process_delta_time(), 2*PI)
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
+
+		if event is InputEventKey:
+			if event.as_text() == "Control+K":
+				#suicide
+				Damage(50000, get_tree().get_network_unique_id())
+				rpc("Damage", 50000, get_tree().get_network_unique_id())
 
 func jump() -> void:
 	FSM.set_state(FSM.states.JUMP)

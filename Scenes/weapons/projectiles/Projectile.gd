@@ -30,21 +30,32 @@ func doprojectilestuff(delta: float) -> void:
 	look_at(global_transform.origin + Velocity, Vector3.UP)
 	
 	var hit = move_and_collide(Velocity * delta)
+	
+	#only the server can validate a hit
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		#only the server should let the projectile explode
 		var col = hit.collider
 		collisionnormal = hit.normal
 		if col is Player:
 			if col.get_network_master() == shooter:
+				#prevent player from shooting themself
 				return
+			
+			#velocity additive or set
 			if impactAdditive:
 				var launchdir = impactLaunch * Velocity.normalized()
-				col.Velocity += Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z);
+				col.rpc("setVelocity", col.Velocity + Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
+				col.setVelocity(col.Velocity + Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 			else:
 				var launchdir = impactLaunch * Velocity.normalized()
-				col.Velocity = Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z);
+				col.rpc("setVelocity", Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
+				col.setVelocity(Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
+			
+			#damage target
 			col.rpc("Damage", damage)
 			col.Damage(damage)
+		
+		#explode on hit
 		var explosionname = "explosion" + str(randi())
 		rpc("explode", explosionname, global_transform.origin)
 		explode(explosionname, global_transform.origin)
@@ -67,17 +78,35 @@ remote func explode(uniquename : String, pos):
 			kabommies.rotation_degrees.x = -90
 		else:
 			kabommies.look_at(global_transform.origin + lookdir,Vector3.UP)
-	queue_free()
+	rpc("disableAll")
+	disableAll()
+
+
+remote func disableAll():
+	$corona.emitting = false
+	$trail.emitting = false
+	set_physics_process(false)
+	$MeshInstance.visible = false
+	$CollisionShape.disabled = true
+	$Loop.stop()
+	yield(get_tree().create_timer($trail.lifetime + 0.1), 'timeout')
+	if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
+		rpc("cleanup")
+		cleanup()
+
+
+func cleanup():
+	call_deferred("queue_free")
 
 
 func _on_lifetime_timeout() -> void:
 	if explodeOnTimeout:
 		var a = "explodet" + str(randi())
-		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() == 0:
+		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
+			print("truly")
 			rpc("explode", a, global_transform.origin)
 			explode(a, global_transform.origin )
-			queue_free()
 	else:
-		rpc("queue_free")
-		queue_free()
+		rpc("disableAll")
+		disableAll()
 	pass # Replace with function body.
