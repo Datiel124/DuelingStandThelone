@@ -1,0 +1,165 @@
+[gd_scene load_steps=22 format=2]
+
+[ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=1]
+[ext_resource path="res://Scenes/weapons/cloud.png" type="Texture" id=2]
+
+[sub_resource type="Curve" id=1]
+_data = [ Vector2( 0, 1 ), 0.0, -3.0947, 0, 0, Vector2( 1, 0 ), -0.062049, 0.0, 0, 0 ]
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 0.24186, 1 ), 0.0, -1.37346, 0, 0, Vector2( 1, 0 ), -0.467391, 0.0, 0, 0 ]
+
+[sub_resource type="SphereShape" id=2]
+radius = 64.0
+
+[sub_resource type="Gradient" id=10]
+colors = PoolColorArray( 0.796078, 0.796078, 0.796078, 0.576471, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+
+[sub_resource type="Gradient" id=14]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.3125, 1 )
+colors = PoolColorArray( 0.180392, 0.180392, 0.180392, 1, 0.1875, 0.1875, 0.1875, 0 )
+
+[sub_resource type="GradientTexture" id=28]
+gradient = SubResource( 14 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0.493182 ), 0.0, 1.74545, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=15]
+direction = Vector3( 0, 0, -1 )
+spread = 79.51
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 158.2
+initial_velocity_random = 1.0
+angular_velocity = 21.82
+angular_velocity_random = 1.0
+damping = 100.0
+angle = 720.0
+angle_random = 1.0
+scale = 64.0
+scale_random = 0.25
+scale_curve = SubResource( 6 )
+color = Color( 1, 1, 1, 0.294118 )
+color_ramp = SubResource( 28 )
+color_initial_ramp = SubResource( 11 )
+
+[sub_resource type="GradientTexture" id=17]
+gradient = SubResource( 14 )
+
+[sub_resource type="ParticlesMaterial" id=18]
+lifetime_randomness = 1.0
+direction = Vector3( 0, 0, -1 )
+spread = 73.9
+gravity = Vector3( 0, -64, 0 )
+initial_velocity = 350.67
+initial_velocity_random = 0.6
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+angle = 720.0
+angle_random = 1.0
+scale = 2.0
+scale_curve = SubResource( 6 )
+color = Color( 1, 1, 1, 0.862745 )
+color_ramp = SubResource( 17 )
+
+[sub_resource type="Gradient" id=20]
+offsets = PoolRealArray( 0, 0.01875, 1 )
+colors = PoolColorArray( 0.2793, 0.378906, 0.270859, 0, 0.757813, 0.757813, 0.757813, 0.65098, 0.890625, 0.890625, 0.890625, 0 )
+
+[sub_resource type="GradientTexture" id=21]
+gradient = SubResource( 20 )
+
+[sub_resource type="Curve" id=22]
+_data = [ Vector2( 0, 0 ), 0.0, 2.43147, 0, 0, Vector2( 1, 1 ), 0.11754, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=23]
+curve = SubResource( 22 )
+
+[sub_resource type="ParticlesMaterial" id=19]
+render_priority = 1
+flag_disable_z = true
+direction = Vector3( 0, 0, -1 )
+spread = 180.0
+gravity = Vector3( 0, -1, 0 )
+initial_velocity = 80.0
+angular_velocity = 27.96
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 25.24
+damping_random = 0.07
+angle = 720.0
+angle_random = 1.0
+scale = 64.0
+scale_random = 0.28
+scale_curve = SubResource( 23 )
+color = Color( 0.5, 0.5, 0.5, 0.32549 )
+color_ramp = SubResource( 21 )
+
+[sub_resource type="SpatialMaterial" id=30]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+params_diffuse_mode = 4
+params_specular_mode = 4
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 2 )
+metallic_specular = 0.0
+proximity_fade_enable = true
+proximity_fade_distance = 1.0
+
+[sub_resource type="QuadMesh" id=25]
+material = SubResource( 30 )
+
+[node name="nuke" instance=ExtResource( 1 )]
+max_damage = 200.0
+impulse = 200.0
+v_impulse = 20.0
+lifetime = 20.0
+damage_Falloff = SubResource( 1 )
+impulse_Falloff = SubResource( 3 )
+
+[node name="boom" parent="." index="0"]
+unit_db = 5.218
+unit_size = 8.0
+max_db = 0.0
+
+[node name="explosionshape" parent="explosionArea" index="0"]
+shape = SubResource( 2 )
+
+[node name="smoke" parent="particles" index="0"]
+amount = 64
+lifetime = 8.0
+visibility_aabb = AABB( -480, -480, -480, 960, 960, 960 )
+process_material = SubResource( 15 )
+
+[node name="debris" parent="particles" index="1"]
+amount = 64
+visibility_aabb = AABB( -400, -400, -400, 800, 800, 800 )
+draw_order = 2
+process_material = SubResource( 18 )
+
+[node name="ring" type="Particles" parent="particles" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 1.11759e-07, 0, -1.11759e-07, 1, 0, 0, 0 )
+emitting = false
+amount = 64
+lifetime = 4.0
+one_shot = true
+explosiveness = 1.0
+visibility_aabb = AABB( -256, -256, -256, 512, 512, 512 )
+process_material = SubResource( 19 )
+draw_pass_1 = SubResource( 25 )
+
+[node name="OmniLight" parent="." index="3"]
+light_specular = 16.0
+omni_range = 4096.0
+omni_attenuation = 0.258816

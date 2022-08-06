@@ -80,25 +80,30 @@ remote func fire(muzzletf):
 	$sounds/shoot.play()
 	anim_player.stop()
 	anim_player.play("BaseShoot")
+	#Create projectile on the client-side.
+	
 	if !get_tree().is_network_server() && get_tree().get_network_connected_peers().size() > 0:
 		return
 
-#SERVER STUFF
+#SERVER STUFF	
 	if projectile:
-		var id = str(randi())
+		var id = "projectile" + str(randi())
+		createProjectile(muzzletf, id, false)
 		rpc("createProjectile", muzzletf, id)
-		createProjectile(muzzletf, id)
+	
 	for i in get_tree().get_network_connected_peers():
 		if i != get_tree().get_rpc_sender_id():
 			rpc_id(i, "fire", muzzletf)
 
-remote func createProjectile(spawntransforms : Transform, suffix : String):
+remote func createProjectile(spawntransforms : Transform, suffix : String, is_active : bool = true):
 	var newproj :Projectile= projectile.instance()
 	emit_signal('spawnABullet', newproj)
-	newproj.name = filename + suffix
+	newproj.name = "b-" + suffix
 	#Spawn the bullet locally, on the server.
 	newproj.global_transform.origin = spawntransforms.origin
 	newproj.Velocity = -spawntransforms.basis.z * bullet_speed
+	newproj.active = is_active
+	print(get_tree().get_rpc_sender_id())
 	newproj.shooter = get_tree().get_rpc_sender_id()
 	if override_dmg:
 		newproj.damage = override_dmg

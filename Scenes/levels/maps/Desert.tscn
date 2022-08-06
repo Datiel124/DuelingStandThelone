@@ -2,48 +2,42 @@
 
 [ext_resource path="res://MaterialAssets/Ground/Sandiness.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/levels/levelassets/CsgBridge.tscn" type="PackedScene" id=2]
+[ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=3]
+[ext_resource path="res://MaterialAssets/Outline/OutlineBig.tres" type="Material" id=4]
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scenes/environments/skyboxes/goegap_8k.hdr" type="Texture" id=8]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=9]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=10]
 
-[sub_resource type="PanoramaSky" id=2]
-panorama = ExtResource( 8 )
-
-[sub_resource type="Environment" id=3]
-background_mode = 2
-background_sky = SubResource( 2 )
-background_color = Color( 0.133333, 0.054902, 0.00784314, 1 )
-ambient_light_color = Color( 0.364706, 0.517647, 0.72549, 1 )
-ambient_light_sky_contribution = 0.0
-tonemap_mode = 1
-auto_exposure_enabled = true
-auto_exposure_min_luma = 0.5
-ssao_enabled = true
-ssao_intensity = 6.57
-ssao_radius2 = 6.68
-ssao_bias = 0.219
-ssao_light_affect = 0.1
-ssao_quality = 2
-glow_enabled = true
-glow_levels/1 = true
-glow_levels/2 = true
-glow_levels/4 = true
-glow_levels/6 = true
-glow_levels/7 = true
-glow_intensity = 0.01
-glow_bloom = 0.01
-glow_blend_mode = 1
-glow_bicubic_upscale = true
-glow_high_quality = true
+[sub_resource type="SpatialMaterial" id=1]
+albedo_color = Color( 0.411765, 0.411765, 0.411765, 1 )
 
 [node name="World" instance=ExtResource( 6 )]
 
 [node name="spawn0" parent="Level/spawnpoints" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.6, 0 )
 
-[node name="floor-geometry" type="CSGCombiner" parent="Level/geometry" index="0"]
+[node name="inviswalls" type="CSGCombiner" parent="Level/geometry" index="0"]
+layers = 0
+cast_shadow = 0
+use_collision = true
+collision_layer = 0
+collision_mask = 2
+
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/inviswalls" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 226, -34 )
+width = 64.0
+height = 394.0
+depth = 90.0
+
+[node name="CSGBox2" type="CSGBox" parent="Level/geometry/inviswalls/CSGBox" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1, 0 )
+operation = 2
+width = 62.0
+height = 394.0
+depth = 88.0
+
+[node name="floor-geometry" type="CSGCombiner" parent="Level/geometry" index="1"]
 material_override = ExtResource( 1 )
 use_collision = true
 collision_mask = 0
@@ -70,7 +64,7 @@ polygon = PoolVector2Array( -6, 0, 4, 4, 4, 0 )
 depth = 80.0
 material = ExtResource( 1 )
 
-[node name="walls" type="CSGCombiner" parent="Level/geometry" index="1"]
+[node name="walls" type="CSGCombiner" parent="Level/geometry" index="2"]
 use_collision = true
 __meta__ = {
 "_edit_group_": true
@@ -100,7 +94,7 @@ width = 86.0
 height = 24.0
 material = ExtResource( 10 )
 
-[node name="cornerwedges" type="CSGCombiner" parent="Level/geometry" index="2"]
+[node name="cornerwedges" type="CSGCombiner" parent="Level/geometry" index="3"]
 use_collision = true
 
 [node name="wedge" type="CSGBox" parent="Level/geometry/cornerwedges" index="0"]
@@ -163,17 +157,215 @@ height = 20.0
 depth = 10.0
 material = ExtResource( 9 )
 
-[node name="CsgBridge" parent="Level/geometry" index="3" instance=ExtResource( 2 )]
-transform = Transform( -8.14603e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -8.14603e-08, -16, 2.56673, -43 )
+[node name="underbridge" type="CSGCombiner" parent="Level/geometry" index="4"]
+transform = Transform( -8.14603e-08, 0, -0.5, 0, 0.5, 0, 0.5, 0, -8.14603e-08, 1.14441e-05, 7.2663, -35 )
+material_override = ExtResource( 9 )
 use_collision = true
-path_interval_type = 1
-path_interval = 0.25
-path_simplify_angle = 0.0
-smooth_faces = false
-material = ExtResource( 10 )
 
-[node name="WorldEnvironment" parent="Environment" index="0"]
-environment = SubResource( 3 )
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/underbridge" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, -3.25842e-07 )
+width = 8.0
+height = 18.0
+depth = 100.0
+
+[node name="door" type="CSGBox" parent="Level/geometry/underbridge/CSGBox" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.62939e-06, 0, 24 )
+operation = 2
+width = 18.0
+height = 10.0
+depth = 10.0
+
+[node name="door2" type="CSGBox" parent="Level/geometry/underbridge/CSGBox" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -7.62939e-06, 0, -24 )
+operation = 2
+width = 18.0
+height = 10.0
+depth = 10.0
+
+[node name="thinner" type="CSGBox" parent="Level/geometry/underbridge/CSGBox" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -6, 0, -2 )
+operation = 2
+width = 8.0
+height = 10.0
+depth = 142.0
+
+[node name="thinner2" type="CSGBox" parent="Level/geometry/underbridge/CSGBox" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, -2 )
+operation = 2
+width = 8.0
+height = 10.0
+depth = 140.0
+
+[node name="CSGBox2" type="CSGBox" parent="Level/geometry/underbridge" index="1"]
+transform = Transform( 1, 4.17658e-08, -5.44445e-09, -4.17658e-08, 0.966582, -0.256357, -5.44446e-09, 0.256357, 0.966582, 0, 19.3173, 14 )
+operation = 2
+width = 46.0
+height = 18.0
+depth = 122.0
+
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/underbridge/CSGBox2" index="0"]
+transform = Transform( 1, -8.11745e-08, -2.16626e-08, 8.11746e-08, 0.867036, 0.498246, -2.16625e-08, -0.498246, 0.867036, -7.62939e-06, -22.5551, -47.8158 )
+width = 34.0
+height = 12.0
+depth = 50.0
+
+[node name="pillars" type="CSGCombiner" parent="Level/geometry" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, -36 )
+material_override = ExtResource( 3 )
+use_collision = true
+
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/pillars" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.291899, 11, 2 )
+height = 12.0
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/pillars/CSGBox" index="0"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 5.96046e-08, 6, 0 )
+polygon = PoolVector2Array( 0, 0, 0, 2.8, 1.4, 0 )
+mode = 1
+spin_degrees = 360.0
+spin_sides = 4
+
+[node name="CSGBox4" type="CSGBox" parent="Level/geometry/pillars" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.2919, 4, 22 )
+height = 12.0
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/pillars/CSGBox4" index="0"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 5.96046e-08, 6, 0 )
+polygon = PoolVector2Array( 0, 0, 0, 2.8, 1.4, 0 )
+mode = 1
+spin_degrees = 360.0
+spin_sides = 4
+
+[node name="CSGBox5" type="CSGBox" parent="Level/geometry/pillars" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.7081, 4, 22 )
+height = 12.0
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/pillars/CSGBox5" index="0"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 5.96046e-08, 6, 0 )
+polygon = PoolVector2Array( 0, 0, 0, 2.8, 1.4, 0 )
+mode = 1
+spin_degrees = 360.0
+spin_sides = 4
+
+[node name="CSGBox2" type="CSGBox" parent="Level/geometry/pillars" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 20.2919, 4, -18 )
+height = 12.0
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/pillars/CSGBox2" index="0"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 5.96046e-08, 6, 0 )
+polygon = PoolVector2Array( 0, 0, 0, 2.8, 1.4, 0 )
+mode = 1
+spin_degrees = 360.0
+spin_sides = 4
+
+[node name="CSGBox3" type="CSGBox" parent="Level/geometry/pillars" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19.7081, 4, -18 )
+height = 12.0
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/pillars/CSGBox3" index="0"]
+transform = Transform( 0.707107, 0, -0.707107, 0, 1, 0, 0.707107, 0, 0.707107, 5.96046e-08, 6, 0 )
+polygon = PoolVector2Array( 0, 0, 0, 2.8, 1.4, 0 )
+mode = 1
+spin_degrees = 360.0
+spin_sides = 4
+
+[node name="CsgBridge" parent="Level/geometry" index="6" instance=ExtResource( 2 )]
+transform = Transform( -2.18557e-08, 0, 0.5, 0, 0.5, 0, -0.5, 0, -2.18557e-08, 16.0452, 2.8, -25.5 )
+use_collision = true
+
+[node name="rock" type="CSGCombiner" parent="Level/geometry" index="7"]
+transform = Transform( 0.642788, 0, 0.766044, 0, 1, 0, -0.766044, 0, 0.642788, 10, 6, -17 )
+material_override = SubResource( 1 )
+material_overlay = ExtResource( 4 )
+calculate_tangents = false
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/rock" index="0"]
+polygon = PoolVector2Array( -1.6, 0, -2.13471, 0.966802, -2, 2, -1, 2, 0.822639, 2.37, 2, 3, 3.49366, 2.94664, 4.5974, 2.24018, 5, 0.4, 4.9, 0 )
+depth = 7.0
+
+[node name="CSGPolygon2" type="CSGPolygon" parent="Level/geometry/rock" index="1"]
+transform = Transform( -2.98023e-08, 0, 1, 0, 1, 0, -1, 0, -2.98023e-08, 6.32219, 0, 0.172734 )
+operation = 1
+polygon = PoolVector2Array( 0, 1, 0, 1, 0, 1, 0.536905, 1.28351, 1, 2, 1.52766, 2.62249, 2.56376, 2.96209, 3.67956, 2.17995, 5.37331, 2.1604, 6.15662, 1.57562, 7.3, 1.4, 7.2, 0.2, 6.8, 0, 0.1, 0 )
+depth = 12.0
+
+[node name="CSGPolygon3" type="CSGPolygon" parent="Level/geometry/rock" index="2"]
+transform = Transform( 1, 0, -8.88178e-16, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.307476, 10, -0.324748 )
+operation = 1
+polygon = PoolVector2Array( 0, 0, -1.3, 1.1, -1.65732, 3.13464, -0.843124, 5.26307, 2.29235, 6.28819, 4.00856, 5.53425, 5.62763, 2.79569, 5.39882, 0.611786, 3, 0, 1.1, -0.2 )
+depth = 55.0
+
+[node name="rock-col" type="CSGCombiner" parent="Level/geometry" index="8"]
+transform = Transform( 0.642788, 0, 0.766044, 0, 1, 0, -0.766044, 0, 0.642788, 10, 6, -17 )
+layers = 0
+cast_shadow = 0
+use_collision = true
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/rock-col" index="0"]
+polygon = PoolVector2Array( -2, 0, -2, 2, 2, 3, 3.9, 3, 5, 2.5, 5, 0 )
+depth = 7.0
+
+[node name="CSGPolygon2" type="CSGPolygon" parent="Level/geometry/rock-col" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0 )
+operation = 1
+polygon = PoolVector2Array( -0.3, 0.3, -1.7, 1.4, -1.97495, 3.49846, -1.1143, 5.67598, 2.00024, 6.62459, 3.70409, 5.89093, 5.0374, 3.69256, 5, 1, 2.7, 0.3, 0.819008, 0.136973 )
+depth = 22.0
+
+[node name="CSGPolygon3" type="CSGPolygon" parent="Level/geometry/rock-col" index="2"]
+transform = Transform( 2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -4, 0, -7 )
+operation = 1
+calculate_tangents = false
+polygon = PoolVector2Array( 0, 0, -0.00506973, 1.27449, 1.4, 1.9, 2, 2, 4.6, 3, 5.2, 3, 6.3, 2, 7, 0 )
+depth = 22.0
+
+[node name="rock2" type="CSGCombiner" parent="Level/geometry" index="9"]
+transform = Transform( -0.642788, 0, -0.766045, 0, 1, 0, 0.766045, 0, -0.642788, -9, 6, -51 )
+material_override = SubResource( 1 )
+material_overlay = ExtResource( 4 )
+calculate_tangents = false
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/rock2" index="0"]
+polygon = PoolVector2Array( -1.6, 0, -2.13471, 0.966802, -2, 2, -1, 2, 0.822639, 2.37, 2, 3, 3.49366, 2.94664, 4.5974, 2.24018, 5, 0.4, 4.9, 0 )
+depth = 7.0
+__meta__ = {
+"_editor_description_": ""
+}
+
+[node name="CSGPolygon2" type="CSGPolygon" parent="Level/geometry/rock2" index="1"]
+transform = Transform( -2.98023e-08, 0, 1, 0, 1, 0, -1, 0, -2.98023e-08, 6.32219, 0, 0.172734 )
+operation = 1
+polygon = PoolVector2Array( 0, 1, 0, 1, 0, 1, 0.536905, 1.28351, 1, 2, 1.52766, 2.62249, 2.56376, 2.96209, 3.67956, 2.17995, 5.37331, 2.1604, 6.15662, 1.57562, 7.3, 1.4, 7.2, 0.2, 6.8, 0, 0.1, 0 )
+depth = 12.0
+
+[node name="CSGPolygon3" type="CSGPolygon" parent="Level/geometry/rock2" index="2"]
+transform = Transform( 1, 0, -8.88178e-16, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.307476, 10, -0.324748 )
+operation = 1
+polygon = PoolVector2Array( 0, 0, -1.3, 1.1, -1.65732, 3.13464, -0.843124, 5.26307, 2.29235, 6.28819, 4.00856, 5.53425, 5.62763, 2.79569, 5.39882, 0.611786, 3, 0, 1.1, -0.2 )
+depth = 55.0
+
+[node name="rock-col2" type="CSGCombiner" parent="Level/geometry" index="10"]
+transform = Transform( -0.642788, 0, -0.766045, 0, 1, 0, 0.766045, 0, -0.642788, -9, 6, -51 )
+layers = 0
+cast_shadow = 0
+calculate_tangents = false
+use_collision = true
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/rock-col2" index="0"]
+polygon = PoolVector2Array( -2, 0, -2, 2, 2, 3, 3.9, 3, 5, 2.5, 5, 0 )
+depth = 7.0
+
+[node name="CSGPolygon2" type="CSGPolygon" parent="Level/geometry/rock-col2" index="1"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5, 0 )
+operation = 1
+polygon = PoolVector2Array( -0.3, 0.3, -1.7, 1.4, -1.97495, 3.49846, -1.1143, 5.67598, 2.00024, 6.62459, 3.70409, 5.89093, 5.0374, 3.69256, 5, 1, 2.7, 0.3, 0.819008, 0.136973 )
+depth = 22.0
+
+[node name="CSGPolygon3" type="CSGPolygon" parent="Level/geometry/rock-col2" index="2"]
+transform = Transform( 2.98023e-08, 0, -1, 0, 1, 0, 1, 0, 2.98023e-08, -4, 0, -7 )
+operation = 1
+calculate_tangents = false
+polygon = PoolVector2Array( 0, 0, -0.00506973, 1.27449, 1.4, 1.9, 2, 2, 4.6, 3, 5.2, 3, 6.3, 2, 7, 0 )
+depth = 22.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Environment" index="1"]
 transform = Transform( 0.766621, 0.478528, -0.428138, -0.0202057, 0.684427, 0.728801, 0.641781, -0.550064, 0.534365, 0, 13.9, 0 )

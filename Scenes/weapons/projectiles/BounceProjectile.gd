@@ -1,26 +1,10 @@
-extends KinematicBody
-class_name Projectile, 'res://DEV/class_icons/projectile.png'
+extends Projectile
 
-var Velocity : Vector3 = Vector3.ZERO
-var shooter : int = -1
-var spawnpos : Vector3
-var active : bool = true
-
-export(PackedScene) var Explosion
-export var impactPush : float = 0.0; #force in direction of Velocity
-export var impactLaunch : float = 0.0; #force upward
-export var impactAdditive : bool = true;
-
-export var damage : float = 25.0;
-export var gravitymult : float = 0.0;
-export var explodeOnTimeout : bool = false;
-
-func _ready() -> void:
-	spawnpos = global_transform.origin
-
-var collisionnormal : Vector3 = Vector3.UP
-func _physics_process(delta: float) -> void:
-	doprojectilestuff(delta)
+export var maxBounces : int = 1;
+export var elasticity : float = 0.9;
+var bounces : int = 0
+export var explodeOnBounce : bool = false;
+export var explodeOnPlayer : bool = true;
 
 func doprojectilestuff(delta: float) -> void:
 	#Server - tell all of the clients where this bullet should 'actually' be.
@@ -28,10 +12,8 @@ func doprojectilestuff(delta: float) -> void:
 		rpc("syncpos", global_transform, Velocity)
 	
 	look_at(global_transform.origin + Velocity, Vector3.UP)
-	
 	var hit = move_and_collide(Velocity * delta)
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
-		#only the server should let the projectile explode
 		var col = hit.collider
 		collisionnormal = hit.normal
 		if col is Player:
@@ -45,16 +27,35 @@ func doprojectilestuff(delta: float) -> void:
 				col.Velocity = Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z);
 			col.rpc("Damage", damage)
 			col.Damage(damage)
-		var explosionname = "explosion" + str(randi())
-		rpc("explode", explosionname, global_transform.origin)
-		explode(explosionname, global_transform.origin)
+			if explodeOnPlayer:
+	#				print("i hit a player i die")
+				var explosionname = "explosion" + str(randi())
+				rpc("explode", explosionname, global_transform.origin)
+				explode(explosionname, global_transform.origin)
+				rpc("cleanup")
+				queue_free()
+				return
+		
+		if bounces >= maxBounces:
+#			print("too many bounces i die")
+			var explosionname = "explosion" + str(randi())
+			rpc("explode", explosionname, global_transform.origin)
+			explode(explosionname, global_transform.origin)
+			rpc("cleanup")
+			queue_free()
+		
+		if explodeOnBounce:
+#			print("booom")
+			var explosionname = "explosion" + str(randi())
+			rpc("explode", explosionname, global_transform.origin)
+			explode(explosionname, global_transform.origin)
+		
+		Velocity = Velocity.bounce(hit.normal) * elasticity
+		bounces += 1
 	Velocity.y -= delta * gravitymult * 98
 
-remote func syncpos(t : Transform, velocity):
-	global_transform = t
-	Velocity = velocity
-
 remote func explode(uniquename : String, pos):
+#	print("Bang!")
 	if Explosion:
 		var kabommies = Explosion.instance()
 		kabommies.name = uniquename
@@ -67,17 +68,6 @@ remote func explode(uniquename : String, pos):
 			kabommies.rotation_degrees.x = -90
 		else:
 			kabommies.look_at(global_transform.origin + lookdir,Vector3.UP)
+
+remote func cleanup():
 	queue_free()
-
-
-func _on_lifetime_timeout() -> void:
-	if explodeOnTimeout:
-		var a = "explodet" + str(randi())
-		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() == 0:
-			rpc("explode", a, global_transform.origin)
-			explode(a, global_transform.origin )
-			queue_free()
-	else:
-		rpc("queue_free")
-		queue_free()
-	pass # Replace with function body.

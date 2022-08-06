@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
+[ext_resource path="res://MaterialAssets/Outline/OutlineBig.tres" type="Material" id=1]
 [ext_resource path="res://TextureAssets/cobblestone/TexturesCom_Pavement_CobblestoneMedieval10_2x2_512_roughness.png" type="Texture" id=2]
 [ext_resource path="res://TextureAssets/cobblestone/TexturesCom_Pavement_CobblestoneMedieval10_2x2_512_ao.png" type="Texture" id=3]
 [ext_resource path="res://TextureAssets/cobblestone/TexturesCom_Pavement_CobblestoneMedieval10_2x2_512_normal.png" type="Texture" id=4]
 
 [sub_resource type="SpatialMaterial" id=2]
+next_pass = ExtResource( 1 )
 albedo_color = Color( 0.172549, 0.172549, 0.172549, 1 )
 roughness_texture = ExtResource( 2 )
 normal_enabled = true
@@ -26,7 +28,7 @@ _data = {
 }
 
 [node name="CsgBridge" type="CSGPolygon"]
-polygon = PoolVector2Array( -7.05664, 2.99846, -7.95, 3, -7.95, 0, 13.9, 0, 13.9, 3, 13.05, 3, 11.95, 2, -6.05, 2.05 )
+polygon = PoolVector2Array( -7, 3, -8, 3, -8, 0, 13, 0, 13, 3, 12, 3, 11, 2, -6, 2 )
 mode = 2
 path_node = NodePath("Path")
 path_interval_type = 0
@@ -37,7 +39,6 @@ path_local = true
 path_continuous_u = false
 path_u_distance = 1.0
 path_joined = false
-smooth_faces = true
 material = SubResource( 2 )
 
 [node name="Path" type="Path" parent="."]
