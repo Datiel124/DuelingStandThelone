@@ -99,7 +99,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/discord_game_sdk/example/lobby/game_state.gd"
 }, {
-"base": "",
+"base": "EditorVCSInterface",
 "class": "GitAPI",
 "language": "NativeScript",
 "path": "res://addons/godot-git-plugin/git_api.gdns"
@@ -299,10 +299,10 @@ Loader="*res://addons/file_loader/loader.gd"
 Network="*res://scripts/globals/networking/network.gd"
 NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
 UserConfigs="*res://scripts/globals/UserConfigs.gd"
-Discord="*res://addons/discord_game_sdk/discord.gd"
 GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
 MusicPlayer="*res://Scenes/entities/MusicPlayer/MusicPlayer.tscn"
 GameFuncts="*res://scripts/globals/game_functs.gd"
+Discord="*res://addons/discord_game_sdk/discord.gd"
 
 [debug]
 
@@ -340,7 +340,7 @@ enabled=PoolStringArray( "res://addons/CSGStairs/plugin.cfg", "res://addons/disc
 
 [gdnative]
 
-singletons=[ "res://addons/godot-git-plugin/git_api.gdnlib" ]
+singletons=[  ]
 
 [input]
 
