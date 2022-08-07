@@ -18,6 +18,7 @@ projectile = ExtResource( 3 )
 fullauto = false
 cooldown = 1.2
 bullet_speed = 750.0
+bullet_spread = 0.0
 
 [node name="sounds" parent="." index="0"]
 shoot_sounds = [ ExtResource( 2 ) ]
