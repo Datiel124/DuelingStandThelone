@@ -314,7 +314,7 @@ one_shot = true
 
 [connection signal="Damage" from="." to="painvignette" method="_on_Player_Damage"]
 [connection signal="changeHealth" from="." to="HUD/HPPanel" method="set_hp"]
-[connection signal="spawnABullet" from="Head/Holder/Shotgun" to="." method="add_child"]
+[connection signal="spawnABullet" from="Head/Holder/Shotgun" to="projectiles" method="add_child"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
 [connection signal="timeout" from="respawnTimer" to="." method="_on_respawnTimer_timeout"]
 

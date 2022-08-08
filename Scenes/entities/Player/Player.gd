@@ -35,7 +35,18 @@ var invulnerable := false
 
 
 #Weapon-selection references
-var currentWeapon
+var currentWeapon setget setCurrentWeapon
+signal changeCurrentWeapon(old, new)
+func setCurrentWeapon(new):
+	var old = currentWeapon
+	currentWeapon = new
+	#Disconnect the old weapon.
+	if old:
+		old.disconnect('spawnABullet', $projectiles, "add_child")
+	#Connect weapon to spawn a bullet.
+	currentWeapon.connect('spawnABullet', $projectiles, "add_child")
+	emit_signal("changeCurrentWeapon", old, new)
+
 #Hard-coding primary and secondary weapons, as it is all that the gameplay requires.
 master var primary;
 master var secondary;
@@ -55,7 +66,7 @@ func _ready() -> void:
 		set_network_master(get_tree().get_network_unique_id())
 	yield(get_tree(), 'idle_frame')
 	setHealth(health)
-	currentWeapon = $Head/Holder.get_child(0)
+	setCurrentWeapon($Head/Holder.get_child(0))
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	else:
