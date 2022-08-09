@@ -128,9 +128,9 @@ tracks/0/keys = {
 
 [node name="explosion" type="Spatial"]
 script = ExtResource( 1 )
-max_damage = 10.0
-impulse = 10.0
-v_impulse = 4.0
+max_damage = 15.0
+impulse = 20.0
+v_impulse = 10.0
 
 [node name="boom" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 3 )
@@ -143,6 +143,10 @@ attenuation_filter_db = 0.0
 doppler_tracking = 2
 
 [node name="explosionArea" type="Area" parent="."]
+collision_layer = 0
+collision_mask = 6
+monitorable = false
+priority = 1.0
 
 [node name="explosionshape" type="CollisionShape" parent="explosionArea"]
 shape = SubResource( 1 )

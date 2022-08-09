@@ -296,12 +296,12 @@ enable_audio_input=true
 [autoload]
 
 Loader="*res://addons/file_loader/loader.gd"
+UserConfigs="*res://scripts/globals/UserConfigs.gd"
+GameFuncts="*res://scripts/globals/game_functs.gd"
 Network="*res://scripts/globals/networking/network.gd"
 NetworkLobby="*res://scripts/globals/networking/networkLobby.gd"
-UserConfigs="*res://scripts/globals/UserConfigs.gd"
-GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
 MusicPlayer="*res://Scenes/entities/MusicPlayer/MusicPlayer.tscn"
-GameFuncts="*res://scripts/globals/game_functs.gd"
+GlobalCamera="*res://Scenes/entities/Camera/camera.tscn"
 Discord="*res://addons/discord_game_sdk/discord.gd"
 
 [debug]
@@ -313,7 +313,7 @@ gdscript/warnings/unused_variable=false
 gdscript/warnings/unused_argument=false
 gdscript/warnings/unused_signal=false
 gdscript/warnings/return_value_discarded=false
-multirun/number_of_windows=2
+multirun/number_of_windows=4
 multirun/window_distance=200
 multirun/add_custom_args=true
 multirun/first_window_args="listen"

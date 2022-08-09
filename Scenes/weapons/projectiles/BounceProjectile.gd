@@ -34,6 +34,10 @@ func doprojectilestuff(delta: float) -> void:
 				col.rpc("setVelocity", Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 				col.setVelocity(Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 			
+			#stun target
+			if stunDuration > 0:
+				col.rpc("Stun", 0.0, stunDuration)
+				col.Stun(0.0, stunDuration)
 			#damage target
 			col.rpc("Damage", damage)
 			col.Damage(damage)
@@ -55,6 +59,7 @@ func doprojectilestuff(delta: float) -> void:
 			explode(explosionname, global_transform.origin)
 			rpc("disableAll")
 			disableAll()
+			return
 		
 		if explodeOnBounce:
 #			print("booom")
@@ -65,3 +70,34 @@ func doprojectilestuff(delta: float) -> void:
 		Velocity = Velocity.bounce(hit.normal) * elasticity
 		bounces += 1
 	Velocity.y -= delta * gravitymult * 98
+
+
+remote func explode(uniquename : String, pos):
+	if Explosion and is_physics_processing():
+		var kabommies = Explosion.instance()
+		kabommies.name = uniquename
+		get_parent().add_child(kabommies)
+		kabommies.global_transform.origin = pos
+		var lookdir = collisionnormal
+		if lookdir.is_equal_approx(Vector3.UP):
+			kabommies.rotation_degrees.x = 90
+		elif lookdir.is_equal_approx(Vector3.DOWN):
+			kabommies.rotation_degrees.x = -90
+		else:
+			kabommies.look_at(global_transform.origin + lookdir,Vector3.UP)
+
+
+func _on_lifetime_timeout() -> void:
+	if explodeOnTimeout:
+		var a = "explodet" + str(randi())
+		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
+			rpc("explode", a, global_transform.origin)
+			explode(a, global_transform.origin)
+			
+			rpc("disableAll")
+			disableAll()
+	else:
+		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
+			rpc("disableAll")
+			disableAll()
+	pass # Replace with function body.

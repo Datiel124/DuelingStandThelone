@@ -63,12 +63,13 @@ proximity_fade_distance = 1.0
 material = SubResource( 25 )
 
 [node name="BounceBomb" instance=ExtResource( 1 )]
-impactPush = 10.0
-impactLaunch = 5.0
+impactPush = 20.0
+impactLaunch = 10.0
+impactAdditive = false
 damage = 25.0
 gravitymult = 0.8
 maxBounces = 1000
-elasticity = 0.9
+elasticity = 0.75
 
 [node name="Loop" parent="." index="0"]
 stream = ExtResource( 2 )

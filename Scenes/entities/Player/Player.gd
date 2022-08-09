@@ -3,10 +3,12 @@ class_name Player
 
 #Physics-related variables
 var air_accel:float 	= 5.0
+onready var base_air_accel:float = air_accel
+
 var normal_accel:float 	= 8.0
 var friction:float		= 16.0
 var max_ground_speed:float 		= 10.0
-var max_air_speed:float = 2.5
+var max_air_speed:float = 2.0
 var direction:Vector3 	= Vector3()
 var gravity:float		= 15.0
 var jump_force:float 	= 9.0
@@ -16,7 +18,6 @@ remote func setVelocity(newvelocity):
 	Velocity = newvelocity
 func getVelocity():
 	return Velocity
-
 
 var lastjumptime = 0.0;
 var is_airjump = false;
@@ -294,6 +295,16 @@ remote func kill() -> void:
 	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
 	#set camera's target to the spawned corpse's viewtarget node
 	visible = false
+
+var airstuntween : SceneTreeTween
+remote func Stun(start_amt : float = 0.0, duration : float = 1.5) -> void:
+	if airstuntween is SceneTreeTween:
+		airstuntween.kill()
+	airstuntween = get_tree().create_tween()
+	airstuntween.set_trans(Tween.TRANS_CIRC)
+	airstuntween.set_ease(Tween.EASE_IN)
+	air_accel = start_amt
+	airstuntween.tween_property(self, "air_accel", base_air_accel, duration)
 
 
 func respawn() -> void:

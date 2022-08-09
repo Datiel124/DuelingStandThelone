@@ -10,17 +10,21 @@ export(PackedScene) var Explosion
 export var impactPush : float = 0.0; #force in direction of Velocity
 export var impactLaunch : float = 0.0; #force upward
 export var impactAdditive : bool = true;
+export var stunDuration : float = 0.5;
 
 export var damage : float = 25.0;
 export var gravitymult : float = 0.0;
 export var explodeOnTimeout : bool = false;
 
+
 func _ready() -> void:
 	spawnpos = global_transform.origin
+
 
 var collisionnormal : Vector3 = Vector3.UP
 func _physics_process(delta: float) -> void:
 	doprojectilestuff(delta)
+
 
 func doprojectilestuff(delta: float) -> void:
 	#Server - tell all of the clients where this bullet should 'actually' be.
@@ -28,9 +32,7 @@ func doprojectilestuff(delta: float) -> void:
 		rpc("syncpos", global_transform, Velocity)
 	
 	look_at(global_transform.origin + Velocity, Vector3.UP)
-	
 	var hit = move_and_collide(Velocity * delta)
-	
 	#only the server can validate a hit
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		#only the server should let the projectile explode
@@ -51,6 +53,10 @@ func doprojectilestuff(delta: float) -> void:
 				col.rpc("setVelocity", Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 				col.setVelocity(Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 			
+			#stun target
+			if stunDuration > 0:
+				col.rpc("Stun", 0.0, stunDuration)
+				col.Stun(0.0, stunDuration)
 			#damage target
 			col.rpc("Damage", damage)
 			col.Damage(damage)
@@ -61,12 +67,14 @@ func doprojectilestuff(delta: float) -> void:
 		explode(explosionname, global_transform.origin)
 	Velocity.y -= delta * gravitymult * 98
 
+
 remote func syncpos(t : Transform, velocity):
 	global_transform = t
 	Velocity = velocity
 
+
 remote func explode(uniquename : String, pos):
-	if Explosion:
+	if Explosion and is_physics_processing():
 		var kabommies = Explosion.instance()
 		kabommies.name = uniquename
 		get_parent().add_child(kabommies)
@@ -95,17 +103,16 @@ remote func disableAll():
 		cleanup()
 
 
-func cleanup():
-	call_deferred("queue_free")
+remote func cleanup():
+	queue_free()
 
 
 func _on_lifetime_timeout() -> void:
 	if explodeOnTimeout:
 		var a = "explodet" + str(randi())
 		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
-			print("truly")
 			rpc("explode", a, global_transform.origin)
-			explode(a, global_transform.origin )
+			explode(a, global_transform.origin)
 	else:
 		rpc("disableAll")
 		disableAll()

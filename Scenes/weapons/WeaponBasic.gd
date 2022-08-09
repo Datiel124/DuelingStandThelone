@@ -62,6 +62,7 @@ func _InputFromPlayer(event:InputEvent) -> void:
 
 func _physics_process(delta: float) -> void:
 	var camray = RayCast.new()
+	camray.collision_mask = 0b11
 	get_tree().get_root().add_child(camray)
 	camray.global_transform = get_viewport().get_camera().get_global_transform()
 	camray.cast_to = Vector3.FORWARD * 5000
