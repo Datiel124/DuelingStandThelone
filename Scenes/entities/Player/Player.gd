@@ -70,10 +70,11 @@ func _ready() -> void:
 	setCurrentWeapon($Head/Holder.get_child(0))
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+		$nametag.visible = false
 	else:
 		$HUD.queue_free()
 		$painvignette.queue_free()
-
+		$nametag.text = NetworkLobby.player_info[get_network_master()].username
 
 func _process(delta) -> void:
 	if is_network_master():
