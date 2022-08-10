@@ -32,12 +32,13 @@ remote func explode():
 		var damagemult = damage_Falloff.interpolate(dist / $explosionArea/explosionshape.shape.radius)
 		var impulsemult = impulse_Falloff.interpolate(dist / $explosionArea/explosionshape.shape.radius)
 		if b is Player && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
+			var launchie = (dir * impulsemult * impulse) + (Vector3.UP * impulsemult * v_impulse)
 			if additive:
-				b.rpc("setVelocity", b.Velocity + Vector3(dir.x * impulsemult, (dir.y * impulsemult) + (v_impulse * impulsemult), dir.z * impulsemult))
-				b.setVelocity(b.Velocity + Vector3(dir.x * impulsemult, (dir.y * impulsemult) + (v_impulse * impulsemult), dir.z * impulsemult))
+				b.rpc("setVelocity", b.Velocity + Vector3(launchie))
+				b.setVelocity(b.Velocity + launchie)
 			else:
-				b.rpc("setVelocity", Vector3(dir.x * impulsemult, (dir.y * impulsemult) + (v_impulse * impulsemult), dir.z * impulsemult))
-				b.setVelocity(Vector3(dir.x * impulsemult, (dir.y * impulsemult) + (v_impulse * impulsemult), dir.z * impulsemult))
+				b.rpc("setVelocity", launchie)
+				b.setVelocity(launchie)
 			
 			b.rpc("Stun")
 			b.Stun()

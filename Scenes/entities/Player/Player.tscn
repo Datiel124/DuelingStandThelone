@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=2]
+[gd_scene load_steps=37 format=2]
 
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -23,7 +23,6 @@
 [ext_resource path="res://Scenes/entities/Player/sounds/death-02.wav" type="AudioStream" id=21]
 [ext_resource path="res://Scenes/ui/hud/playerlist.tscn" type="PackedScene" id=22]
 [ext_resource path="res://TextureAssets/fonts/roboto/Roboto-Black.ttf" type="DynamicFontData" id=23]
-[ext_resource path="res://Scenes/weapons/projectiles/Projectile.tscn" type="PackedScene" id=24]
 
 [sub_resource type="DynamicFont" id=20]
 size = 128
@@ -244,9 +243,6 @@ sway_up = Vector3( 0.3, 0, 0 )
 sway_down = Vector3( -0.3, 0, 0 )
 
 [node name="Railgun" parent="Head/Holder" instance=ExtResource( 4 )]
-WeaponName = "Railgun"
-projectile = ExtResource( 24 )
-bullet_speed = 300000.0
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )

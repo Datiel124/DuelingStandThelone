@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Animation" id=1]
+resource_local_to_scene = true
+resource_name = "flash"
+tracks/0/type = "value"
+tracks/0/path = NodePath("OmniLight:light_energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 16.0, 0.0 ]
+}
+
+[node name="RailExplosion" instance=ExtResource( 1 )]
+max_damage = 10.0
+impulse = 10.0
+v_impulse = 5.0
+
+[node name="OmniLight" parent="." index="3"]
+light_color = Color( 1, 0.133333, 0.133333, 1 )
+omni_range = 11.0
+
+[node name="AnimationPlayer" parent="." index="4"]
+anims/flash = SubResource( 1 )

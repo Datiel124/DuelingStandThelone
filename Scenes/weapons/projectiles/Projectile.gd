@@ -43,11 +43,11 @@ func doprojectilestuff(delta: float) -> void:
 	#only the server can validate a hit
 	if !useAdvancedTrail:
 		if hit:
-			$meshtrail2.translation = Vector3(0, 0, 0.5) * hit.travel.length()
-			$meshtrail2.scale = Vector3(1, hit.travel.length() * basicTrailLength, 1)
+			$meshtrail2.translation = Vector3(0, 0, 0.5) * min(hit.travel.length(), global_transform.origin.distance_to(spawnpos))
+			$meshtrail2.scale = Vector3(1, min(hit.travel.length(), global_transform.origin.distance_to(spawnpos)) * basicTrailLength, 1)
 		else:
-			$meshtrail2.translation = Vector3(0, 0, 0.5) * Velocity.length() * delta * basicTrailLength
-			$meshtrail2.scale = Vector3(1, Velocity.length() * delta * basicTrailLength, 1)
+			$meshtrail2.translation = Vector3(0, 0, 0.5) * min(Velocity.length() * delta, global_transform.origin.distance_to(spawnpos)) * basicTrailLength
+			$meshtrail2.scale = Vector3(1, min(Velocity.length() * delta, global_transform.origin.distance_to(spawnpos))  * basicTrailLength, 1)
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		#only the server should let the projectile explode
 		var col = hit.collider
@@ -59,11 +59,11 @@ func doprojectilestuff(delta: float) -> void:
 			
 			#velocity additive or setd
 			if impactAdditive:
-				var launchdir = impactLaunch * Velocity.normalized()
+				var launchdir = impactPush * Velocity.normalized()
 				col.rpc("setVelocity", col.Velocity + Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 				col.setVelocity(col.Velocity + Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 			else:
-				var launchdir = impactLaunch * Velocity.normalized()
+				var launchdir = impactPush * Velocity.normalized()
 				col.rpc("setVelocity", Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 				col.setVelocity(Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
 			
