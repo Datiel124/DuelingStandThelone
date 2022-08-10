@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/weapons/cloud.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/weapons/explosions/cloud.png" type="Texture" id=2]
 
 [sub_resource type="Curve" id=1]
 _data = [ Vector2( 0, 1 ), 0.0, -3.0947, 0, 0, Vector2( 1, 0 ), -0.062049, 0.0, 0, 0 ]

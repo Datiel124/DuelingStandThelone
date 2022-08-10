@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://DEV/UI_MOCKUP/thinRing.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/weapons/projectiles/Projectile.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/Trail/trail_3d.gd" type="Script" id=4]
 
 [sub_resource type="SphereShape" id=9]
 radius = 0.1
@@ -61,6 +62,16 @@ scale_curve = SubResource( 19 )
 color = Color( 3, 3, 3, 1 )
 color_ramp = SubResource( 17 )
 
+[sub_resource type="SpatialMaterial" id=21]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+
+[sub_resource type="Curve" id=22]
+_data = [ Vector2( 0, 1 ), 0.0, -1.0, 0, 1, Vector2( 1, 0 ), -1.0, 0.0, 1, 0 ]
+
+[sub_resource type="Gradient" id=23]
+colors = PoolColorArray( 6, 6, 0, 1, 2, 2, 0, 0 )
+
 [node name="Projectile" type="KinematicBody"]
 collision_layer = 0
 collision_mask = 7
@@ -101,5 +112,13 @@ draw_pass_1 = SubResource( 14 )
 wait_time = 10.0
 one_shot = true
 autostart = true
+
+[node name="meshtrail" type="ImmediateGeometry" parent="."]
+material_override = SubResource( 21 )
+script = ExtResource( 4 )
+segments = 50
+lifetime = 5.0
+width_profile = SubResource( 22 )
+color_gradient = SubResource( 23 )
 
 [connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]

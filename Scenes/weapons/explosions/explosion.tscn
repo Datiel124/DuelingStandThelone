@@ -1,9 +1,9 @@
 [gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/weapons/explosions/explosion.gd" type="Script" id=1]
-[ext_resource path="res://Scenes/weapons/cloud.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/weapons/explosions/cloud.png" type="Texture" id=2]
 [ext_resource path="res://Audio/quaker540_hq-explosion.wav" type="AudioStream" id=3]
-[ext_resource path="res://Scenes/weapons/dirt.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/weapons/explosions/dirt.png" type="Texture" id=4]
 
 [sub_resource type="SphereShape" id=1]
 radius = 8.0

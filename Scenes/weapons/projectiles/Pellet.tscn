@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Scenes/weapons/projectiles/Projectile.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/weapons/explosions/BulletExplosion.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/weapons/cloud.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/weapons/explosions/cloud.png" type="Texture" id=3]
 
 [sub_resource type="Gradient" id=1]
 interpolation_mode = 1

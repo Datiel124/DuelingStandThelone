@@ -62,6 +62,7 @@ func _enter_state(new_state, old_state):
 		states.DEAD:
 			if is_network_master():
 				get_node("../HUD").visible = false
+			get_node('../capsulecollider').disabled = true
 			return
 
 #Sometimes exitting a state should do something.
@@ -70,5 +71,6 @@ func _exit_state(old_state, new_state):
 		states.DEAD:
 			if is_network_master():
 				get_node("../HUD").visible = true
+			get_node('../capsulecollider').disabled = false
 			return
 	pass

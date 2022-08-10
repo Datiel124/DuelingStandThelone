@@ -1,9 +1,9 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=38 format=2]
 
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/weapons/BombLauncher.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/weapons/railgun/Railgun.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
@@ -23,6 +23,7 @@
 [ext_resource path="res://Scenes/entities/Player/sounds/death-02.wav" type="AudioStream" id=21]
 [ext_resource path="res://Scenes/ui/hud/playerlist.tscn" type="PackedScene" id=22]
 [ext_resource path="res://TextureAssets/fonts/roboto/Roboto-Black.ttf" type="DynamicFontData" id=23]
+[ext_resource path="res://Scenes/weapons/projectiles/Projectile.tscn" type="PackedScene" id=24]
 
 [sub_resource type="DynamicFont" id=20]
 size = 128
@@ -227,7 +228,7 @@ mesh = SubResource( 1 )
 transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.245365, -0.121447 )
 visible = false
 
-[node name="CollisionShape" type="CollisionShape" parent="."]
+[node name="capsulecollider" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 2 )
 
@@ -242,8 +243,10 @@ sway_right = Vector3( 0, -0.3, 0.2 )
 sway_up = Vector3( 0.3, 0, 0 )
 sway_down = Vector3( -0.3, 0, 0 )
 
-[node name="BombLauncher" parent="Head/Holder" instance=ExtResource( 4 )]
-bullet_speed = 200.0
+[node name="Railgun" parent="Head/Holder" instance=ExtResource( 4 )]
+WeaponName = "Railgun"
+projectile = ExtResource( 24 )
+bullet_speed = 500.0
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )

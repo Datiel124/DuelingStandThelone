@@ -285,18 +285,6 @@ remote func Damage(damage, dealer : int = -1, currentHealth : int = health) -> v
 			$sounds/hurt.play()
 
 
-remote func kill() -> void:
-	#enter DEAD state
-	$sounds/hurt.stream = $sounds.death_sounds[randi()%$sounds.death_sounds.size()]
-	$sounds/hurt.unit_db = 0.0
-	$sounds/hurt.pitch_scale = rand_range(0.99, 1.01)
-	$sounds/hurt.play()
-	currentWeapon.stopShooting()
-	FSM.set_state(FSM.states.DEAD)
-	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
-	#set camera's target to the spawned corpse's viewtarget node
-	visible = false
-
 var airstuntween : SceneTreeTween
 remote func Stun(start_amt : float = 0.0, duration : float = 1.5) -> void:
 	if airstuntween is SceneTreeTween:
@@ -308,12 +296,27 @@ remote func Stun(start_amt : float = 0.0, duration : float = 1.5) -> void:
 	airstuntween.tween_property(self, "air_accel", base_air_accel, duration)
 
 
+remote func kill() -> void:
+	#enter DEAD state
+	$sounds/hurt.stream = $sounds.death_sounds[randi()%$sounds.death_sounds.size()]
+	$sounds/hurt.unit_db = 0.0
+	$sounds/hurt.pitch_scale = rand_range(0.99, 1.01)
+	$sounds/hurt.play()
+	$nametag.visible = false
+	currentWeapon.stopShooting()
+	FSM.set_state(FSM.states.DEAD)
+	#spawn corpse/ragdoll, become invisible and intangible (or just move somewhere far away)
+	#set camera's target to the spawned corpse's viewtarget node
+	visible = false
+
+
 func respawn() -> void:
 	setHealth(100)
 	Velocity = Vector3.ZERO
 	global_transform.origin = GameFuncts.get_random_spawnpoint().global_transform.origin
 	FSM.set_state(FSM.states.IDLE)
 	visible = true
+	$nametag.visible = true
 	invulnerable = true
 	if is_network_master():
 		$painvignette.ouchiness = 1.0;

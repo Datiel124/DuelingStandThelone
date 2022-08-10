@@ -1,8 +1,8 @@
 [gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scenes/textures/bullethole/bullet_hole.png" type="Texture" id=1]
-[ext_resource path="res://Scenes/weapons/cloud.png" type="Texture" id=2]
-[ext_resource path="res://Scenes/weapons/dirt.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/weapons/explosions/cloud.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/weapons/explosions/dirt.png" type="Texture" id=3]
 [ext_resource path="res://addons/decalco/src/Decal.shader" type="Shader" id=4]
 
 [sub_resource type="GDScript" id=3]

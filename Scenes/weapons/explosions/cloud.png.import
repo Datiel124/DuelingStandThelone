@@ -2,8 +2,8 @@
 
 importer="texture"
 type="StreamTexture"
-path.s3tc="res://.import/cloud.png-f94f1007cfb4df6c6115ad52a70357b2.s3tc.stex"
-path.etc2="res://.import/cloud.png-f94f1007cfb4df6c6115ad52a70357b2.etc2.stex"
+path.s3tc="res://.import/cloud.png-8e31cb549a11c63151e3ea7f8c8ac399.s3tc.stex"
+path.etc2="res://.import/cloud.png-8e31cb549a11c63151e3ea7f8c8ac399.etc2.stex"
 metadata={
 "imported_formats": [ "s3tc", "etc2" ],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://Scenes/weapons/cloud.png"
-dest_files=[ "res://.import/cloud.png-f94f1007cfb4df6c6115ad52a70357b2.s3tc.stex", "res://.import/cloud.png-f94f1007cfb4df6c6115ad52a70357b2.etc2.stex" ]
+source_file="res://Scenes/weapons/explosions/cloud.png"
+dest_files=[ "res://.import/cloud.png-8e31cb549a11c63151e3ea7f8c8ac399.s3tc.stex", "res://.import/cloud.png-8e31cb549a11c63151e3ea7f8c8ac399.etc2.stex" ]
 
 [params]
 
