@@ -1,7 +1,10 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/weapons/projectiles/BounceProjectile.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CubeMesh" id=11]
+size = Vector3( 0.5, 0.5, 1.976 )
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.00431034, 0.0689655, 0.474138 )
@@ -51,6 +54,26 @@ func _process(delta: float) -> void:
 
 [sub_resource type="CubeMesh" id=2]
 size = Vector3( 0.2, 1, 0.2 )
+
+[sub_resource type="SpatialMaterial" id=16]
+albedo_color = Color( 1, 0, 0, 1 )
+
+[sub_resource type="CubeMesh" id=15]
+material = SubResource( 16 )
+size = Vector3( 0.2, 1.064, 0.997 )
+
+[sub_resource type="CylinderMesh" id=12]
+top_radius = 0.529
+bottom_radius = 0.486
+height = 0.37
+
+[sub_resource type="CylinderMesh" id=13]
+top_radius = 0.677
+bottom_radius = 0.583
+height = 0.582
+
+[sub_resource type="CubeMesh" id=14]
+size = Vector3( 0.564, 0.722, 3.1 )
 
 [sub_resource type="Animation" id=9]
 resource_local_to_scene = true
@@ -188,6 +211,9 @@ cooldown = 2.6
 bullet_speed = 30000.0
 bullet_spread = 0.0
 
+[node name="MeshInstance" parent="." index="1"]
+mesh = SubResource( 11 )
+
 [node name="flash" parent="MeshInstance/MuzzlePoint" index="0"]
 transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.1, 0, -1.53136 )
 
@@ -196,7 +222,7 @@ transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.107879, -0.011
 process_material = SubResource( 6 )
 
 [node name="spinny-bit" type="MeshInstance" parent="MeshInstance" index="1"]
-transform = Transform( 0.832583, 2.4229e-08, -0.554299, 0.554299, -3.63931e-08, 0.832583, 0, -1, -4.37114e-08, 0, 0, -1 )
+transform = Transform( 0.938842, 1.50706e-08, -0.344782, 0.344782, -4.10378e-08, 0.938842, 0, -1, -4.37114e-08, 0, 0, -1 )
 mesh = SubResource( 7 )
 script = SubResource( 8 )
 spin_speed = 16.0
@@ -208,6 +234,35 @@ mesh = SubResource( 2 )
 [node name="MeshInstance2" type="MeshInstance" parent="MeshInstance/spinny-bit" index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.6, 2.62268e-08 )
 mesh = SubResource( 2 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="MeshInstance/spinny-bit" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.7083e-07, -0.5, -1.40143e-07 )
+mesh = SubResource( 15 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="MeshInstance/spinny-bit" index="3"]
+transform = Transform( -4.37116e-08, 0, 1, 0, 1, 0, -1, 0, -4.37116e-08, 1.7083e-07, -0.5, -1.40143e-07 )
+mesh = SubResource( 15 )
+
+[node name="MeshInstance" type="MeshInstance" parent="MeshInstance" index="2"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.2 )
+mesh = SubResource( 12 )
+
+[node name="MeshInstance4" type="MeshInstance" parent="MeshInstance" index="3"]
+transform = Transform( 1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0.0689496, 0.8 )
+mesh = SubResource( 13 )
+
+[node name="MeshInstance2" type="MeshInstance" parent="MeshInstance" index="4"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0.2 )
+mesh = SubResource( 12 )
+
+[node name="MeshInstance3" type="MeshInstance" parent="MeshInstance" index="5"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -0.6 )
+mesh = SubResource( 12 )
+
+[node name="MeshInstance5" type="MeshInstance" parent="MeshInstance" index="6"]
+transform = Transform( 1, 0, 0, 0, 1.15781, 0.1847, 0, -1.15781, 0.1847, 0.010189, -0.481883, 1.32704 )
+mesh = SubResource( 14 )
+skeleton = NodePath("../MuzzlePoint")
 
 [node name="AnimationPlayer" parent="." index="3"]
 anims/BaseShoot = SubResource( 9 )

@@ -8,7 +8,6 @@ Description: Advanced 2D/3D Trail system.
 
 extends ImmediateGeometry
 
-
 export(bool) 			var emit := true
 export(float) 			var distance := 0.1
 export(int, 0, 99999)	var segments := 20
@@ -339,11 +338,12 @@ func _ready() -> void:
 	global_transform = Transform()
 
 
-func _process(delta) -> void:
+func _physics_process(delta: float) -> void:
 	if emit:
 		_emit(delta)
 		
 	elif always_update:
 		# This is needed for alignment == view, so it can be updated every frame.
 		_render_geometry(points)
+		
 

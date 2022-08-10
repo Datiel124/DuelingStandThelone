@@ -16,9 +16,16 @@ export var damage : float = 25.0;
 export var gravitymult : float = 0.0;
 export var explodeOnTimeout : bool = false;
 
+export(int, 0, 1440) var trailFadeDelay : int = 2
+export var useAdvancedTrail : bool = false
+export var basicTrailLength : float = 5.0
+var fading : bool = false
+
 
 func _ready() -> void:
 	spawnpos = global_transform.origin
+	$meshtrail.visible = useAdvancedTrail
+	$meshtrail2.visible = !useAdvancedTrail
 
 
 var collisionnormal : Vector3 = Vector3.UP
@@ -34,6 +41,13 @@ func doprojectilestuff(delta: float) -> void:
 	look_at(global_transform.origin + Velocity, Vector3.UP)
 	var hit = move_and_collide(Velocity * delta)
 	#only the server can validate a hit
+	if !useAdvancedTrail:
+		if hit:
+			$meshtrail2.translation = Vector3(0, 0, 0.5) * hit.travel.length()
+			$meshtrail2.scale = Vector3(1, hit.travel.length() * basicTrailLength, 1)
+		else:
+			$meshtrail2.translation = Vector3(0, 0, 0.5) * Velocity.length() * delta * basicTrailLength
+			$meshtrail2.scale = Vector3(1, Velocity.length() * delta * basicTrailLength, 1)
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		#only the server should let the projectile explode
 		var col = hit.collider
@@ -43,7 +57,7 @@ func doprojectilestuff(delta: float) -> void:
 				#prevent player from shooting themself
 				return
 			
-			#velocity additive or set
+			#velocity additive or setd
 			if impactAdditive:
 				var launchdir = impactLaunch * Velocity.normalized()
 				col.rpc("setVelocity", col.Velocity + Vector3(launchdir.x, launchdir.y + impactLaunch, launchdir.z))
@@ -90,14 +104,34 @@ remote func explode(uniquename : String, pos):
 	disableAll()
 
 
+func _process(delta: float) -> void:
+	if fading:
+		if useAdvancedTrail:
+			$meshtrail.segments = max($meshtrail.segments - 1, 0)
+			$meshtrail.base_width *= 0.9
+		else:
+			$meshtrail2.translation *= 0.8
+			$meshtrail2.scale *= 0.8
+
+
 remote func disableAll():
+	set_physics_process(false)
 	$corona.emitting = false
 	$trail.emitting = false
-	set_physics_process(false)
-	$MeshInstance.visible = false
+	$ProjectileMesh.visible = false
 	$CollisionShape.disabled = true
 	$Loop.stop()
+	for i in trailFadeDelay:
+		#wait a couple physframes before fading out
+		yield(get_tree(), 'physics_frame')
+	fading = true
 	yield(get_tree().create_timer($trail.lifetime + 0.1), 'timeout')
+	if useAdvancedTrail:
+		while($meshtrail.segments > 0):
+			yield(get_tree(), 'idle_frame')
+	else:
+		while($meshtrail2.scale.y > 0.05):
+			yield(get_tree(), 'idle_frame')
 	if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
 		rpc("cleanup")
 		cleanup()

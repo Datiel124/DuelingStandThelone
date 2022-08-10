@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://DEV/UI_MOCKUP/thinRing.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/weapons/projectiles/Projectile.gd" type="Script" id=2]
@@ -62,15 +62,38 @@ scale_curve = SubResource( 19 )
 color = Color( 3, 3, 3, 1 )
 color_ramp = SubResource( 17 )
 
-[sub_resource type="SpatialMaterial" id=21]
-flags_transparent = true
+[sub_resource type="SpatialMaterial" id=23]
 vertex_color_use_as_albedo = true
 
-[sub_resource type="Curve" id=22]
+[sub_resource type="Curve" id=24]
 _data = [ Vector2( 0, 1 ), 0.0, -1.0, 0, 1, Vector2( 1, 0 ), -1.0, 0.0, 1, 0 ]
 
-[sub_resource type="Gradient" id=23]
-colors = PoolColorArray( 6, 6, 0, 1, 2, 2, 0, 0 )
+[sub_resource type="Gradient" id=22]
+interpolation_mode = 2
+colors = PoolColorArray( 5, 5, 0, 1, 1, 0, 0, 0 )
+
+[sub_resource type="CylinderMesh" id=25]
+top_radius = 0.05
+height = 1.0
+radial_segments = 8
+rings = 0
+
+[sub_resource type="Gradient" id=26]
+interpolation_mode = 1
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 4, 4, 0, 1 )
+
+[sub_resource type="GradientTexture2D" id=27]
+gradient = SubResource( 26 )
+fill_from = Vector2( 0.5, 1 )
+fill_to = Vector2( 0.5, 0 )
+repeat = 1
+
+[sub_resource type="SpatialMaterial" id=28]
+flags_transparent = true
+flags_unshaded = true
+params_blend_mode = 1
+albedo_texture = SubResource( 27 )
 
 [node name="Projectile" type="KinematicBody"]
 collision_layer = 0
@@ -79,6 +102,7 @@ script = ExtResource( 2 )
 Explosion = ExtResource( 3 )
 gravitymult = 1.0
 explodeOnTimeout = true
+basicTrailLength = 10.0
 
 [node name="Loop" type="AudioStreamPlayer3D" parent="."]
 unit_size = 0.3
@@ -91,7 +115,7 @@ doppler_tracking = 2
 [node name="CollisionShape" type="CollisionShape" parent="."]
 shape = SubResource( 9 )
 
-[node name="MeshInstance" type="MeshInstance" parent="."]
+[node name="ProjectileMesh" type="MeshInstance" parent="."]
 mesh = SubResource( 8 )
 
 [node name="corona" type="Particles" parent="."]
@@ -114,11 +138,17 @@ one_shot = true
 autostart = true
 
 [node name="meshtrail" type="ImmediateGeometry" parent="."]
-material_override = SubResource( 21 )
+visible = false
+material_override = SubResource( 23 )
 script = ExtResource( 4 )
-segments = 50
-lifetime = 5.0
-width_profile = SubResource( 22 )
-color_gradient = SubResource( 23 )
+base_width = 0.75
+width_profile = SubResource( 24 )
+color_gradient = SubResource( 22 )
+smoothing_iterations = 2
+
+[node name="meshtrail2" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, -2.18557e-08, 0.5 )
+mesh = SubResource( 25 )
+material/0 = SubResource( 28 )
 
 [connection signal="timeout" from="lifetime" to="." method="_on_lifetime_timeout"]

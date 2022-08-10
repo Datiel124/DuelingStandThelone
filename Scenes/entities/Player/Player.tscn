@@ -246,7 +246,7 @@ sway_down = Vector3( -0.3, 0, 0 )
 [node name="Railgun" parent="Head/Holder" instance=ExtResource( 4 )]
 WeaponName = "Railgun"
 projectile = ExtResource( 24 )
-bullet_speed = 500.0
+bullet_speed = 300000.0
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )
