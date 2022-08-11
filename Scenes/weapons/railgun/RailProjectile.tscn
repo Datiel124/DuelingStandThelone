@@ -30,13 +30,12 @@ albedo_color = Color( 2.5, 0.2, 0, 1 )
 
 [node name="RailProjectile" instance=ExtResource( 1 )]
 Explosion = ExtResource( 2 )
-impactPush = 10.0
-impactLaunch = 5.0
-damage = 35.0
+impactPush = 6.0
+impactLaunch = 2.0
+damage = 34.0
 gravitymult = 0.0
 explodeOnTimeout = false
-trailFadeDelay = 12
-basicTrailLength = 100.0
+trailFadeDelay = 16
 
 [node name="ProjectileMesh" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )

@@ -316,7 +316,8 @@ func respawn() -> void:
 	global_transform.origin = GameFuncts.get_random_spawnpoint().global_transform.origin
 	FSM.set_state(FSM.states.IDLE)
 	visible = true
-	$nametag.visible = true
+	if !is_network_master():
+		$nametag.visible = true
 	invulnerable = true
 	if is_network_master():
 		$painvignette.ouchiness = 1.0;

@@ -1,17 +1,18 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=26 format=2]
 
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/weapons/railgun/RailProjectile.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/entities/Player/wallbounce.wav" type="AudioStream" id=3]
+[ext_resource path="res://Scenes/weapons/DrawPassPart.tres" type="Material" id=4]
 
 [sub_resource type="CubeMesh" id=11]
 size = Vector3( 0.5, 0.5, 1.976 )
 
 [sub_resource type="Gradient" id=1]
-offsets = PoolRealArray( 0.00431034, 0.0689655, 0.474138 )
-colors = PoolColorArray( 1, 0.955688, 0.484375, 1, 1, 0.764648, 0, 1, 1, 0.210938, 0, 0.745098 )
+offsets = PoolRealArray( 0.00431034, 0.0689655, 1 )
+colors = PoolColorArray( 1, 0.955688, 0.484375, 1, 1, 0, 0, 1, 1, 0, 0, 0 )
 
-[sub_resource type="GradientTexture" id=5]
+[sub_resource type="GradientTexture" id=17]
 gradient = SubResource( 1 )
 
 [sub_resource type="Curve" id=3]
@@ -22,7 +23,7 @@ curve = SubResource( 3 )
 
 [sub_resource type="ParticlesMaterial" id=6]
 direction = Vector3( 0, 0, -1 )
-spread = 3.94
+spread = 0.81
 gravity = Vector3( 0, 0, 0 )
 initial_velocity = 51.77
 initial_velocity_random = 1.0
@@ -31,11 +32,42 @@ angular_velocity_random = 1.0
 damping = 47.45
 angle = 720.0
 angle_random = 1.0
-scale = 0.8
+scale = 1.5
 scale_curve = SubResource( 4 )
 color = Color( 2, 2, 2, 1 )
-color_ramp = SubResource( 5 )
-hue_variation = 0.62
+color_ramp = SubResource( 17 )
+
+[sub_resource type="GradientTexture" id=18]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=21]
+max_value = 100.0
+_data = [ Vector2( 0, 100 ), 0.0, -310.0, 0, 1, Vector2( 0.322581, 0 ), -310.0, 1.23295, 1, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=22]
+curve = SubResource( 21 )
+
+[sub_resource type="ParticlesMaterial" id=19]
+emission_shape = 1
+emission_sphere_radius = 0.09
+direction = Vector3( 0, 0, 1 )
+spread = 180.0
+flatness = 1.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 20.75
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+damping = 1.0
+damping_curve = SubResource( 22 )
+angle = 720.0
+angle_random = 1.0
+scale = 1.2
+scale_curve = SubResource( 4 )
+color = Color( 2, 2, 2, 1 )
+color_ramp = SubResource( 18 )
+
+[sub_resource type="QuadMesh" id=20]
+material = ExtResource( 4 )
 
 [sub_resource type="CylinderMesh" id=7]
 top_radius = 0.35
@@ -65,13 +97,15 @@ size = Vector3( 0.2, 1.064, 0.997 )
 
 [sub_resource type="CylinderMesh" id=12]
 top_radius = 0.529
-bottom_radius = 0.486
+bottom_radius = 0.257
 height = 0.37
+radial_segments = 8
 
 [sub_resource type="CylinderMesh" id=13]
 top_radius = 0.677
 bottom_radius = 0.583
 height = 0.582
+radial_segments = 8
 
 [sub_resource type="CubeMesh" id=14]
 size = Vector3( 0.564, 0.722, 3.1 )
@@ -139,6 +173,18 @@ tracks/4/keys = {
 "transitions": PoolRealArray( 5.27805, 1 ),
 "update": 0,
 "values": [ 1.0, 16.0 ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("MeshInstance/MuzzlePoint/Particles3:emitting")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
 }
 
 [sub_resource type="Animation" id=10]
@@ -209,7 +255,8 @@ tracks/4/keys = {
 projectile = ExtResource( 2 )
 fullauto = false
 cooldown = 2.6
-bullet_speed = 50000.0
+knockbackforce = 10.0
+bullet_speed = 250000.0
 bullet_spread = 0.0
 
 [node name="shoot" parent="sounds" index="0"]
@@ -218,15 +265,34 @@ stream = ExtResource( 3 )
 [node name="MeshInstance" parent="." index="1"]
 mesh = SubResource( 11 )
 
+[node name="MuzzlePoint" parent="MeshInstance" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.110189, 0.0181168, -1.07296 )
+
 [node name="flash" parent="MeshInstance/MuzzlePoint" index="0"]
 transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.1, 0, -1.53136 )
 
 [node name="Particles" parent="MeshInstance/MuzzlePoint" index="1"]
 transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.107879, -0.0114185, -0.44555 )
+amount = 32
+lifetime = 0.18
+explosiveness = 1.0
 process_material = SubResource( 6 )
 
+[node name="Particles3" type="Particles" parent="MeshInstance/MuzzlePoint" index="2"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
+emitting = false
+amount = 32
+lifetime = 1.21
+one_shot = true
+explosiveness = 1.0
+randomness = 1.0
+visibility_aabb = AABB( -1.03476, -1.05731, -0.195826, 2.06952, 2.11461, 0.391653 )
+local_coords = false
+process_material = SubResource( 19 )
+draw_pass_1 = SubResource( 20 )
+
 [node name="spinny-bit" type="MeshInstance" parent="MeshInstance" index="1"]
-transform = Transform( 0.938842, 1.50706e-08, -0.344782, 0.344782, -4.10378e-08, 0.938842, 0, -1, -4.37114e-08, 0, 0, -1 )
+transform = Transform( -0.337419, 4.11299e-08, -0.940923, 0.940923, 1.47493e-08, -0.337419, 0, -1, -4.37114e-08, 0, 0, -1 )
 mesh = SubResource( 7 )
 script = SubResource( 8 )
 spin_speed = 16.0

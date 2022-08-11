@@ -336,6 +336,7 @@ func _ready() -> void:
 	
 	set_as_toplevel(true)
 	global_transform = Transform()
+	_render_geometry(points)
 
 
 func _physics_process(delta: float) -> void:

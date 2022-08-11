@@ -5,11 +5,15 @@
 
 [node name="BounceProjectile" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+impactPush = 10.0
+impactLaunch = 10.0
 damage = 10.0
+trailFadeDelay = 1
 useAdvancedTrail = true
+basicTrailLength = 3.0
 maxBounces = 1
 elasticity = 1.0
-explodeOnBounce = false
+explodeOnBounce = true
 explodeOnPlayer = true
 
 [node name="lifetime" parent="." index="5"]

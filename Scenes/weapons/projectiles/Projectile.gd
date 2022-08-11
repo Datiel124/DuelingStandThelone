@@ -36,7 +36,7 @@ func _physics_process(delta: float) -> void:
 func doprojectilestuff(delta: float) -> void:
 	#Server - tell all of the clients where this bullet should 'actually' be.
 	if get_tree().is_network_server():
-		rpc("syncpos", global_transform, Velocity)
+		rpc_unreliable("syncpos", global_transform, Velocity)
 	
 	look_at(global_transform.origin + Velocity, Vector3.UP)
 	var hit = move_and_collide(Velocity * delta)
@@ -107,11 +107,10 @@ remote func explode(uniquename : String, pos):
 func _process(delta: float) -> void:
 	if fading:
 		if useAdvancedTrail:
-			$meshtrail.segments = max($meshtrail.segments - 1, 0)
+			$meshtrail.segments = max($meshtrail.segments - 2, 0)
 			$meshtrail.base_width *= 0.9
 		else:
-			$meshtrail2.translation *= 0.8
-			$meshtrail2.scale *= 0.8
+			$meshtrail2.scale *= 0.0
 
 
 remote func disableAll():

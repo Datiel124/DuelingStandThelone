@@ -13,7 +13,13 @@ func doprojectilestuff(delta: float) -> void:
 	
 	look_at(global_transform.origin + Velocity, Vector3.UP)
 	var hit = move_and_collide(Velocity * delta)
-	
+	if !useAdvancedTrail:
+		if hit:
+			$meshtrail2.translation = Vector3(0, 0, 0.5) * min(hit.travel.length(), global_transform.origin.distance_to(spawnpos))
+			$meshtrail2.scale = Vector3(1, min(hit.travel.length(), global_transform.origin.distance_to(spawnpos)) * basicTrailLength, 1)
+		else:
+			$meshtrail2.translation = Vector3(0, 0, 0.5) * min(Velocity.length() * delta, global_transform.origin.distance_to(spawnpos)) * basicTrailLength
+			$meshtrail2.scale = Vector3(1, min(Velocity.length() * delta, global_transform.origin.distance_to(spawnpos))  * basicTrailLength, 1)
 	#only the server can validate a hit
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		#only the server should let the projectile explode

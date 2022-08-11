@@ -7,6 +7,7 @@ export(String) var WeaponName = "test_weapon"
 export(PackedScene) var projectile
 export var fullauto : bool = false 
 export var cooldown = 0.2 setget setCooldown
+export var knockbackforce : float = 0.0
 func setCooldown(new):
 	cooldown = new
 	$cooldown.wait_time = new
@@ -101,6 +102,12 @@ remote func fire(muzzletf):
 remote func createProjectile(spawntransforms : Transform, suffix : String, is_active : bool = true):
 	var newproj :Projectile= projectile.instance()
 	emit_signal('spawnABullet', newproj)
+	var pl : Player = newproj.get_parent().get_parent()
+	newproj.add_collision_exception_with(pl)
+	pl.rpc("setVelocity", pl.Velocity + global_transform.basis.z * knockbackforce)
+	pl.setVelocity(pl.Velocity + global_transform.basis.z * knockbackforce) 
+	pl.rpc("Stun", 0.0, 0.2)
+	pl.Stun(0.0, 0.2)
 	newproj.name = "b-" + suffix
 	#Spawn the bullet locally, on the server.
 	newproj.global_transform.origin = spawntransforms.origin

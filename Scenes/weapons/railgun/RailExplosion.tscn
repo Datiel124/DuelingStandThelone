@@ -1,6 +1,110 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=1]
+[ext_resource path="res://TextureAssets/zap.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/weapons/explosions/cloud.png" type="Texture" id=3]
+
+[sub_resource type="Gradient" id=10]
+colors = PoolColorArray( 0.796078, 0.796078, 0.796078, 0.576471, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=11]
+gradient = SubResource( 10 )
+
+[sub_resource type="Gradient" id=14]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.3125, 1 )
+colors = PoolColorArray( 0.180392, 0.180392, 0.180392, 1, 0.1875, 0.1875, 0.1875, 0 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 14 )
+
+[sub_resource type="Curve" id=5]
+_data = [ Vector2( 0, 0.493182 ), 0.0, 1.74545, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=6]
+curve = SubResource( 5 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+direction = Vector3( 0, 0, -1 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 45.0
+initial_velocity_random = 1.0
+angular_velocity = 21.82
+angular_velocity_random = 1.0
+damping = 100.0
+angle = 720.0
+angle_random = 1.0
+scale = 12.0
+scale_random = 0.25
+scale_curve = SubResource( 6 )
+color = Color( 1, 1, 1, 0.862745 )
+color_ramp = SubResource( 4 )
+color_initial_ramp = SubResource( 11 )
+
+[sub_resource type="SpatialMaterial" id=15]
+flags_transparent = true
+vertex_color_use_as_albedo = true
+params_diffuse_mode = 4
+params_specular_mode = 4
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 3 )
+proximity_fade_enable = true
+proximity_fade_distance = 1.0
+
+[sub_resource type="QuadMesh" id=17]
+material = SubResource( 15 )
+
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 1, 0.28125, 0.28125, 1, 1, 1, 1, 1 )
+
+[sub_resource type="GradientTexture" id=3]
+gradient = SubResource( 2 )
+
+[sub_resource type="Gradient" id=18]
+colors = PoolColorArray( 1, 0.881443, 0.881443, 1, 1, 0.316406, 0.316406, 1 )
+
+[sub_resource type="GradientTexture" id=19]
+gradient = SubResource( 18 )
+
+[sub_resource type="Curve" id=20]
+_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=7]
+curve = SubResource( 20 )
+
+[sub_resource type="ParticlesMaterial" id=8]
+emission_shape = 1
+emission_sphere_radius = 0.28
+gravity = Vector3( 0, 0, 0 )
+angular_velocity = 5000.0
+angular_velocity_random = 1.0
+angle = 720.0
+angle_random = 1.0
+scale = 17.0
+scale_random = 0.75
+scale_curve = SubResource( 7 )
+color_ramp = SubResource( 19 )
+color_initial_ramp = SubResource( 3 )
+
+[sub_resource type="SpatialMaterial" id=9]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_blend_mode = 1
+params_billboard_mode = 3
+params_grow = true
+params_grow_amount = 2.0
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = ExtResource( 2 )
+
+[sub_resource type="QuadMesh" id=21]
+material = SubResource( 9 )
 
 [sub_resource type="Animation" id=1]
 resource_local_to_scene = true
@@ -19,9 +123,27 @@ tracks/0/keys = {
 }
 
 [node name="RailExplosion" instance=ExtResource( 1 )]
-max_damage = 10.0
-impulse = 10.0
-v_impulse = 5.0
+impulse = 4.0
+v_impulse = 4.0
+
+[node name="smoke" parent="particles" index="0"]
+lifetime = 2.0
+process_material = SubResource( 16 )
+draw_pass_1 = SubResource( 17 )
+
+[node name="debris" parent="particles" index="1"]
+lifetime = 1.5
+
+[node name="zap" type="Particles" parent="particles" index="2"]
+emitting = false
+lifetime = 0.15
+one_shot = true
+explosiveness = 0.88
+randomness = 1.0
+local_coords = false
+draw_order = 1
+process_material = SubResource( 8 )
+draw_pass_1 = SubResource( 21 )
 
 [node name="OmniLight" parent="." index="3"]
 light_color = Color( 1, 0.133333, 0.133333, 1 )
