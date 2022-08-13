@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/weapons/explosions/explosion.tscn" type="PackedScene" id=1]
 [ext_resource path="res://TextureAssets/zap.png" type="Texture" id=2]
@@ -24,7 +24,9 @@ _data = [ Vector2( 0, 0.493182 ), 0.0, 1.74545, 0, 0, Vector2( 1, 1 ), 0.0, 0.0,
 [sub_resource type="CurveTexture" id=6]
 curve = SubResource( 5 )
 
-[sub_resource type="ParticlesMaterial" id=16]
+[sub_resource type="ParticlesMaterial" id=22]
+emission_shape = 1
+emission_sphere_radius = 1.0
 direction = Vector3( 0, 0, -1 )
 spread = 180.0
 gravity = Vector3( 0, 0, 0 )
@@ -35,7 +37,7 @@ angular_velocity_random = 1.0
 damping = 100.0
 angle = 720.0
 angle_random = 1.0
-scale = 12.0
+scale = 16.0
 scale_random = 0.25
 scale_curve = SubResource( 6 )
 color = Color( 1, 1, 1, 0.862745 )
@@ -65,28 +67,21 @@ colors = PoolColorArray( 1, 0.28125, 0.28125, 1, 1, 1, 1, 1 )
 gradient = SubResource( 2 )
 
 [sub_resource type="Gradient" id=18]
-colors = PoolColorArray( 1, 0.881443, 0.881443, 1, 1, 0.316406, 0.316406, 1 )
+colors = PoolColorArray( 1, 0.881443, 0.881443, 1, 1, 0, 0, 1 )
 
 [sub_resource type="GradientTexture" id=19]
 gradient = SubResource( 18 )
 
-[sub_resource type="Curve" id=20]
-_data = [ Vector2( 0, 1 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
-
-[sub_resource type="CurveTexture" id=7]
-curve = SubResource( 20 )
-
 [sub_resource type="ParticlesMaterial" id=8]
 emission_shape = 1
-emission_sphere_radius = 0.28
+emission_sphere_radius = 0.5
 gravity = Vector3( 0, 0, 0 )
 angular_velocity = 5000.0
 angular_velocity_random = 1.0
 angle = 720.0
 angle_random = 1.0
-scale = 17.0
+scale = 24.0
 scale_random = 0.75
-scale_curve = SubResource( 7 )
 color_ramp = SubResource( 19 )
 color_initial_ramp = SubResource( 3 )
 
@@ -96,8 +91,6 @@ flags_unshaded = true
 vertex_color_use_as_albedo = true
 params_blend_mode = 1
 params_billboard_mode = 3
-params_grow = true
-params_grow_amount = 2.0
 particles_anim_h_frames = 1
 particles_anim_v_frames = 1
 particles_anim_loop = false
@@ -128,7 +121,7 @@ v_impulse = 4.0
 
 [node name="smoke" parent="particles" index="0"]
 lifetime = 2.0
-process_material = SubResource( 16 )
+process_material = SubResource( 22 )
 draw_pass_1 = SubResource( 17 )
 
 [node name="debris" parent="particles" index="1"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=2]
+[gd_scene load_steps=24 format=2]
 
 [ext_resource path="res://DEV/UI_MOCKUP/niceclouds.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=9]
 [ext_resource path="res://Scenes/ui/menu/Main-Menu.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/ui/multiplayer/HostOrJoin.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/ui/menu/loadout-select.tscn" type="PackedScene" id=12]
 
 [sub_resource type="Shader" id=12]
 code = "shader_type canvas_item;
@@ -339,6 +340,12 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": true
 }
+
+[node name="loadout-select" parent="ui/spacer" instance=ExtResource( 12 )]
+anchor_left = 0.34
+anchor_top = 0.284444
+anchor_right = 0.48
+anchor_bottom = 0.56
 
 [node name="TextureRect" type="TextureRect" parent="."]
 modulate = Color( 1, 1, 1, 0.160784 )

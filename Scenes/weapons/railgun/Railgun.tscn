@@ -282,7 +282,6 @@ process_material = SubResource( 6 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 emitting = false
 amount = 32
-lifetime = 1.21
 one_shot = true
 explosiveness = 1.0
 randomness = 1.0
@@ -292,7 +291,7 @@ process_material = SubResource( 19 )
 draw_pass_1 = SubResource( 20 )
 
 [node name="spinny-bit" type="MeshInstance" parent="MeshInstance" index="1"]
-transform = Transform( -0.337419, 4.11299e-08, -0.940923, 0.940923, 1.47493e-08, -0.337419, 0, -1, -4.37114e-08, 0, 0, -1 )
+transform = Transform( 0.979216, 8.77464e-09, -0.20074, 0.20074, -4.28038e-08, 0.979216, 0, -1, -4.37114e-08, 0, 0, -1 )
 mesh = SubResource( 7 )
 script = SubResource( 8 )
 spin_speed = 16.0

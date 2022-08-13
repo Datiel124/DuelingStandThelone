@@ -43,10 +43,13 @@ func setCurrentWeapon(new):
 	currentWeapon = new
 	#Disconnect the old weapon.
 	if old:
+		old.queue_free()
 		old.disconnect('spawnABullet', $projectiles, "add_child")
 	#Connect weapon to spawn a bullet.
 	currentWeapon.connect('spawnABullet', $projectiles, "add_child")
-	emit_signal("changeCurrentWeapon", old, new)
+	Hand.add_child(currentWeapon)
+	currentWeapon.set_network_master(get_tree().get_network_unique_id())
+	emit_signal("changeCurrentWeapon", old, currentWeapon)
 
 #Hard-coding primary and secondary weapons, as it is all that the gameplay requires.
 master var primary;
@@ -71,6 +74,8 @@ func _ready() -> void:
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		$nametag.visible = false
+		var wep = load('res://Scenes/weapons/bomb_launcher/BombLauncher.tscn').instance() if NetworkLobby.my_info.primary == 0 else load('res://Scenes/weapons/railgun/Railgun.tscn').instance()
+		setCurrentWeapon(wep)
 	else:
 		$HUD.queue_free()
 		$painvignette.queue_free()
