@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=1]
 [ext_resource path="res://Scenes/levels/lobbies/Lobby_Map.gd" type="Script" id=2]
 [ext_resource path="res://addons/CSGStairs/csg_stairs.gd" type="Script" id=3]
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=4]
+[ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=5]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
@@ -74,6 +75,58 @@ operation = 2
 width = 227.0
 height = 206.0
 depth = 237.0
+
+[node name="CSGCombiner" type="CSGCombiner" parent="Level/geometry" index="3"]
+material_override = ExtResource( 5 )
+
+[node name="CSGBox" type="CSGBox" parent="Level/geometry/CSGCombiner" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 14, -23 )
+width = 26.0
+depth = 28.0
+
+[node name="CSGBox2" type="CSGBox" parent="Level/geometry/CSGCombiner" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 6, -10 )
+height = 14.0
+
+[node name="CSGBox3" type="CSGBox" parent="Level/geometry/CSGCombiner" index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -10 )
+height = 14.0
+
+[node name="CSGBox4" type="CSGBox" parent="Level/geometry/CSGCombiner" index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 6, -36 )
+height = 14.0
+
+[node name="CSGBox5" type="CSGBox" parent="Level/geometry/CSGCombiner" index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -36 )
+height = 14.0
+
+[node name="CSGBox6" type="CSGBox" parent="Level/geometry/CSGCombiner" index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 6, -23 )
+height = 14.0
+
+[node name="CSGBox10" type="CSGBox" parent="Level/geometry/CSGCombiner" index="6"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 6, -10 )
+height = 14.0
+
+[node name="CSGBox11" type="CSGBox" parent="Level/geometry/CSGCombiner" index="7"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 6, -36 )
+height = 14.0
+
+[node name="CSGBox12" type="CSGBox" parent="Level/geometry/CSGCombiner" index="8"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 6, -23 )
+height = 14.0
+
+[node name="CSGBox7" type="CSGBox" parent="Level/geometry/CSGCombiner" index="9"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -23 )
+height = 14.0
+
+[node name="CSGBox8" type="CSGBox" parent="Level/geometry/CSGCombiner" index="10"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -16, 6, -23 )
+height = 14.0
+
+[node name="CSGBox9" type="CSGBox" parent="Level/geometry/CSGCombiner" index="11"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 8, 6, -23 )
+height = 14.0
 
 [node name="DirectionalLight" type="DirectionalLight" parent="Level/lights" index="0"]
 transform = Transform( 0.44102, 0.769801, 0.46142, -0.840412, 0.173782, 0.51333, 0.314976, -0.614172, 0.723591, 0, 18.7764, 0 )
