@@ -132,7 +132,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.00234175, -0.00487578, 0.00
 WeaponName = "Assault_Rifle"
 projectile = ExtResource( 2 )
 cooldown = 0.08
-knockbackforce = 15.0
+knockbackforce = 0.8
 bullet_speed = 500000.0
 bullet_spread = 0.8
 

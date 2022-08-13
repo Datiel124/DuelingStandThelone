@@ -10,3 +10,6 @@ impactAdditive = false
 damage = 12.0
 trailFadeDelay = 8
 basicTrailLength = 3.0
+
+[node name="lifetime" parent="." index="5"]
+wait_time = 0.5
