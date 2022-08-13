@@ -40,8 +40,6 @@ var currentWeapon setget setCurrentWeapon
 signal changeCurrentWeapon(old, new)
 remote func setCurrentWeapon(new):
 	#should be called locally and remotely i think so if i do it correctly it should work
-	if new is EncodedObjectAsID:
-		new = instance_from_id(new.get_object_id())
 	var old = currentWeapon
 	currentWeapon = new
 	#Disconnect the old weapon.
@@ -73,7 +71,6 @@ func _ready() -> void:
 		set_network_master(get_tree().get_network_unique_id())
 	yield(get_tree(), 'idle_frame')
 	setHealth(health)
-	rpc("setCurrentWeapon", $Head/Holder.get_child(0))
 	setCurrentWeapon($Head/Holder.get_child(0))
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)

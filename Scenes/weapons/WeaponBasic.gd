@@ -84,8 +84,6 @@ remote func fire(muzzletf):
 		anim_player.stop()
 		anim_player.play("BaseShoot")
 		$cooldown.start(cooldown)
-	#Create projectile on the client-side.
-	
 	if !get_tree().is_network_server() && get_tree().get_network_connected_peers().size() > 0:
 		return
 	#SERVER STUFF
@@ -108,6 +106,7 @@ remote func playNewSound():
 
 remote func createProjectile(spawntransforms : Transform):
 	var newproj :Projectile= projectile.instance()
+	newproj.name += str(NetworkLobby.generate_network_instance_id(NetworkLobby.network_instance_name_id))
 	emit_signal('spawnABullet', newproj)
 	var pl : Player = newproj.get_parent().get_parent()
 	newproj.add_collision_exception_with(pl)
@@ -115,7 +114,6 @@ remote func createProjectile(spawntransforms : Transform):
 	pl.setVelocity(pl.Velocity + global_transform.basis.z * knockbackforce) 
 	pl.rpc("Stun", 0.0, 0.2)
 	pl.Stun(0.0, 0.2)
-	newproj.name += str(NetworkLobby.generate_network_instance_id(NetworkLobby.network_instance_name_id))
 	#Spawn the bullet locally, on the server.
 	newproj.global_transform.origin = spawntransforms.origin
 	newproj.Velocity = -spawntransforms.basis.z * bullet_speed
