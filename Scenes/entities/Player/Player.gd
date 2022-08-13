@@ -78,7 +78,8 @@ func _ready() -> void:
 	else:
 		$HUD.queue_free()
 		$painvignette.queue_free()
-		$nametag.text = NetworkLobby.player_info[get_network_master()].username
+		if NetworkLobby.player_info[get_network_master()].username:
+			$nametag.text = NetworkLobby.player_info[get_network_master()].username
 
 func _process(delta) -> void:
 	if is_network_master():

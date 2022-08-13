@@ -135,7 +135,7 @@ cooldown = 0.08
 knockbackforce = 0.8
 bullet_speed = 500000.0
 bullet_spread = 0.8
-override_dmg = 8.0
+override_dmg = 10.0
 
 [node name="sounds" parent="." index="0"]
 shoot_sounds = [ ExtResource( 4 ), ExtResource( 5 ) ]

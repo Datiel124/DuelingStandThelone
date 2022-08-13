@@ -24,8 +24,8 @@ func checkValidUser() -> bool:
 func generateRandomName() -> String:
 	randomize()
 	var namelist0 = ["The","Barnicle","Blue","A ","Green","Super","Orange","Stupid","Likeness","Array","Fiendish","","OneMillion"]
-	var namelist1 = ["Middle","Bastardized","Knight","Killer","Best","Worst","QWERTY","Stupid","Dumb","Console","Blaster","Monkey","Slayer"]
-	var namelist2 = ["FromDownTown","Eagle","","Fuego","Shooter","Face","Kicker","TheSmall",str(randi()%1000),".com","live"]
+	var namelist1 = ["Middle","Bastardized","Knight","Killer","Best","Worst","QWERTY","Stupid","Dumb","B","Console","Blaster","Monkey","Slayer"]
+	var namelist2 = ["FromDownTown","Eagle","","C","Fuego","Shooter","Face","Kicker","TheSmall",str(randi()%1000),".com","live"]
 
 	var newname = ""
 	newname += namelist0[randi()%namelist0.size()]
