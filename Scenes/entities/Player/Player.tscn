@@ -3,7 +3,7 @@
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
 [ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/weapons/railgun/Railgun.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Scenes/weapons/AR/AR.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
@@ -242,7 +242,7 @@ sway_right = Vector3( 0, -0.3, 0.2 )
 sway_up = Vector3( 0.3, 0, 0 )
 sway_down = Vector3( -0.3, 0, 0 )
 
-[node name="Railgun" parent="Head/Holder" instance=ExtResource( 4 )]
+[node name="AR" parent="Head/Holder" instance=ExtResource( 4 )]
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )

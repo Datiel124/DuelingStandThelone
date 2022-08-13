@@ -4,7 +4,6 @@ class_name Projectile, 'res://DEV/class_icons/projectile.png'
 var Velocity : Vector3 = Vector3.ZERO
 var shooter : int = -1
 var spawnpos : Vector3
-var active : bool = true
 
 export(PackedScene) var Explosion
 export var impactPush : float = 0.0; #force in direction of Velocity
@@ -76,9 +75,8 @@ func doprojectilestuff(delta: float) -> void:
 			col.Damage(damage)
 		
 		#explode on hit
-		var explosionname = "explosion" + str(randi())
-		rpc("explode", explosionname, global_transform.origin)
-		explode(explosionname, global_transform.origin)
+		rpc("explode", global_transform.origin)
+		explode(global_transform.origin)
 	Velocity.y -= delta * gravitymult * 98
 
 
@@ -87,10 +85,10 @@ remote func syncpos(t : Transform, velocity):
 	Velocity = velocity
 
 
-remote func explode(uniquename : String, pos):
+remote func explode(pos):
 	if Explosion and is_physics_processing():
 		var kabommies = Explosion.instance()
-		kabommies.name = uniquename
+		kabommies.name += str(NetworkLobby.generate_network_instance_id(NetworkLobby.network_instance_name_id))
 		get_parent().add_child(kabommies)
 		kabommies.global_transform.origin = pos
 		var lookdir = collisionnormal
@@ -142,10 +140,9 @@ remote func cleanup():
 
 func _on_lifetime_timeout() -> void:
 	if explodeOnTimeout:
-		var a = "explodet" + str(randi())
 		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
-			rpc("explode", a, global_transform.origin)
-			explode(a, global_transform.origin)
+			rpc("explode", global_transform.origin)
+			explode(global_transform.origin)
 	else:
 		rpc("disableAll")
 		disableAll()

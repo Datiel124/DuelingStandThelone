@@ -51,37 +51,34 @@ func doprojectilestuff(delta: float) -> void:
 			#explode if needed
 			if explodeOnPlayer:
 	#				print("i hit a player i die")
-				var explosionname = "explosion" + str(randi())
-				rpc("explode", explosionname, global_transform.origin)
-				explode(explosionname, global_transform.origin)
+				rpc("explode", global_transform.origin)
+				explode(global_transform.origin)
 				rpc("disableAll")
 				disableAll()
 				return
 		
 		if bounces >= maxBounces:
 #			print("too many bounces i die")
-			var explosionname = "explosion" + str(randi())
-			rpc("explode", explosionname, global_transform.origin)
-			explode(explosionname, global_transform.origin)
+			rpc("explode", global_transform.origin)
+			explode(global_transform.origin)
 			rpc("disableAll")
 			disableAll()
 			return
 		
 		if explodeOnBounce:
 #			print("booom")
-			var explosionname = "explosion" + str(randi())
-			rpc("explode", explosionname, global_transform.origin)
-			explode(explosionname, global_transform.origin)
+			rpc("explode", global_transform.origin)
+			explode(global_transform.origin)
 		
 		Velocity = Velocity.bounce(hit.normal) * elasticity
 		bounces += 1
 	Velocity.y -= delta * gravitymult * 98
 
 
-remote func explode(uniquename : String, pos):
+remote func explode(pos):
 	if Explosion and is_physics_processing():
 		var kabommies = Explosion.instance()
-		kabommies.name = uniquename
+		kabommies.name += str(NetworkLobby.generate_network_instance_id(NetworkLobby.network_instance_name_id))
 		get_parent().add_child(kabommies)
 		kabommies.global_transform.origin = pos
 		var lookdir = collisionnormal
@@ -95,10 +92,9 @@ remote func explode(uniquename : String, pos):
 
 func _on_lifetime_timeout() -> void:
 	if explodeOnTimeout:
-		var a = "explodet" + str(randi())
 		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
-			rpc("explode", a, global_transform.origin)
-			explode(a, global_transform.origin)
+			rpc("explode", global_transform.origin)
+			explode(global_transform.origin)
 			
 			rpc("disableAll")
 			disableAll()

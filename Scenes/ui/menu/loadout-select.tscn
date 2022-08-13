@@ -49,7 +49,7 @@ margin_bottom = 64.0
 rect_min_size = Vector2( 128, 64 )
 size_flags_horizontal = 3
 text = "BOMB LAUNCHER"
-items = [ "BOMB LAUNCHER", null, false, 0, null, "RAILGUN", null, false, 1, null ]
+items = [ "BOMB LAUNCHER", null, false, 0, null, "RAILGUN", null, false, 1, null, "AR", null, false, 2, null ]
 selected = 0
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer/HFlowContainer"]

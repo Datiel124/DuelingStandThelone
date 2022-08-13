@@ -77,9 +77,9 @@ func store_snapshot(snapshot) -> void:
 	server_snapshot_list[get_tree().get_rpc_sender_id()].append(snapshot)
 
 var network_instance_name_id = 0
-remotesync func increment_network_instance_name_id():
-	if get_tree().get_network_unique_id() == 1:
-		network_instance_name_id += 1
+remotesync func generate_network_instance_id(current : int) -> int:
+	network_instance_name_id = current + 1
+	return network_instance_name_id
 
 #spawn players and stuff
 func instance_player(id):

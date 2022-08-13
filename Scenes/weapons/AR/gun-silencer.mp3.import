@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/gun-silencer.mp3-ca439d5c7d68b9da47f15111bcab52c8.mp3str"
+
+[deps]
+
+source_file="res://Scenes/weapons/AR/gun-silencer.mp3"
+dest_files=[ "res://.import/gun-silencer.mp3-ca439d5c7d68b9da47f15111bcab52c8.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

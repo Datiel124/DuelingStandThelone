@@ -54,6 +54,8 @@ func _InputFromPlayer(event:InputEvent) -> void:
 					$cooldown.connect('timeout', self, "rpc_id", [1, "_InputFromPlayer", event])
 					$cooldown.connect('timeout', self, "_InputFromPlayer", [event])
 		if event.is_action_pressed('fire'):
+			rpc_unreliable("playNewSound")
+			playNewSound()
 			for i in bullet_count:
 				var transforms : Transform = $ProjectileSpawn.global_transform
 				transforms.basis = transforms.basis.rotated(transform.basis.x, rand_range(deg2rad(-bullet_spread), deg2rad(bullet_spread))).rotated(transform.basis.z, rand_range(deg2rad(-bullet_spread), deg2rad(bullet_spread))).rotated(transform.basis.y, rand_range(deg2rad(-bullet_spread), deg2rad(bullet_spread)))
@@ -79,27 +81,32 @@ signal spawnABullet(bullet)
 remote func fire(muzzletf):
 	#Clients- Play the animations. Do nothing else.
 	if is_network_master():
+		anim_player.stop()
+		anim_player.play("BaseShoot")
 		$cooldown.start(cooldown)
-	$sounds/shoot.stream = $sounds.shoot_sounds[randi()%$sounds.shoot_sounds.size()]
-	$sounds/shoot.play()
-	anim_player.stop()
-	anim_player.play("BaseShoot")
 	#Create projectile on the client-side.
 	
 	if !get_tree().is_network_server() && get_tree().get_network_connected_peers().size() > 0:
 		return
-
-#SERVER STUFF	
+	#SERVER STUFF
 	if projectile:
-		var id = "projectile" + str(randi())
-		createProjectile(muzzletf, id, false)
-		rpc("createProjectile", muzzletf, id)
+		createProjectile(muzzletf)
+		rpc("createProjectile", muzzletf)
 	
 	for i in get_tree().get_network_connected_peers():
 		if i != get_tree().get_rpc_sender_id():
 			rpc_id(i, "fire", muzzletf)
 
-remote func createProjectile(spawntransforms : Transform, suffix : String, is_active : bool = true):
+
+remote func playNewSound():
+	var newsound = $sounds/shoot.duplicate()
+	$sounds.add_child(newsound)
+	newsound.stream = $sounds.shoot_sounds[randi()%$sounds.shoot_sounds.size()]
+	get_tree().create_timer(5.0).connect('timeout', newsound, 'queue_free')
+	newsound.play()
+
+
+remote func createProjectile(spawntransforms : Transform):
 	var newproj :Projectile= projectile.instance()
 	emit_signal('spawnABullet', newproj)
 	var pl : Player = newproj.get_parent().get_parent()
@@ -108,11 +115,10 @@ remote func createProjectile(spawntransforms : Transform, suffix : String, is_ac
 	pl.setVelocity(pl.Velocity + global_transform.basis.z * knockbackforce) 
 	pl.rpc("Stun", 0.0, 0.2)
 	pl.Stun(0.0, 0.2)
-	newproj.name = "b-" + suffix
+	newproj.name += str(NetworkLobby.generate_network_instance_id(NetworkLobby.network_instance_name_id))
 	#Spawn the bullet locally, on the server.
 	newproj.global_transform.origin = spawntransforms.origin
 	newproj.Velocity = -spawntransforms.basis.z * bullet_speed
-	newproj.active = is_active
 #	print(get_tree().get_rpc_sender_id())
 	newproj.shooter = get_tree().get_rpc_sender_id()
 	if override_dmg:

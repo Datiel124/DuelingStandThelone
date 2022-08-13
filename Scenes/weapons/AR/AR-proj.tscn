@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Scenes/weapons/projectiles/Projectile.tscn" type="PackedScene" id=1]
+
+[node name="AR-proj" instance=ExtResource( 1 )]
+Explosion = null
+impactPush = 1.0
+impactLaunch = 2.0
+impactAdditive = false
+damage = 12.0
+trailFadeDelay = 8
+basicTrailLength = 3.0
