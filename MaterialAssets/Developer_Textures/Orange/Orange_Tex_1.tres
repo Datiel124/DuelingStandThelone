@@ -7,4 +7,4 @@
 next_pass = ExtResource( 2 )
 albedo_texture = ExtResource( 1 )
 uv1_triplanar = true
-uv1_triplanar_sharpness = 222.86
+uv1_triplanar_sharpness = 127.999
