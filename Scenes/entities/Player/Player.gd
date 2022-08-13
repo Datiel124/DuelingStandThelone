@@ -38,7 +38,8 @@ var invulnerable := false
 #Weapon-selection references
 var currentWeapon setget setCurrentWeapon
 signal changeCurrentWeapon(old, new)
-func setCurrentWeapon(new):
+remote func setCurrentWeapon(new):
+	#should be called locally and remotely i think so if i do it correctly it should work
 	var old = currentWeapon
 	currentWeapon = new
 	#Disconnect the old weapon.
@@ -74,8 +75,6 @@ func _ready() -> void:
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		$nametag.visible = false
-		var wep = load('res://Scenes/weapons/bomb_launcher/BombLauncher.tscn').instance() if NetworkLobby.my_info.primary == 0 else load('res://Scenes/weapons/railgun/Railgun.tscn').instance()
-		setCurrentWeapon(wep)
 	else:
 		$HUD.queue_free()
 		$painvignette.queue_free()

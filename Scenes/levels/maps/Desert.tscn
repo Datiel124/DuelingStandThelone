@@ -4,8 +4,8 @@
 [ext_resource path="res://Scenes/levels/levelassets/CsgBridge.tscn" type="PackedScene" id=2]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=3]
 [ext_resource path="res://MaterialAssets/Outline/OutlineBig.tres" type="Material" id=4]
+[ext_resource path="res://MaterialAssets/Outline/Outline.tres" type="Material" id=5]
 [ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/entities/Player/Player.tscn" type="PackedScene" id=7]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=9]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=10]
 
@@ -15,10 +15,10 @@ albedo_color = Color( 0.411765, 0.411765, 0.411765, 1 )
 [node name="World" instance=ExtResource( 6 )]
 
 [node name="spawn0" parent="Level/spawnpoints" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.6, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, 0 )
 
 [node name="spawn1" type="Position3D" parent="Level/spawnpoints" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.2, -68 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.2, -68 )
 
 [node name="inviswalls" type="CSGCombiner" parent="Level/geometry" index="0"]
 layers = 0
@@ -324,7 +324,7 @@ depth = 22.0
 [node name="rock2" type="CSGCombiner" parent="Level/geometry" index="9"]
 transform = Transform( -0.642788, 0, -0.766045, 0, 1, 0, 0.766045, 0, -0.642788, -9, 6, -51 )
 material_override = SubResource( 1 )
-material_overlay = ExtResource( 4 )
+material_overlay = ExtResource( 5 )
 calculate_tangents = false
 
 [node name="CSGPolygon" type="CSGPolygon" parent="Level/geometry/rock2" index="0"]
@@ -375,6 +375,3 @@ transform = Transform( 0.766621, 0.478528, -0.428138, -0.0202057, 0.684427, 0.72
 shadow_enabled = true
 shadow_bias = -0.019
 shadow_contact = 0.424
-
-[node name="Player" parent="Players" index="0" instance=ExtResource( 7 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7.7, 0 )
