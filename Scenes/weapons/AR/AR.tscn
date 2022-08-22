@@ -1,24 +1,77 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Scenes/weapons/WeaponBase.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/weapons/AR/AR-proj.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/weapons/AR/ar2.wav" type="AudioStream" id=4]
 [ext_resource path="res://Scenes/weapons/AR/ar3.wav" type="AudioStream" id=5]
 
-[sub_resource type="CylinderMesh" id=1]
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.00431034, 0.0689655, 1 )
+colors = PoolColorArray( 1, 0.955688, 0.484375, 1, 1, 0.764648, 0, 1, 1, 0.211765, 0, 0 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.9875 ), 0.0, -3.02372, 0, 0, Vector2( 0.262673, 0.751136 ), 0.0, -0.0863067, 0, 1, Vector2( 1, 0.6875 ), -0.0863067, 0.0, 1, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticlesMaterial" id=7]
+direction = Vector3( 0, 0, -1 )
+spread = 3.94
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 51.77
+initial_velocity_random = 1.0
+angular_velocity = 720.0
+angular_velocity_random = 1.0
+damping = 47.45
+angle = 720.0
+angle_random = 1.0
+scale = 0.8
+scale_curve = SubResource( 4 )
+color = Color( 2, 2, 2, 1 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="Gradient" id=8]
+interpolation_mode = 2
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture2D" id=9]
+gradient = SubResource( 8 )
+use_hdr = true
+fill = 1
+fill_from = Vector2( 0.5, 0.5 )
+fill_to = Vector2( 0.6, 1 )
+
+[sub_resource type="SpatialMaterial" id=10]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_texture = SubResource( 9 )
+
+[sub_resource type="QuadMesh" id=11]
+material = SubResource( 10 )
+
+[sub_resource type="CylinderMesh" id=12]
 top_radius = 0.15
 bottom_radius = 0.15
 radial_segments = 8
 
-[sub_resource type="PrismMesh" id=2]
+[sub_resource type="PrismMesh" id=13]
 left_to_right = 1.0
 size = Vector3( 0.15, 0.15, 0.15 )
 
-[sub_resource type="CapsuleMesh" id=3]
+[sub_resource type="CapsuleMesh" id=14]
 radius = 0.245
 mid_height = 0.521
 
-[sub_resource type="CubeMesh" id=4]
+[sub_resource type="CubeMesh" id=15]
 size = Vector3( 0.118, 0.596, 0.595 )
 
 [sub_resource type="Animation" id=5]
@@ -69,10 +122,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0, 0.09 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ true ]
+"values": [ true, false ]
 }
 
 [sub_resource type="Animation" id=6]
@@ -143,22 +196,31 @@ shoot_sounds = [ ExtResource( 4 ), ExtResource( 5 ) ]
 [node name="shoot" parent="sounds" index="0"]
 stream = ExtResource( 4 )
 
+[node name="Particles" parent="MeshInstance/MuzzlePoint" index="1"]
+transform = Transform( 1, 0, 0, 0, 0.610728, 0, 0, 0, 3.82841, -0.107879, -0.0114185, -3.50828 )
+one_shot = false
+process_material = SubResource( 7 )
+draw_pass_1 = SubResource( 11 )
+
 [node name="MeshInstance" type="MeshInstance" parent="MeshInstance" index="1"]
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, -1 )
-mesh = SubResource( 1 )
+mesh = SubResource( 12 )
 
 [node name="MeshInstance2" type="MeshInstance" parent="MeshInstance" index="2"]
 transform = Transform( -4.37114e-08, -4.37114e-08, 1, 4.37114e-08, 1, 4.37114e-08, -1, 4.37114e-08, -4.37114e-08, 0, 0.188748, -1.9 )
-mesh = SubResource( 2 )
+mesh = SubResource( 13 )
 skeleton = NodePath("../MeshInstance")
 
 [node name="MeshInstance3" type="MeshInstance" parent="MeshInstance" index="3"]
 transform = Transform( 1, 0, 0, 0, 0.5, -0.866025, 0, 0.866025, 0.5, 0, -0.3, 0.7 )
-mesh = SubResource( 3 )
+mesh = SubResource( 14 )
 
 [node name="MeshInstance4" type="MeshInstance" parent="MeshInstance" index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, -0.5 )
-mesh = SubResource( 4 )
+mesh = SubResource( 15 )
+
+[node name="ProjectileSpawn" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1.63739, 0, 0, 0, 0.261205, 0.110189, 0.0181168, -1.00973 )
 
 [node name="AnimationPlayer" parent="." index="3"]
 anims/BaseShoot = SubResource( 5 )
