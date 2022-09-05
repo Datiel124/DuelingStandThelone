@@ -1,11 +1,10 @@
 extends Control
 
-var loader
+func _ready() -> void:
+	GameFuncts.connect('load_progress_changed', self, 'change_progress')
+	GameFuncts.connect('announce_goto', self, 'set_visible', [true])
+	GameFuncts.connect('error_goto', self, 'set_viisble', [false])
 
-# Called when the node enters the scene tree for the first time.
-func _process(delta: float) -> void:
-	pass
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta: float) -> void:
-#	pass
+func change_progress(value) -> void:
+	$ColorRect/CenterContainer/VBoxContainer/ProgressBar.value = value * 100
+	yield(get_tree(), 'idle_frame')

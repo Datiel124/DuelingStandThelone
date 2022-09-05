@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://DEV/UI_MOCKUP/niceclouds.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=2]
@@ -12,6 +12,7 @@
 [ext_resource path="res://Scenes/ui/menu/Main-Menu.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/ui/multiplayer/HostOrJoin.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/ui/menu/loadout-select.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/ui/load_screens/loading_screen1.tscn" type="PackedScene" id=13]
 
 [sub_resource type="Shader" id=12]
 code = "shader_type canvas_item;
@@ -361,6 +362,13 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_lock_": true
 }
+
+[node name="LoadCanvas" type="CanvasLayer" parent="."]
+layer = 128
+
+[node name="Loading" parent="LoadCanvas" instance=ExtResource( 13 )]
+unique_name_in_owner = true
+visible = false
 
 [connection signal="pressed" from="ui/spacer/MULTIPLAYER" to="ui/spacer/MULTIPLAYER/Control" method="popup_centered"]
 [connection signal="pressed" from="ui/spacer/TEST ROOM" to="." method="_on_TEST_ROOM_pressed"]

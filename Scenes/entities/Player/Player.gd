@@ -48,7 +48,8 @@ remote func setCurrentWeapon(new):
 		old.disconnect('spawnABullet', $projectiles, "add_child")
 	#Connect weapon to spawn a bullet.
 	currentWeapon.connect('spawnABullet', $projectiles, "add_child")
-	Hand.add_child(currentWeapon)
+	if !Hand.has_node(currentWeapon.name):
+		Hand.add_child(currentWeapon)
 	currentWeapon.set_network_master(get_tree().get_network_unique_id())
 	emit_signal("changeCurrentWeapon", old, currentWeapon)
 

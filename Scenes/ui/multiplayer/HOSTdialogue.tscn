@@ -11,8 +11,7 @@ func _on_Button_pressed() -> void:
 	Network.createServer(port, maxplayers)
 	#Changes scene to the Lobby scene.
 #	yield(NetworkLobby, 'registeredPlayer')
-	var lobbee :PackedScene= preload('res://Scenes/levels/lobbies/Lobby_Map.tscn')
-	get_tree().change_scene_to(lobbee)
+	GameFuncts.goto_scene('res://Scenes/levels/lobbies/Lobby_Map.tscn', get_tree().current_scene)
 "
 
 [node name="HOSTdialogue" type="Popup"]

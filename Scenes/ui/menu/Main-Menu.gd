@@ -12,4 +12,4 @@ func _ready() -> void:
 func _on_TEST_ROOM_pressed() -> void:
 	#Create a client that doesn't join a server.
 	Network.createClient("192.168.0.0", 0)
-	get_tree().change_scene('res://Scenes/levels/maps/Test_Map.tscn')
+	GameFuncts.goto_scene('res://Scenes/levels/maps/Test_Map.tscn', get_tree().current_scene)
