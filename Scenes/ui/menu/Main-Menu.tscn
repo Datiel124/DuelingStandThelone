@@ -1,6 +1,5 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=24 format=2]
 
-[ext_resource path="res://DEV/UI_MOCKUP/niceclouds.jpg" type="Texture" id=1]
 [ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/ui/ui_metalheart/dot-pattern.png" type="Texture" id=3]
 [ext_resource path="res://Scenes/ui/options/optionsUI.tres" type="Theme" id=4]
@@ -276,6 +275,8 @@ texture_normal = ExtResource( 6 )
 expand = true
 
 [node name="Options" parent="ui/spacer/OPTIONS" instance=ExtResource( 8 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_right = 1600.0
 margin_bottom = 900.0
 
@@ -347,13 +348,6 @@ anchor_left = 0.34
 anchor_top = 0.284444
 anchor_right = 0.48
 anchor_bottom = 0.56
-
-[node name="TextureRect" type="TextureRect" parent="."]
-modulate = Color( 1, 1, 1, 0.160784 )
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 1 )
-expand = true
 
 [node name="screenfx" type="ColorRect" parent="."]
 material = ExtResource( 2 )

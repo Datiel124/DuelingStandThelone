@@ -1,8 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/ui/options/optionsUI.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/ui/options/Options.gd" type="Script" id=2]
 [ext_resource path="res://TextureAssets/fonts/roboto/RobotoSkinny.tres" type="DynamicFont" id=3]
+[ext_resource path="res://exit-button.png" type="Texture" id=4]
+[ext_resource path="res://Scenes/ui/options/fonts/blue.tres" type="DynamicFont" id=5]
 
 [sub_resource type="Animation" id=3]
 length = 0.001
@@ -66,6 +68,7 @@ tracks/0/keys = {
 }
 
 [node name="Options" type="Popup"]
+visible = true
 anchor_right = 1.0
 anchor_bottom = 1.0
 rect_clip_content = true
@@ -74,10 +77,8 @@ popup_exclusive = true
 script = ExtResource( 2 )
 
 [node name="TabContainer" type="TabContainer" parent="."]
-anchor_left = 0.104375
-anchor_top = 0.104444
-anchor_right = 0.895625
-anchor_bottom = 0.895556
+anchor_right = 1.0
+anchor_bottom = 1.0
 custom_constants/side_margin = 61
 custom_fonts/font = ExtResource( 3 )
 tab_align = 0
@@ -90,6 +91,54 @@ margin_top = 186.017
 margin_right = -15.8228
 margin_bottom = -87.4511
 
+[node name="fullscreen" type="CheckButton" parent="TabContainer/_Graphics"]
+anchor_left = 0.0171843
+anchor_top = -0.0469347
+anchor_right = 0.174298
+anchor_bottom = 0.00869162
+custom_fonts/font = ExtResource( 5 )
+text = "full-screen"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="vsync" type="CheckButton" parent="TabContainer/_Graphics"]
+anchor_left = 0.0171843
+anchor_top = 0.119944
+anchor_right = 0.174298
+anchor_bottom = 0.17644
+custom_fonts/font = ExtResource( 5 )
+text = "v sync"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="fps" type="CheckButton" parent="TabContainer/_Graphics"]
+anchor_left = 0.0171509
+anchor_top = 0.286809
+anchor_right = 0.174264
+anchor_bottom = 0.343305
+custom_fonts/font = ExtResource( 5 )
+text = "show fps"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="viewroll" type="CheckButton" parent="TabContainer/_Graphics"]
+anchor_left = 0.0171509
+anchor_top = 0.460642
+anchor_right = 0.174264
+anchor_bottom = 0.517137
+custom_fonts/font = ExtResource( 5 )
+text = "view roll"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
 [node name="_Audio" type="Control" parent="TabContainer"]
 visible = false
 anchor_right = 1.0
@@ -98,6 +147,136 @@ margin_left = 72.0816
 margin_top = 186.017
 margin_right = -15.8228
 margin_bottom = -87.4511
+
+[node name="audioslider" type="HFlowContainer" parent="TabContainer/_Audio"]
+anchor_left = 0.0144301
+anchor_top = -0.054728
+anchor_right = 0.937954
+anchor_bottom = 0.020523
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MASTER-audio" type="HSlider" parent="TabContainer/_Audio/audioslider"]
+unique_name_in_owner = true
+margin_right = 940.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Label" type="Label" parent="TabContainer/_Audio/audioslider"]
+margin_left = 944.0
+margin_right = 1088.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 144, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+text = "master"
+
+[node name="audioslider2" type="HFlowContainer" parent="TabContainer/_Audio"]
+anchor_left = 0.0143608
+anchor_top = 0.0911754
+anchor_right = 0.937885
+anchor_bottom = 0.166426
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="GAME-audio" type="HSlider" parent="TabContainer/_Audio/audioslider2"]
+unique_name_in_owner = true
+margin_right = 940.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Label" type="Label" parent="TabContainer/_Audio/audioslider2"]
+margin_left = 944.0
+margin_right = 1088.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 144, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+text = "game"
+
+[node name="audioslider3" type="HFlowContainer" parent="TabContainer/_Audio"]
+anchor_left = 0.0143608
+anchor_top = 0.237117
+anchor_right = 0.937885
+anchor_bottom = 0.312368
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="MUSIC-audio" type="HSlider" parent="TabContainer/_Audio/audioslider3"]
+unique_name_in_owner = true
+margin_right = 940.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Label" type="Label" parent="TabContainer/_Audio/audioslider3"]
+margin_left = 944.0
+margin_right = 1088.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 144, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+text = "music"
+
+[node name="audioslider4" type="HFlowContainer" parent="TabContainer/_Audio"]
+anchor_left = 0.0143608
+anchor_top = 0.383058
+anchor_right = 0.937885
+anchor_bottom = 0.458309
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="UI-audio" type="HSlider" parent="TabContainer/_Audio/audioslider4"]
+unique_name_in_owner = true
+margin_right = 940.0
+margin_bottom = 33.0
+size_flags_horizontal = 3
+size_flags_vertical = 1
+max_value = 1.0
+step = 0.05
+tick_count = 5
+ticks_on_borders = true
+
+[node name="Label" type="Label" parent="TabContainer/_Audio/audioslider4"]
+margin_left = 944.0
+margin_right = 1088.0
+margin_bottom = 33.0
+rect_min_size = Vector2( 144, 0 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.0
+text = "ui"
+
+[node name="CheckButton" type="CheckButton" parent="TabContainer/_Audio"]
+anchor_left = 0.485218
+anchor_top = 0.516268
+anchor_right = 0.696339
+anchor_bottom = 0.613614
+margin_left = 0.00012207
+margin_right = -0.00012207
+pressed = true
+text = "custom music tracks"
+flat = true
+__meta__ = {
+"_edit_use_anchors_": true
+}
 
 [node name="_controls" type="Control" parent="TabContainer"]
 visible = false
@@ -108,9 +287,23 @@ margin_top = 186.017
 margin_right = -15.8228
 margin_bottom = -87.4511
 
+[node name="exit-button" type="TextureButton" parent="."]
+margin_left = 1544.0
+margin_top = 8.0
+margin_right = 1608.0
+margin_bottom = 72.0
+texture_normal = ExtResource( 4 )
+expand = true
+stretch_mode = 5
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 3 )
 anims/close = SubResource( 1 )
 anims/popup = SubResource( 2 )
 
-[connection signal="about_to_show" from="." to="." method="_on_Options_about_to_show"]
+[connection signal="hide" from="." to="." method="_on_Options_hide"]
+[connection signal="value_changed" from="TabContainer/_Audio/audioslider/MASTER-audio" to="." method="_on_MASTERaudio_value_changed"]
+[connection signal="value_changed" from="TabContainer/_Audio/audioslider2/GAME-audio" to="." method="_on_GAMEaudio_value_changed"]
+[connection signal="value_changed" from="TabContainer/_Audio/audioslider3/MUSIC-audio" to="." method="_on_MUSICaudio_value_changed"]
+[connection signal="value_changed" from="TabContainer/_Audio/audioslider4/UI-audio" to="." method="_on_UIaudio_value_changed"]
+[connection signal="pressed" from="exit-button" to="." method="_on_exitbutton_pressed"]
