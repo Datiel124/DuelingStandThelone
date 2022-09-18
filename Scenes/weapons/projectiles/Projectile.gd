@@ -20,8 +20,14 @@ export var useAdvancedTrail : bool = false
 export var basicTrailLength : float = 5.0
 var fading : bool = false
 
+signal on_spawn(proj)
+signal on_collide(collision)
+signal on_life_timeout()
+signal on_explode()
+
 
 func _ready() -> void:
+	emit_signal('on_spawn', self)
 	spawnpos = global_transform.origin
 	$meshtrail.visible = useAdvancedTrail
 	$meshtrail2.visible = !useAdvancedTrail
@@ -29,10 +35,10 @@ func _ready() -> void:
 
 var collisionnormal : Vector3 = Vector3.UP
 func _physics_process(delta: float) -> void:
-	doprojectilestuff(delta)
+	do_projectile_phys(delta)
 
 
-func doprojectilestuff(delta: float) -> void:
+func do_projectile_phys(delta: float) -> void:
 	#Server - tell all of the clients where this bullet should 'actually' be.
 	if get_tree().is_network_server():
 		rpc_unreliable("syncpos", global_transform, Velocity)
@@ -50,6 +56,7 @@ func doprojectilestuff(delta: float) -> void:
 	if hit && (get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0):
 		#only the server should let the projectile explode
 		var col = hit.collider
+		emit_signal('on_collide', hit)
 		collisionnormal = hit.normal
 		if col is Player:
 			if col.get_network_master() == shooter:
@@ -86,6 +93,7 @@ remote func syncpos(t : Transform, velocity):
 
 
 remote func explode(pos):
+	emit_signal('on_explode')
 	if Explosion and is_physics_processing():
 		var kabommies = Explosion.instance()
 		kabommies.name += str(NetworkLobby.generate_network_instance_id(NetworkLobby.network_instance_name_id))
@@ -139,6 +147,7 @@ remote func cleanup():
 
 
 func _on_lifetime_timeout() -> void:
+	emit_signal('on_life_timeout')
 	if explodeOnTimeout:
 		if get_tree().is_network_server() || get_tree().get_network_connected_peers().size() <= 0:
 			rpc("explode", global_transform.origin)

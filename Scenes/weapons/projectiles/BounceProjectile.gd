@@ -6,7 +6,7 @@ var bounces : int = 0
 export var explodeOnBounce : bool = false;
 export var explodeOnPlayer : bool = true;
 
-func doprojectilestuff(delta: float) -> void:
+func do_projectile_phys(delta: float) -> void:
 	#Server - tell all of the clients where this bullet should 'actually' be.
 	if get_tree().is_network_server():
 		rpc("syncpos", global_transform, Velocity)

@@ -1,0 +1,23 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/crap.wav-6961d0ddb93df9e6fd6419b706b39b39.sample"
+
+[deps]
+
+source_file="res://Scenes/entities/Player/sounds/crap.wav"
+dest_files=[ "res://.import/crap.wav-6961d0ddb93df9e6fd6419b706b39b39.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

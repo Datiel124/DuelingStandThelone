@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=23 format=2]
 
 [ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.tres" type="Material" id=2]
 [ext_resource path="res://Scenes/ui/ui_metalheart/dot-pattern.png" type="Texture" id=3]
@@ -6,7 +6,6 @@
 [ext_resource path="res://TextureAssets/fonts/depthcore/depthcore.tres" type="DynamicFont" id=5]
 [ext_resource path="res://Scenes/ui/ui_metalheart/buttons/sword-circuits/button-normal.png" type="Texture" id=6]
 [ext_resource path="res://DEV/csgmenuloop.tscn" type="PackedScene" id=7]
-[ext_resource path="res://Scenes/ui/options/Options.tscn" type="PackedScene" id=8]
 [ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=9]
 [ext_resource path="res://Scenes/ui/menu/Main-Menu.gd" type="Script" id=10]
 [ext_resource path="res://Scenes/ui/multiplayer/HostOrJoin.tscn" type="PackedScene" id=11]
@@ -274,12 +273,6 @@ anchor_bottom = 0.658889
 texture_normal = ExtResource( 6 )
 expand = true
 
-[node name="Options" parent="ui/spacer/OPTIONS" instance=ExtResource( 8 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1600.0
-margin_bottom = 900.0
-
 [node name="Label" type="Label" parent="ui/spacer/OPTIONS"]
 anchor_left = 0.347826
 anchor_right = 1.0
@@ -366,6 +359,5 @@ visible = false
 
 [connection signal="pressed" from="ui/spacer/MULTIPLAYER" to="ui/spacer/MULTIPLAYER/Control" method="popup_centered"]
 [connection signal="pressed" from="ui/spacer/TEST ROOM" to="." method="_on_TEST_ROOM_pressed"]
-[connection signal="pressed" from="ui/spacer/OPTIONS" to="ui/spacer/OPTIONS/Options" method="popup"]
 [connection signal="pressed" from="ui/spacer/QUIT" to="ui/spacer/QUIT/ConfirmationDialog" method="popup"]
 [connection signal="confirmed" from="ui/spacer/QUIT/ConfirmationDialog" to="ui/spacer/QUIT/ConfirmationDialog" method="_on_ConfirmationDialog_confirmed"]

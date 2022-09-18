@@ -5,6 +5,7 @@ class_name Player
 var air_accel:float 	= 5.0
 onready var base_air_accel:float = air_accel
 
+
 var normal_accel:float 	= 8.0
 var friction:float		= 16.0
 var max_ground_speed:float 		= 10.0
@@ -19,11 +20,22 @@ remote func setVelocity(newvelocity):
 func getVelocity():
 	return Velocity
 
+
 var lastjumptime = 0.0;
 var is_airjump = false;
 var airtime = 0.0;
 #health
+var shield : float = 50.0 setget setShield
 var health : float = 100.0 setget setHealth
+
+var is_shield_active : bool = true
+func setShield(newshield):
+	#if server - sync health across all clients
+	newshield = clamp(newshield, 0, 50)
+	emit_signal('changeShield', shield, newshield)
+	shield = newshield
+signal changeShield(old, new)
+
 func setHealth(newhealth):
 	#if server - sync health across all clients
 	newhealth = clamp(newhealth, 0, 100)
@@ -34,23 +46,31 @@ signal Damage(old, new)
 var spawn_invuln_time := 1.0
 var invulnerable := false
 
-
+#Inventory is an array of weapons. Initialize as empty.
+export(Array, PackedScene) var debug_inventory = []
+var Inventory = []
 #Weapon-selection references
-var currentWeapon setget setCurrentWeapon
+var currentWeapon setget set_current_weapon
 signal changeCurrentWeapon(old, new)
-remote func setCurrentWeapon(new):
+remote func set_current_weapon(new):
 	#should be called locally and remotely i think so if i do it correctly it should work
-	var old = currentWeapon
+	var old : Spatial = currentWeapon
 	currentWeapon = new
 	#Disconnect the old weapon.
 	if old:
-		old.queue_free()
 		old.disconnect('spawnABullet', $projectiles, "add_child")
+		#old.unequip()
+		old.visible = false
 	#Connect weapon to spawn a bullet.
-	currentWeapon.connect('spawnABullet', $projectiles, "add_child")
-	if !Hand.has_node(currentWeapon.name):
-		Hand.add_child(currentWeapon)
-	currentWeapon.set_network_master(get_tree().get_network_unique_id())
+	if currentWeapon:
+		#make sure to only connect if the current weapon actually exists
+		currentWeapon.connect('spawnABullet', $projectiles, "add_child")
+		#currentWeapon.equip()
+		currentWeapon.visible = true
+		#add the child if the currentWeapon, for some reason, isn't already added
+		if !Hand.has_node(currentWeapon.name):
+			Hand.add_child(currentWeapon)
+		currentWeapon.set_network_master(get_tree().get_network_unique_id())
 	emit_signal("changeCurrentWeapon", old, currentWeapon)
 
 #Hard-coding primary and secondary weapons, as it is all that the gameplay requires.
@@ -68,11 +88,16 @@ onready var FSM = $StateMachine
 
 func _ready() -> void:
 	if !get_tree().network_peer:
-		Network.createClient('192.168.0.0', 0)
+		Network.createClient('127.0.0.1', 0)
 		set_network_master(get_tree().get_network_unique_id())
 	yield(get_tree(), 'idle_frame')
 	setHealth(health)
-	setCurrentWeapon($Head/Holder.get_child(0))
+	#search through the array and instance the packedscenes if they exist
+	for i in debug_inventory:
+		Inventory.append(i.instance())
+	#set current weapon to the first of the array if it exists
+	if Inventory.size() > 0:
+		set_current_weapon(Inventory[0])
 	if is_network_master():
 		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 		$nametag.visible = false
@@ -81,6 +106,7 @@ func _ready() -> void:
 		$painvignette.queue_free()
 		if NetworkLobby.player_info[get_network_master()].username:
 			$nametag.text = NetworkLobby.player_info[get_network_master()].username
+
 
 func _process(delta) -> void:
 	if is_network_master():
@@ -219,6 +245,10 @@ func apply_physics(delta) -> void:
 				Velocity = Velocity.slide(normal)
 
 
+func get_current_weapon_index(weapon) -> int:
+	return Inventory.find(weapon)
+
+
 #Useful for things that sort of override other effects.
 func _unhandled_input(event: InputEvent) -> void:
 	if is_network_master():
@@ -248,12 +278,17 @@ func _unhandled_input(event: InputEvent) -> void:
 			rotation.y = fmod(rotation.y - event.relative.x * UserConfigs.aim_sens * get_process_delta_time(), 2*PI)
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
-
+		if event is InputEventMouseButton:
+			if event.button_index == BUTTON_WHEEL_UP:
+				set_current_weapon(Inventory[(get_current_weapon_index(currentWeapon) + 1) % Inventory.size()])
+			if event.button_index == BUTTON_WHEEL_DOWN:
+				set_current_weapon(Inventory[(get_current_weapon_index(currentWeapon) - 1) % Inventory.size()])
 		if event is InputEventKey:
 			if event.as_text() == "Control+K":
 				#suicide
 				Damage(50000, get_tree().get_network_unique_id())
 				rpc("Damage", 50000, get_tree().get_network_unique_id())
+
 
 func jump() -> void:
 	FSM.set_state(FSM.states.JUMP)
@@ -277,16 +312,30 @@ remote func Damage(damage, dealer : int = -1, currentHealth : int = health) -> v
 		return
 
 	#actual damaging
-	emit_signal('Damage', currentHealth, currentHealth - damage)
-	setHealth(currentHealth - damage)
-	if (currentHealth - damage) <= 0:
+	var leftoverdamage = max(damage - shield, 0)
+	setShield(shield - damage)
+	if is_shield_active:
+		if ((shield - damage) <= 0):
+			#shield dead
+			shieldshatter()
+			#shieldtimer.start()
+		elif damage > 0.1:
+			$sounds/hurt.pitch_scale = rand_range(0.95, 1.05)
+			$sounds/hurt.unit_db = lerp(-10, 0, clamp(damage / 34, 0, 1))
+			$sounds/hurt.stream = $sounds.shield_sounds[randi()%$sounds.shield_sounds.size()]
+			$sounds/hurt.play(0.5 / damage)
+		$shieldTimer.start()
+	
+	emit_signal('Damage', currentHealth, currentHealth - leftoverdamage)
+	setHealth(currentHealth - leftoverdamage)
+	if (currentHealth - leftoverdamage) <= 0:
 		#Ur dead as far as im concerned (probably make it servercliented again as this is just cliyent but it should be synced)
 		kill()
 		$respawnTimer.start()
 	else:
-		if damage > 0.1:
+		if leftoverdamage > 5.0:
 			$sounds/hurt.pitch_scale = rand_range(0.95, 1.05)
-			$sounds/hurt.unit_db = lerp(-10, 0, clamp(damage / 34, 0, 1))
+			$sounds/hurt.unit_db = lerp(-10, 0, clamp(leftoverdamage / 34, 0, 1))
 			$sounds/hurt.stream = $sounds.hurt_sounds[randi()%$sounds.hurt_sounds.size()]
 			$sounds/hurt.play()
 
@@ -300,6 +349,14 @@ remote func Stun(start_amt : float = 0.0, duration : float = 1.5) -> void:
 	airstuntween.set_ease(Tween.EASE_IN)
 	air_accel = start_amt
 	airstuntween.tween_property(self, "air_accel", base_air_accel, duration)
+
+
+remote func shieldshatter() -> void:
+	is_shield_active = false
+	$sounds/hurt.stream = $sounds.shieldbreak_sounds[randi()%$sounds.shieldbreak_sounds.size()]
+	$sounds/hurt.unit_db = 0.0
+	$sounds/hurt.pitch_scale = rand_range(0.99, 1.01)
+	$sounds/hurt.play()
 
 
 remote func kill() -> void:
@@ -355,3 +412,13 @@ func _on_networktick_timeout() -> void:
 
 func _on_respawnTimer_timeout() -> void:
 	respawn()
+
+
+func _on_shieldTimer_timeout() -> void:
+	is_shield_active = true
+	var previous = 0.0
+	while (shield < 50) and (shield >= previous):
+		previous = shield
+		setShield(shield + (get_process_delta_time() * 25))
+		yield(get_tree(), 'idle_frame')
+	pass # Replace with function body.

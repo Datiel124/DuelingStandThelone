@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=2]
+[gd_scene load_steps=40 format=2]
 
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -23,6 +23,10 @@
 [ext_resource path="res://Scenes/entities/Player/sounds/death-02.wav" type="AudioStream" id=21]
 [ext_resource path="res://Scenes/ui/hud/playerlist.tscn" type="PackedScene" id=22]
 [ext_resource path="res://TextureAssets/fonts/roboto/Roboto-Black.ttf" type="DynamicFontData" id=23]
+[ext_resource path="res://Scenes/weapons/shotgun/Shotgun.tscn" type="PackedScene" id=24]
+[ext_resource path="res://Scenes/weapons/bomb_launcher/BombLauncher.tscn" type="PackedScene" id=25]
+[ext_resource path="res://Scenes/weapons/railgun/Railgun.tscn" type="PackedScene" id=26]
+[ext_resource path="res://Scenes/entities/Player/sounds/crap.wav" type="AudioStream" id=27]
 
 [sub_resource type="DynamicFont" id=20]
 size = 128
@@ -38,7 +42,9 @@ script/source = "extends Spatial
 export(AudioStream) var jump_sound
 export(AudioStream) var wallbounce_sound
 export(Array, AudioStream) var hurt_sounds 
+export(Array, AudioStream) var shield_sounds 
 export(Array, AudioStream) var death_sounds
+export(Array, AudioStream) var shieldbreak_sounds
 
 export(Array, AudioStream) var footstep_sounds_generic
 export(Array, AudioStream) var footstep_sounds_wood
@@ -54,48 +60,6 @@ mid_height = 2.0
 [sub_resource type="CapsuleShape" id=2]
 radius = 0.7
 height = 2.0
-
-[sub_resource type="GDScript" id=11]
-script/source = "extends Spatial
-
-var mouse_movement_x
-var mouse_movement_y
-var sway_thres = 1
-var sway_lerp = 5
-
-
-export var sway_left : Vector3
-export var sway_right : Vector3
-export var sway_up : Vector3
-export var sway_down : Vector3
-export var sway_default : Vector3
-
-func _unhandled_input(event: InputEvent) -> void:
-	
-	if event is InputEventMouseMotion and is_network_master():
-		mouse_movement_x = event.relative.x
-		mouse_movement_y = event.relative.y
-
-func _process(delta):
-	if is_network_master():
-		if mouse_movement_x != null:
-			if mouse_movement_x > sway_thres:
-				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_left, sway_lerp*delta)
-			elif mouse_movement_x < -sway_thres:
-				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_right, sway_lerp*delta)
-			else:
-				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_default, sway_lerp*delta)
-			 
-		if mouse_movement_y != null:
-			if mouse_movement_y > sway_thres:
-				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_up, sway_lerp*delta)
-			elif mouse_movement_y < -sway_thres:
-				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_down, sway_lerp*delta)
-			else:
-				get_child(0).mesh.rotation = get_child(0).mesh.rotation.linear_interpolate(sway_default, sway_lerp*delta)
-	mouse_movement_x = 0
-	mouse_movement_y = 0
-"
 
 [sub_resource type="OpenSimplexNoise" id=15]
 period = 12.3
@@ -141,7 +105,7 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="StyleBoxFlat" id=8]
+[sub_resource type="StyleBoxFlat" id=21]
 resource_local_to_scene = true
 resource_name = "cool"
 bg_color = Color( 1, 1, 1, 1 )
@@ -169,6 +133,7 @@ font_data = SubResource( 9 )
 collision_layer = 2
 collision_mask = 7
 script = ExtResource( 2 )
+debug_inventory = [ ExtResource( 24 ), ExtResource( 4 ), ExtResource( 26 ), ExtResource( 25 ) ]
 
 [node name="nametag" type="Label3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0 )
@@ -187,7 +152,9 @@ script = SubResource( 12 )
 jump_sound = ExtResource( 1 )
 wallbounce_sound = ExtResource( 9 )
 hurt_sounds = [ ExtResource( 13 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 16 ), ExtResource( 14 ) ]
+shield_sounds = [ ExtResource( 27 ) ]
 death_sounds = [ ExtResource( 17 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 20 ) ]
+shieldbreak_sounds = [ ExtResource( 27 ) ]
 
 [node name="stationary" type="Node" parent="sounds"]
 
@@ -236,13 +203,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19813, 0 )
 
 [node name="Holder" type="Spatial" parent="Head"]
 transform = Transform( 0.999519, 0, 0, 0, 0.999519, 0, 0, 0, 0.999519, 0.842409, -0.648897, -1.71594 )
-script = SubResource( 11 )
-sway_left = Vector3( 0, 0.3, -0.2 )
-sway_right = Vector3( 0, -0.3, 0.2 )
-sway_up = Vector3( 0.3, 0, 0 )
-sway_down = Vector3( -0.3, 0, 0 )
-
-[node name="AR" parent="Head/Holder" instance=ExtResource( 4 )]
 
 [node name="FloorCheck" type="RayCast" parent="."]
 transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )
@@ -289,8 +249,11 @@ stretch_mode = 6
 [node name="HPPanel" parent="HUD" instance=ExtResource( 5 )]
 custom_styles/panel = SubResource( 7 )
 
-[node name="HpBar" parent="HUD/HPPanel/Margin/Hbox" index="1"]
-custom_styles/fg = SubResource( 8 )
+[node name="ShieldBar" parent="HUD/HPPanel/Margin/valign/shieldmeter" index="1"]
+custom_styles/fg = SubResource( 21 )
+
+[node name="HpBar" parent="HUD/HPPanel/Margin/valign/Hbox" index="1"]
+custom_styles/fg = SubResource( 21 )
 
 [node name="speeddisplay" type="Label" parent="HUD"]
 anchor_left = 0.5
@@ -328,9 +291,16 @@ autostart = true
 wait_time = 3.0
 one_shot = true
 
+[node name="shieldTimer" type="Timer" parent="."]
+process_mode = 0
+wait_time = 5.0
+one_shot = true
+
 [connection signal="Damage" from="." to="painvignette" method="_on_Player_Damage"]
 [connection signal="changeHealth" from="." to="HUD/HPPanel" method="set_hp"]
+[connection signal="changeShield" from="." to="HUD/HPPanel" method="set_shield"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
 [connection signal="timeout" from="respawnTimer" to="." method="_on_respawnTimer_timeout"]
+[connection signal="timeout" from="shieldTimer" to="." method="_on_shieldTimer_timeout"]
 
 [editable path="HUD/HPPanel"]

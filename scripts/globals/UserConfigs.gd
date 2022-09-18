@@ -8,7 +8,7 @@ var is_vsync = false
 var show_fps = false
 var is_view_roll = true
 
-#music saved 0 to 100 (percentage)
+#music saved 0 to 1 (linear2db)
 var options_master_volume : float = 1.0
 var options_game_volume : float = 1.0
 var options_music_volume : float = 1.0

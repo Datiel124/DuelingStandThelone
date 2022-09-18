@@ -3,6 +3,9 @@ class_name Weapon, 'res://DEV/class_icons/gunicon.png'
 
 onready var anim_player = $AnimationPlayer
 
+export(Texture) var inventory_icon
+#for the kill feed that might be added depending on the system
+export(Texture) var kill_feed_icon
 export(String) var WeaponName = "test_weapon"
 export(PackedScene) var projectile
 export var fullauto : bool = false 
