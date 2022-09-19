@@ -73,11 +73,6 @@ remote func set_current_weapon(new):
 		currentWeapon.set_network_master(get_tree().get_network_unique_id())
 	emit_signal("changeCurrentWeapon", old, currentWeapon)
 
-#Hard-coding primary and secondary weapons, as it is all that the gameplay requires.
-master var primary;
-master var secondary;
-
-
 #References to nodes for simplification
 onready var ground_check = $FloorCheck
 onready var Head = $Head
@@ -245,10 +240,6 @@ func apply_physics(delta) -> void:
 				Velocity = Velocity.slide(normal)
 
 
-func get_current_weapon_index(weapon) -> int:
-	return Inventory.find(weapon)
-
-
 #Useful for things that sort of override other effects.
 func _unhandled_input(event: InputEvent) -> void:
 	if is_network_master():
@@ -279,10 +270,10 @@ func _unhandled_input(event: InputEvent) -> void:
 			Head.rotation.x -= event.relative.y * UserConfigs.aim_sens * get_process_delta_time()
 			Head.rotation.x = clamp(Head.rotation.x, -PI/2, PI/2)
 		if event is InputEventMouseButton:
-			if event.button_index == BUTTON_WHEEL_UP:
-				set_current_weapon(Inventory[(get_current_weapon_index(currentWeapon) + 1) % Inventory.size()])
-			if event.button_index == BUTTON_WHEEL_DOWN:
-				set_current_weapon(Inventory[(get_current_weapon_index(currentWeapon) - 1) % Inventory.size()])
+			if event.button_index == BUTTON_WHEEL_UP and event.is_pressed():
+				set_current_weapon(Inventory[(Inventory.find(currentWeapon) + 1) % Inventory.size()])
+			if event.button_index == BUTTON_WHEEL_DOWN and event.is_pressed():
+				set_current_weapon(Inventory[(Inventory.find(currentWeapon) - 1) % Inventory.size()])
 		if event is InputEventKey:
 			if event.as_text() == "Control+K":
 				#suicide
@@ -315,7 +306,7 @@ remote func Damage(damage, dealer : int = -1, currentHealth : int = health) -> v
 	var leftoverdamage = max(damage - shield, 0)
 	setShield(shield - damage)
 	if is_shield_active:
-		if ((shield - damage) <= 0):
+		if (shield <= 0):
 			#shield dead
 			shieldshatter()
 			#shieldtimer.start()
@@ -323,7 +314,7 @@ remote func Damage(damage, dealer : int = -1, currentHealth : int = health) -> v
 			$sounds/hurt.pitch_scale = rand_range(0.95, 1.05)
 			$sounds/hurt.unit_db = lerp(-10, 0, clamp(damage / 34, 0, 1))
 			$sounds/hurt.stream = $sounds.shield_sounds[randi()%$sounds.shield_sounds.size()]
-			$sounds/hurt.play(0.5 / damage)
+			$sounds/hurt.play(rand_range(0.25, 0.35) / damage)
 		$shieldTimer.start()
 	
 	emit_signal('Damage', currentHealth, currentHealth - leftoverdamage)

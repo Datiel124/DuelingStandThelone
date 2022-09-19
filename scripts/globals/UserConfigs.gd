@@ -32,7 +32,7 @@ signal loaded_all_configs
 
 func saveconfigs():
 	print("Saving configs...")
-	var start = Time.get_ticks_usec()
+	var start = Time.get_ticks_msec()
 	var save = File.new()
 	save.open("user://configs.save", File.WRITE)
 #	save.store_line(to_json(variables))
@@ -43,7 +43,7 @@ func saveconfigs():
 #	print(properties)
 	save.store_line(JSON.print(properties))
 	save.close()
-	print("Finished saving configs in " + str(Time.get_ticks_usec() - start) + "us.")
+	print("Finished saving configs in " + str(Time.get_ticks_msec() - start) + "ms.")
 
 
 func loadconfigs():

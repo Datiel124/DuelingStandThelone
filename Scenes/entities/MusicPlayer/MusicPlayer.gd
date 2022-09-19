@@ -12,16 +12,23 @@ var songs = []
 func _ready():
 	randomize()
 	MusicPlayer.set_bus("Music")
+	yield(get_tree(), 'idle_frame')
 	if UserConfigs.custom_songs_enabled:
-		scansongs()
+		var thread = Thread.new()
+		thread.start(self, 'scansongs')
+		thread.wait_to_finish()
+		if songs.size() > 0:
+			setSong(randi()%songs.size())
 	pass
 
 func _process(delta):
-	if Input.is_action_pressed("refresh_songs") && UserConfigs.custom_songs_enabled:
+	if Input.is_action_just_pressed("refresh_songs") && UserConfigs.custom_songs_enabled:
 		print("Refreshing music list..")
 		scansongs()
 
 func scansongs():
+	print("Beginning audio file scan...")
+	var start = Time.get_ticks_msec()
 	#Get the songs folder
 	var songsfolder = "user://music/"
 	#Scan the songs folder for song files
@@ -29,7 +36,7 @@ func scansongs():
 	print(files)
 	#Load each filepath, create AudioStreams, append to songs[] array
 	for path in files:
-		
+	
 		var file = File.new()
 		
 		if file.file_exists(path):
@@ -53,7 +60,8 @@ func scansongs():
 			songs.append(audio_stream)
 			file.close()
 	print(songs)
-	setSong(randi()%songs.size())
+	print("Finished scanning songs in " + str(Time.get_ticks_msec() - start) + "ms.")
+	
 
 func setSong(idx : int):
 	MusicPlayer.set_stream(songs[idx])
