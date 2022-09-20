@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=2]
+[gd_scene load_steps=42 format=2]
 
 [ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
 [ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
@@ -26,7 +26,9 @@
 [ext_resource path="res://Scenes/weapons/shotgun/Shotgun.tscn" type="PackedScene" id=24]
 [ext_resource path="res://Scenes/weapons/bomb_launcher/BombLauncher.tscn" type="PackedScene" id=25]
 [ext_resource path="res://Scenes/weapons/railgun/Railgun.tscn" type="PackedScene" id=26]
-[ext_resource path="res://Scenes/entities/Player/sounds/crap.wav" type="AudioStream" id=27]
+[ext_resource path="res://Audio/shield_deflect2.wav" type="AudioStream" id=27]
+[ext_resource path="res://Scenes/entities/Player/sounds/crappier.wav" type="AudioStream" id=28]
+[ext_resource path="res://Audio/shield_deflect1.wav" type="AudioStream" id=29]
 
 [sub_resource type="DynamicFont" id=20]
 size = 128
@@ -152,9 +154,9 @@ script = SubResource( 12 )
 jump_sound = ExtResource( 1 )
 wallbounce_sound = ExtResource( 9 )
 hurt_sounds = [ ExtResource( 13 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 16 ), ExtResource( 14 ) ]
-shield_sounds = [ ExtResource( 27 ) ]
+shield_sounds = [ ExtResource( 29 ), ExtResource( 27 ) ]
 death_sounds = [ ExtResource( 17 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 20 ) ]
-shieldbreak_sounds = [ ExtResource( 27 ) ]
+shieldbreak_sounds = [ ExtResource( 28 ) ]
 
 [node name="stationary" type="Node" parent="sounds"]
 
@@ -249,10 +251,20 @@ stretch_mode = 6
 [node name="HPPanel" parent="HUD" instance=ExtResource( 5 )]
 custom_styles/panel = SubResource( 7 )
 
+[node name="valign" parent="HUD/HPPanel/Margin" index="0"]
+margin_bottom = 83.0
+
 [node name="ShieldBar" parent="HUD/HPPanel/Margin/valign/shieldmeter" index="1"]
 custom_styles/fg = SubResource( 21 )
 
+[node name="Hbox" parent="HUD/HPPanel/Margin/valign" index="1"]
+margin_bottom = 83.0
+
+[node name="HP" parent="HUD/HPPanel/Margin/valign/Hbox" index="0"]
+margin_bottom = 60.0
+
 [node name="HpBar" parent="HUD/HPPanel/Margin/valign/Hbox" index="1"]
+margin_bottom = 60.0
 custom_styles/fg = SubResource( 21 )
 
 [node name="speeddisplay" type="Label" parent="HUD"]

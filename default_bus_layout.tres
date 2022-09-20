@@ -7,7 +7,7 @@ predelay_feedback = 0.2
 room_size = 0.47
 damping = 0.9
 spread = 0.56
-wet = 0.13
+wet = 0.01
 
 [resource]
 bus/1/name = "fx"

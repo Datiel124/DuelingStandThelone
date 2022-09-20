@@ -51,7 +51,7 @@ func _on_huirts_timeout() -> void:
 				var canca = Timer.new()
 				add_child(canca)
 				canca.start(0.666666)
-				canca.connect('timeout', i, 'Damage', [1.0])
+				canca.connect('timeout', i, 'Damage', [rand_range(0, 1)])
 				yield(get_tree().create_timer(0.666667 * 5.0), 'timeout')
 				canca.queue_free()
 	pass # Replace with function body.

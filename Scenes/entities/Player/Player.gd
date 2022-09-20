@@ -308,13 +308,16 @@ remote func Damage(damage, dealer : int = -1, currentHealth : int = health) -> v
 	if is_shield_active:
 		if (shield <= 0):
 			#shield dead
-			shieldshatter()
+			shieldshatter(damage)
 			#shieldtimer.start()
-		elif damage > 0.1:
-			$sounds/hurt.pitch_scale = rand_range(0.95, 1.05)
-			$sounds/hurt.unit_db = lerp(-10, 0, clamp(damage / 34, 0, 1))
-			$sounds/hurt.stream = $sounds.shield_sounds[randi()%$sounds.shield_sounds.size()]
-			$sounds/hurt.play(rand_range(0.25, 0.35) / damage)
+		elif damage > 0.01:
+			var newsound : AudioStreamPlayer3D = $sounds/hurt.duplicate()
+			add_child(newsound)
+			newsound.pitch_scale = rand_range(0.95, 1.05)
+			newsound.unit_db = lerp(-10, 0, clamp(damage / 34, 0, 1))
+			newsound.stream = $sounds.shield_sounds[randi()%$sounds.shield_sounds.size()]
+			newsound.play()
+			newsound.connect('finished', newsound, 'queue_free')
 		$shieldTimer.start()
 	
 	emit_signal('Damage', currentHealth, currentHealth - leftoverdamage)
@@ -342,12 +345,15 @@ remote func Stun(start_amt : float = 0.0, duration : float = 1.5) -> void:
 	airstuntween.tween_property(self, "air_accel", base_air_accel, duration)
 
 
-remote func shieldshatter() -> void:
+remote func shieldshatter(damage : float) -> void:
 	is_shield_active = false
-	$sounds/hurt.stream = $sounds.shieldbreak_sounds[randi()%$sounds.shieldbreak_sounds.size()]
-	$sounds/hurt.unit_db = 0.0
-	$sounds/hurt.pitch_scale = rand_range(0.99, 1.01)
-	$sounds/hurt.play()
+	var newsound : AudioStreamPlayer3D = $sounds/hurt.duplicate()
+	add_child(newsound)
+	newsound.stream = $sounds.shieldbreak_sounds[randi()%$sounds.shieldbreak_sounds.size()]
+	newsound.unit_db = 0.0
+	newsound.pitch_scale = rand_range(0.99, 1.01)
+	newsound.play()
+	newsound.connect('finished', newsound, 'queue_free')
 
 
 remote func kill() -> void:
