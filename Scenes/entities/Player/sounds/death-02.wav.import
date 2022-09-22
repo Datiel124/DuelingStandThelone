@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/death-02.wav-91435bb37abcc8f9e8255800fd1747fb.sample"
+type="AudioStreamWAV"
+uid="uid://dywvgtlb625"
+path="res://.godot/imported/death-02.wav-91435bb37abcc8f9e8255800fd1747fb.sample"
 
 [deps]
 
 source_file="res://Scenes/entities/Player/sounds/death-02.wav"
-dest_files=[ "res://.import/death-02.wav-91435bb37abcc8f9e8255800fd1747fb.sample" ]
+dest_files=["res://.godot/imported/death-02.wav-91435bb37abcc8f9e8255800fd1747fb.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=true
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

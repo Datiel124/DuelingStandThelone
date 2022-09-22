@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/quaker540_hq-explosion.wav-60f1b7f962aab25c6bb166296b9a3278.sample"
+type="AudioStreamWAV"
+uid="uid://ddfku8agd4csr"
+path="res://.godot/imported/quaker540_hq-explosion.wav-60f1b7f962aab25c6bb166296b9a3278.sample"
 
 [deps]
 
 source_file="res://Audio/quaker540_hq-explosion.wav"
-dest_files=[ "res://.import/quaker540_hq-explosion.wav-60f1b7f962aab25c6bb166296b9a3278.sample" ]
+dest_files=["res://.godot/imported/quaker540_hq-explosion.wav-60f1b7f962aab25c6bb166296b9a3278.sample"]
 
 [params]
 

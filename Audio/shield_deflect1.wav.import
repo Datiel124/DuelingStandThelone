@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/shield_deflect1.wav-18f2717725f13166250cf6aa0aad2869.sample"
+type="AudioStreamWAV"
+uid="uid://bgyt1gvkloh37"
+path="res://.godot/imported/shield_deflect1.wav-18f2717725f13166250cf6aa0aad2869.sample"
 
 [deps]
 
 source_file="res://Audio/shield_deflect1.wav"
-dest_files=[ "res://.import/shield_deflect1.wav-18f2717725f13166250cf6aa0aad2869.sample" ]
+dest_files=["res://.godot/imported/shield_deflect1.wav-18f2717725f13166250cf6aa0aad2869.sample"]
 
 [params]
 

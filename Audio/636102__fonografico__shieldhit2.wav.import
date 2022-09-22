@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/636102__fonografico__shieldhit2.wav-4934f5cde81f1d35551b3e71f2eb62ce.sample"
+type="AudioStreamWAV"
+uid="uid://cdkd8m357plsu"
+path="res://.godot/imported/636102__fonografico__shieldhit2.wav-4934f5cde81f1d35551b3e71f2eb62ce.sample"
 
 [deps]
 
 source_file="res://Audio/636102__fonografico__shieldhit2.wav"
-dest_files=[ "res://.import/636102__fonografico__shieldhit2.wav-4934f5cde81f1d35551b3e71f2eb62ce.sample" ]
+dest_files=["res://.godot/imported/636102__fonografico__shieldhit2.wav-4934f5cde81f1d35551b3e71f2eb62ce.sample"]
 
 [params]
 

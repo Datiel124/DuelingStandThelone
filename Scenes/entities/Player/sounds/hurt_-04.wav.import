@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/hurt_-04.wav-31a4d6afaae570e44e06b3db7358060e.sample"
+type="AudioStreamWAV"
+uid="uid://cvyl4pb57nqng"
+path="res://.godot/imported/hurt_-04.wav-31a4d6afaae570e44e06b3db7358060e.sample"
 
 [deps]
 
 source_file="res://Scenes/entities/Player/sounds/hurt_-04.wav"
-dest_files=[ "res://.import/hurt_-04.wav-31a4d6afaae570e44e06b3db7358060e.sample" ]
+dest_files=["res://.godot/imported/hurt_-04.wav-31a4d6afaae570e44e06b3db7358060e.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=true
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

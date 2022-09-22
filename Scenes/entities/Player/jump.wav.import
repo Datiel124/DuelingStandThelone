@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/jump.wav-5bdb697205f4d73e544ab526d2221d41.sample"
+type="AudioStreamWAV"
+uid="uid://y1tkyugg2ful"
+path="res://.godot/imported/jump.wav-5bdb697205f4d73e544ab526d2221d41.sample"
 
 [deps]
 
 source_file="res://Scenes/entities/Player/jump.wav"
-dest_files=[ "res://.import/jump.wav-5bdb697205f4d73e544ab526d2221d41.sample" ]
+dest_files=["res://.godot/imported/jump.wav-5bdb697205f4d73e544ab526d2221d41.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=0

@@ -1,4 +1,3 @@
-tool
 extends Node
 
 signal loaded_file
@@ -16,7 +15,7 @@ func load_external_texture(path):
 func load_external_mp3(path):
 	var mp3_file = File.new()
 	mp3_file.open(path, File.READ)
-	var bytes = mp3_file.get_buffer(mp3_file.get_len())
+	var bytes = mp3_file.get_buffer(mp3_file.get_length())
 	var stream = AudioStreamMP3.new()
 	stream.data = bytes
 	emit_signal("loaded_file")
@@ -27,7 +26,7 @@ func load_external_mp3(path):
 func load_external_wav(path):
 	var wav_file = File.new()
 	wav_file.open(path, File.READ)
-	var bytes = wav_file.get_buffer(wav_file.get_len())
+	var bytes = wav_file.get_buffer(wav_file.get_length())
 	var stream = AudioStreamMP3.new()
 	stream.data = bytes
 	emit_signal("loaded_file")
@@ -38,7 +37,7 @@ func load_external_wav(path):
 func load_external_ogg(path):
 	var ogg_file = File.new()
 	ogg_file.open(path, File.READ)
-	var bytes = ogg_file.get_buffer(ogg_file.get_len())
+	var bytes = ogg_file.get_buffer(ogg_file.get_length())
 	var stream = AudioStreamMP3.new()
 	stream.data = bytes
 	emit_signal("loaded_file")

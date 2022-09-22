@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/lit-fuse.wav-244172e2887a45fe85ae446f7512cae5.sample"
+type="AudioStreamWAV"
+uid="uid://dxhbku6idx5o8"
+path="res://.godot/imported/lit-fuse.wav-244172e2887a45fe85ae446f7512cae5.sample"
 
 [deps]
 
 source_file="res://Audio/lit-fuse.wav"
-dest_files=[ "res://.import/lit-fuse.wav-244172e2887a45fe85ae446f7512cae5.sample" ]
+dest_files=["res://.godot/imported/lit-fuse.wav-244172e2887a45fe85ae446f7512cae5.sample"]
 
 [params]
 

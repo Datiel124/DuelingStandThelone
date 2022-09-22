@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/arshot.wav-3ed47b73b9cbb45cfdbff19a0e0f4228.sample"
+type="AudioStreamWAV"
+uid="uid://b12kegyv7ergr"
+path="res://.godot/imported/arshot.wav-3ed47b73b9cbb45cfdbff19a0e0f4228.sample"
 
 [deps]
 
 source_file="res://Scenes/weapons/AR/arshot.wav"
-dest_files=[ "res://.import/arshot.wav-3ed47b73b9cbb45cfdbff19a0e0f4228.sample" ]
+dest_files=["res://.godot/imported/arshot.wav-3ed47b73b9cbb45cfdbff19a0e0f4228.sample"]
 
 [params]
 

@@ -8,7 +8,7 @@ var is_vsync = false
 var show_fps = false
 var is_view_roll = true
 
-#music saved 0 to 1 (linear2db)
+#music saved 0 to 1 (linear_to_db)
 var options_master_volume : float = 1.0
 var options_game_volume : float = 1.0
 var options_music_volume : float = 1.0
@@ -23,8 +23,7 @@ func _ready() -> void:
 
 
 func _notification(what: int) -> void:
-	if what == MainLoop.NOTIFICATION_WM_QUIT_REQUEST:
-		saveconfigs()
+	print(what)
 
 
 signal loaded_all_configs
@@ -35,13 +34,13 @@ func saveconfigs():
 	var start = Time.get_ticks_msec()
 	var save = File.new()
 	save.open("user://configs.save", File.WRITE)
-#	save.store_line(to_json(variables))
+#	save.store_line(JSON.new().stringify(variables))
 	var properties = {}
 	var thisScript : GDScript = get_script()
 	for propertyInfo in thisScript.get_script_property_list():
 		properties[propertyInfo.name] = get(propertyInfo.name)
 #	print(properties)
-	save.store_line(JSON.print(properties))
+	save.store_line(JSON.stringify(properties))
 	save.close()
 	print("Finished saving configs in " + str(Time.get_ticks_msec() - start) + "ms.")
 
@@ -51,8 +50,10 @@ func loadconfigs():
 	if not save.file_exists("user://configs.save"):
 		return
 	save.open("user://configs.save", File.READ)
-	while save.get_position() < save.get_len():
-		var data = parse_json(save.get_line())
+	while save.get_position() < save.get_length():
+		var test_json_conv = JSON.new()
+		test_json_conv.parse(save.get_line())
+		var data = test_json_conv.get_data()
 		for i in data.keys():
 			set(i, data[i])
 	print("loaded all configs")
@@ -77,7 +78,7 @@ func add_music(dir : Directory, files:Array, directories: Array):
 
 
 func toggle_fullscreen(toggle):
-	OS.window_fullscreen = toggle
+	ProjectSettings.set("display/window/size/fullscreen", toggle)
 	UserConfigs.is_fullscreen = toggle
 	UserConfigs.saveconfigs()
 

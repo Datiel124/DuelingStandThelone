@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/crap.wav-6961d0ddb93df9e6fd6419b706b39b39.sample"
+type="AudioStreamWAV"
+uid="uid://dy45nynomsxqr"
+path="res://.godot/imported/crap.wav-6961d0ddb93df9e6fd6419b706b39b39.sample"
 
 [deps]
 
 source_file="res://Scenes/entities/Player/sounds/crap.wav"
-dest_files=[ "res://.import/crap.wav-6961d0ddb93df9e6fd6419b706b39b39.sample" ]
+dest_files=["res://.godot/imported/crap.wav-6961d0ddb93df9e6fd6419b706b39b39.sample"]
 
 [params]
 

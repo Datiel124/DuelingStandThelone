@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/shield-bop.wav-78454f93881e5ed4849296d01d1df969.sample"
+type="AudioStreamWAV"
+uid="uid://btebcdro7wxx"
+path="res://.godot/imported/shield-bop.wav-78454f93881e5ed4849296d01d1df969.sample"
 
 [deps]
 
 source_file="res://Scenes/entities/Player/sounds/shield-bop.wav"
-dest_files=[ "res://.import/shield-bop.wav-78454f93881e5ed4849296d01d1df969.sample" ]
+dest_files=["res://.godot/imported/shield-bop.wav-78454f93881e5ed4849296d01d1df969.sample"]
 
 [params]
 
