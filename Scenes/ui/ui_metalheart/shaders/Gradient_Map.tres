@@ -1,11 +1,6 @@
-[gd_resource type="ShaderMaterial" load_steps=4 format=2]
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://rt2vwhuvrqyf"]
 
-[ext_resource path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.gdshader" type="Shader" id=1]
-[ext_resource path="res://Scenes/ui/ui_metalheart/gradients/Gradient_Blue-White.tres" type="Gradient" id=2]
-
-[sub_resource type="GradientTexture" id=7]
-gradient = ExtResource( 2 )
+[ext_resource type="Shader" path="res://Scenes/ui/ui_metalheart/shaders/Gradient_Map.gdshader" id="1"]
 
 [resource]
-shader = ExtResource( 1 )
-shader_param/gradient = SubResource( 7 )
+shader = ExtResource("1")

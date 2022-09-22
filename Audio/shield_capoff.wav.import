@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/shield_capoff.wav-a9b2153099f4f9adcc6f3c5fff956823.sample"
+type="AudioStreamWAV"
+uid="uid://gbjjuriavf2o"
+path="res://.godot/imported/shield_capoff.wav-a9b2153099f4f9adcc6f3c5fff956823.sample"
 
 [deps]
 
 source_file="res://Audio/shield_capoff.wav"
-dest_files=[ "res://.import/shield_capoff.wav-a9b2153099f4f9adcc6f3c5fff956823.sample" ]
+dest_files=["res://.godot/imported/shield_capoff.wav-a9b2153099f4f9adcc6f3c5fff956823.sample"]
 
 [params]
 

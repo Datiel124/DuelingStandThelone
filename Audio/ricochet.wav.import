@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/ricochet.wav-95af18a6704ad1a80683081fe2f06674.sample"
+type="AudioStreamWAV"
+uid="uid://bpxs435081mta"
+path="res://.godot/imported/ricochet.wav-95af18a6704ad1a80683081fe2f06674.sample"
 
 [deps]
 
 source_file="res://Audio/ricochet.wav"
-dest_files=[ "res://.import/ricochet.wav-95af18a6704ad1a80683081fe2f06674.sample" ]
+dest_files=["res://.godot/imported/ricochet.wav-95af18a6704ad1a80683081fe2f06674.sample"]
 
 [params]
 

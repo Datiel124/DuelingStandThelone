@@ -1,12 +1,12 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://bs6imwb1m2uoe"]
 
-[ext_resource path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" type="Material" id=1]
-[ext_resource path="res://Scenes/World.tscn" type="PackedScene" id=2]
-[ext_resource path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" type="Material" id=3]
-[ext_resource path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" type="Material" id=4]
+[ext_resource type="Material" uid="uid://b3bj1opi6jyvo" path="res://MaterialAssets/Developer_Textures/Green/Green_Tex_1.tres" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/World.tscn" id="2"]
+[ext_resource type="Material" uid="uid://s3muysapypgt" path="res://MaterialAssets/Developer_Textures/Dark/Dark_Tex_1.tres" id="3"]
+[ext_resource type="Material" uid="uid://dhji1ooux3mq" path="res://MaterialAssets/Developer_Textures/Orange/Orange_Tex_1.tres" id="4"]
 
-[sub_resource type="GDScript" id=3]
-script/source = "extends Area
+[sub_resource type="GDScript" id="3"]
+script/source = "extends Area3D
 
 func _on_huirts_timeout() -> void:
 	for i in get_overlapping_bodies():
@@ -17,31 +17,31 @@ func _on_huirts_timeout() -> void:
 #				add_child(canca)
 #				var rate = randf()
 #				canca.start(rate)
-#				canca.connect('timeout', i, 'Damage', [randf()])
-#				yield(get_tree().create_timer(rate * rand_range(10, 100)), 'timeout')
+#				canca.connect('timeout',Callable(i,'Damage').bind(randf()))
+#				await get_tree().create_timer(rate * randf_range(10, 100)).'timeout'
 #				canca.queue_free()
 	pass # Replace with function body.
 "
 
-[sub_resource type="SphereShape" id=1]
+[sub_resource type="SphereShape3D" id="1"]
 radius = 14.0
 
-[sub_resource type="SpatialMaterial" id=4]
-flags_transparent = true
-flags_unshaded = true
-flags_no_depth_test = true
-params_cull_mode = 2
-albedo_color = Color( 1, 0, 0, 0.466667 )
+[sub_resource type="StandardMaterial3D" id="4"]
+transparency = 1
+cull_mode = 2
+no_depth_test = true
+shading_mode = 0
+albedo_color = Color(1, 0, 0, 0.466667)
 proximity_fade_enable = true
 proximity_fade_distance = 2.0
 
-[sub_resource type="SphereMesh" id=2]
-material = SubResource( 4 )
+[sub_resource type="SphereMesh" id="2"]
+material = SubResource("4")
 radius = 14.0
 height = 28.0
 
-[sub_resource type="GDScript" id=5]
-script/source = "extends Area
+[sub_resource type="GDScript" id="5"]
+script/source = "extends Area3D
 
 func _on_huirts_timeout() -> void:
 	for i in get_overlapping_bodies():
@@ -51,212 +51,172 @@ func _on_huirts_timeout() -> void:
 				var canca = Timer.new()
 				add_child(canca)
 				canca.start(0.666666)
-				canca.connect('timeout', i, 'Damage', [rand_range(0, 1)])
-				yield(get_tree().create_timer(0.666667 * 5.0), 'timeout')
+				canca.connect('timeout',Callable(i,'Damage').bind(randf_range(0, 1)))
+				await get_tree().create_timer(0.666667 * 5.0).timeout
 				canca.queue_free()
 	pass # Replace with function body.
 "
 
-[sub_resource type="SphereShape" id=6]
+[sub_resource type="SphereShape3D" id="6"]
 radius = 4.0
 
-[sub_resource type="SphereMesh" id=7]
-material = SubResource( 4 )
+[sub_resource type="SphereMesh" id="7"]
+material = SubResource("4")
 radius = 4.0
 height = 9.0
 
-[node name="World" instance=ExtResource( 2 )]
+[node name="World3D" instance=ExtResource("2")]
 
 [node name="spawn0" parent="Level/spawnpoints" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.4, 0 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 6.4, 0)
 
-[node name="spawn2" type="Position3D" parent="Level/spawnpoints" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4, 4 )
+[node name="spawn2" type="Marker3D" parent="Level/spawnpoints" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 4, 4)
 
-[node name="spawn3" type="Position3D" parent="Level/spawnpoints" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3, -1 )
+[node name="spawn3" type="Marker3D" parent="Level/spawnpoints" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 26, 3, -1)
 
-[node name="spawn4" type="Position3D" parent="Level/spawnpoints" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3, 35 )
+[node name="spawn4" type="Marker3D" parent="Level/spawnpoints" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -35, 3, 35)
 
-[node name="wallz" type="CSGCombiner" parent="Level/geometry" index="0"]
+[node name="wallz" type="CSGCombiner3D" parent="Level/geometry" index="0"]
 use_collision = true
 
-[node name="CSGBox" type="CSGBox" parent="Level/geometry/wallz" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23.3, 0 )
-width = 149.2
-height = 50.8
-depth = 134.2
-material = ExtResource( 3 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/geometry/wallz" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 23.3, 0)
+material = ExtResource("3")
 
-[node name="CSGBox" type="CSGBox" parent="Level/geometry/wallz/CSGBox" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/geometry/wallz/CSGBox3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 8.5, 0)
 operation = 2
-width = 142.6
-height = 59.6
-depth = 120.4
-material = ExtResource( 3 )
+material = ExtResource("3")
 
-[node name="stage" type="CSGCombiner" parent="Level/geometry" index="1"]
+[node name="stage" type="CSGCombiner3D" parent="Level/geometry" index="1"]
 use_collision = true
 
-[node name="CSGBox18" type="CSGBox" parent="Level/geometry/stage" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 14, -47 )
-width = 32.0
-depth = 26.0
-material = ExtResource( 1 )
+[node name="CSGBox18" type="CSGBox3D" parent="Level/geometry/stage" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 14, -47)
+material = ExtResource("1")
 
-[node name="CSGBox25" type="CSGBox" parent="Level/geometry/stage" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 14, -55 )
-depth = 10.0
-material = ExtResource( 1 )
+[node name="CSGBox25" type="CSGBox3D" parent="Level/geometry/stage" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 14, -55)
+material = ExtResource("1")
 
-[node name="CSGBox22" type="CSGBox" parent="Level/geometry/stage" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 29, -47 )
-width = 36.0
-depth = 26.0
-material = ExtResource( 3 )
+[node name="CSGBox22" type="CSGBox3D" parent="Level/geometry/stage" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 29, -47)
+material = ExtResource("3")
 
-[node name="CSGBox19" type="CSGBox" parent="Level/geometry/stage" index="3"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 14, -35 )
-height = 32.0
-material = ExtResource( 3 )
+[node name="CSGBox19" type="CSGBox3D" parent="Level/geometry/stage" index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 14, -35)
+material = ExtResource("3")
 
-[node name="CSGBox23" type="CSGBox" parent="Level/geometry/stage" index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 21, -49 )
-height = 16.0
-material = ExtResource( 3 )
+[node name="CSGBox23" type="CSGBox3D" parent="Level/geometry/stage" index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 21, -49)
+material = ExtResource("3")
 
-[node name="CSGBox24" type="CSGBox" parent="Level/geometry/stage" index="5"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 22, -59 )
-height = 14.0
-material = ExtResource( 3 )
+[node name="CSGBox24" type="CSGBox3D" parent="Level/geometry/stage" index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 16, 22, -59)
+material = ExtResource("3")
 
-[node name="CSGBox20" type="CSGBox" parent="Level/geometry/stage" index="6"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 14, -35 )
-height = 32.0
-material = ExtResource( 3 )
+[node name="CSGBox20" type="CSGBox3D" parent="Level/geometry/stage" index="6"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 14, -35)
+material = ExtResource("3")
 
-[node name="CSGBox21" type="CSGBox" parent="Level/geometry/stage" index="7"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 14, -59 )
-height = 32.0
-material = ExtResource( 3 )
+[node name="CSGBox21" type="CSGBox3D" parent="Level/geometry/stage" index="7"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -18, 14, -59)
+material = ExtResource("3")
 
-[node name="CSGBox6" type="CSGBox" parent="Level/geometry/stage" index="8"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12 )
-width = 6.0
-depth = 6.0
-material = ExtResource( 1 )
+[node name="CSGBox6" type="CSGBox3D" parent="Level/geometry/stage" index="8"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, -12)
+material = ExtResource("1")
 
-[node name="CSGBox14" type="CSGBox" parent="Level/geometry/stage" index="9"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 5, -12 )
-width = 6.0
-height = 12.0
-depth = 6.0
-material = ExtResource( 1 )
+[node name="CSGBox14" type="CSGBox3D" parent="Level/geometry/stage" index="9"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 5, -12)
+material = ExtResource("1")
 
-[node name="CSGBox7" type="CSGBox" parent="Level/geometry/stage" index="10"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, -3 )
-width = 20.0
-depth = 14.0
-material = ExtResource( 4 )
+[node name="CSGBox7" type="CSGBox3D" parent="Level/geometry/stage" index="10"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, -3)
+material = ExtResource("4")
 
-[node name="CSGBox15" type="CSGBox" parent="Level/geometry/stage" index="11"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 1.10119, 11 )
-width = 4.0
-depth = 54.0
-material = ExtResource( 4 )
+[node name="CSGBox15" type="CSGBox3D" parent="Level/geometry/stage" index="11"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 19, 1.10119, 11)
+material = ExtResource("4")
 
-[node name="CSGBox17" type="CSGBox" parent="Level/geometry/stage" index="12"]
-transform = Transform( 1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 19, 8, -38 )
-width = 4.0
-depth = 54.0
-material = ExtResource( 4 )
+[node name="CSGBox17" type="CSGBox3D" parent="Level/geometry/stage" index="12"]
+transform = Transform3D(1, 0, 0, 0, 0.965926, -0.258819, 0, 0.258819, 0.965926, 19, 8, -38)
+material = ExtResource("4")
 
-[node name="CSGBox13" type="CSGBox" parent="Level/geometry/stage" index="13"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -3 )
-width = 20.0
-depth = 14.0
-material = ExtResource( 4 )
+[node name="CSGBox13" type="CSGBox3D" parent="Level/geometry/stage" index="13"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 11, -3)
+material = ExtResource("4")
 
-[node name="CSGBox9" type="CSGBox" parent="Level/geometry/stage" index="14"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, -9 )
-height = 10.0
-material = ExtResource( 4 )
+[node name="CSGBox9" type="CSGBox3D" parent="Level/geometry/stage" index="14"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, -9)
+material = ExtResource("4")
 
-[node name="CSGBox10" type="CSGBox" parent="Level/geometry/stage" index="15"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, 3 )
-height = 10.0
-material = ExtResource( 4 )
+[node name="CSGBox10" type="CSGBox3D" parent="Level/geometry/stage" index="15"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15, 7, 3)
+material = ExtResource("4")
 
-[node name="CSGBox11" type="CSGBox" parent="Level/geometry/stage" index="16"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 7, 3 )
-height = 10.0
-material = ExtResource( 4 )
+[node name="CSGBox11" type="CSGBox3D" parent="Level/geometry/stage" index="16"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 7, 3)
+material = ExtResource("4")
 
-[node name="CSGBox12" type="CSGBox" parent="Level/geometry/stage" index="17"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 7, -9 )
-height = 10.0
-material = ExtResource( 4 )
+[node name="CSGBox12" type="CSGBox3D" parent="Level/geometry/stage" index="17"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -33, 7, -9)
+material = ExtResource("4")
 
-[node name="CSGBox8" type="CSGBox" parent="Level/geometry/stage" index="18"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, 17 )
-width = 4.0
-depth = 28.0
-material = ExtResource( 4 )
+[node name="CSGBox8" type="CSGBox3D" parent="Level/geometry/stage" index="18"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -24, 3, 17)
+material = ExtResource("4")
 
-[node name="cool" type="CSGCombiner" parent="Level/geometry" index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30611, 0, -14.5488 )
+[node name="cool" type="CSGCombiner3D" parent="Level/geometry" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.30611, 0, -14.5488)
 use_collision = true
 
-[node name="CSGBox" type="CSGBox" parent="Level/geometry/cool" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 6, -35 )
-width = 10.0
-height = 8.0
-depth = 10.0
-material = ExtResource( 1 )
+[node name="CSGBox3D" type="CSGBox3D" parent="Level/geometry/cool" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 6, -35)
+material = ExtResource("1")
 
-[node name="CSGCylinder" type="CSGCylinder" parent="Level/geometry/cool/CSGBox" index="0"]
-transform = Transform( -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 4, 5 )
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="Level/geometry/cool/CSGBox3D" index="0"]
+transform = Transform3D(-4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0, 1, 0, 4, 5)
 operation = 2
 radius = 8.0
 height = 12.0
 sides = 64
-material = ExtResource( 3 )
+material = ExtResource("3")
 
-[node name="Area" type="Area" parent="Level/objects" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 36.5, 0, 31.1 )
-script = SubResource( 3 )
+[node name="Area3D" type="Area3D" parent="Level/objects" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 36.5, 0, 31.1)
+script = SubResource("3")
 
-[node name="CollisionShape" type="CollisionShape" parent="Level/objects/Area" index="0"]
-shape = SubResource( 1 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/objects/Area3D" index="0"]
+shape = SubResource("1")
 
-[node name="MeshInstance" type="MeshInstance" parent="Level/objects/Area" index="1"]
-mesh = SubResource( 2 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/objects/Area3D" index="1"]
+mesh = SubResource("2")
 
-[node name="huirts" type="Timer" parent="Level/objects/Area" index="2"]
-process_mode = 0
+[node name="huirts" type="Timer" parent="Level/objects/Area3D" index="2"]
 wait_time = 0.2
 autostart = true
 
-[node name="Area2" type="Area" parent="Level/objects" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9, 2.9, 52.2 )
-script = SubResource( 5 )
+[node name="Area2" type="Area3D" parent="Level/objects" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.9, 2.9, 52.2)
+script = SubResource("5")
 
-[node name="CollisionShape" type="CollisionShape" parent="Level/objects/Area2" index="0"]
-shape = SubResource( 6 )
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/objects/Area2" index="0"]
+shape = SubResource("6")
 
-[node name="MeshInstance" type="MeshInstance" parent="Level/objects/Area2" index="1"]
-mesh = SubResource( 7 )
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/objects/Area2" index="1"]
+mesh = SubResource("7")
 
 [node name="huirts" type="Timer" parent="Level/objects/Area2" index="2"]
-process_mode = 0
 wait_time = 0.2
 autostart = true
 
-[node name="DirectionalLight" type="DirectionalLight" parent="Level/lights" index="0"]
-transform = Transform( 0.619589, -0.460546, -0.635616, 0.0790126, -0.76907, 0.634262, -0.78094, -0.443204, -0.440118, 0, 18.945, -20.0077 )
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Level/lights" index="0"]
+transform = Transform3D(0.619589, -0.460546, -0.635616, 0.0790126, -0.76907, 0.634262, -0.78094, -0.443204, -0.440118, 0, 18.945, -20.0077)
 shadow_enabled = true
 
-[connection signal="timeout" from="Level/objects/Area/huirts" to="Level/objects/Area" method="_on_huirts_timeout"]
+[connection signal="timeout" from="Level/objects/Area3D/huirts" to="Level/objects/Area3D" method="_on_huirts_timeout"]
 [connection signal="timeout" from="Level/objects/Area2/huirts" to="Level/objects/Area2" method="_on_huirts_timeout"]

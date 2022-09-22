@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/pipelaunch.wav-157b5e2762ccf185c35affe5fe729e26.sample"
+type="AudioStreamWAV"
+uid="uid://ryv4567s76q"
+path="res://.godot/imported/pipelaunch.wav-157b5e2762ccf185c35affe5fe729e26.sample"
 
 [deps]
 
 source_file="res://Audio/pipelaunch.wav"
-dest_files=[ "res://.import/pipelaunch.wav-157b5e2762ccf185c35affe5fe729e26.sample" ]
+dest_files=["res://.godot/imported/pipelaunch.wav-157b5e2762ccf185c35affe5fe729e26.sample"]
 
 [params]
 

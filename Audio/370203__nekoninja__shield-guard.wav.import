@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/370203__nekoninja__shield-guard.wav-552b93e7b70a702e99d914591c232433.sample"
+type="AudioStreamWAV"
+uid="uid://dmmiae374ku0x"
+path="res://.godot/imported/370203__nekoninja__shield-guard.wav-552b93e7b70a702e99d914591c232433.sample"
 
 [deps]
 
 source_file="res://Audio/370203__nekoninja__shield-guard.wav"
-dest_files=[ "res://.import/370203__nekoninja__shield-guard.wav-552b93e7b70a702e99d914591c232433.sample" ]
+dest_files=["res://.godot/imported/370203__nekoninja__shield-guard.wav-552b93e7b70a702e99d914591c232433.sample"]
 
 [params]
 

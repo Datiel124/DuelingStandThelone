@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6xxtvb3tnw6b"]
+
+[ext_resource type="Script" path="res://Scenes/entities/Camera/GlobalCamera.gd" id="1_267re"]
+
+[node name="GlobalCamera" type="Node3D"]
+script = ExtResource("1_267re")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+current = true
+far = 2000.0

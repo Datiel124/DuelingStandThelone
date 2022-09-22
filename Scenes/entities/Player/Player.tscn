@@ -1,87 +1,80 @@
-[gd_scene load_steps=42 format=2]
+[gd_scene load_steps=32 format=3 uid="uid://capyu6svpbemf"]
 
-[ext_resource path="res://Scenes/entities/Player/sfx_jump.wav" type="AudioStream" id=1]
-[ext_resource path="res://Scenes/entities/Player/Player.gd" type="Script" id=2]
-[ext_resource path="res://Scenes/ui/hud/croshar.png" type="Texture" id=3]
-[ext_resource path="res://Scenes/weapons/AR/AR.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Scenes/ui/hud/HPPanel.tscn" type="PackedScene" id=5]
-[ext_resource path="res://Scenes/entities/Player/model/basicman.tscn" type="PackedScene" id=6]
-[ext_resource path="res://Scenes/ui/hud/fpsdisplay.gd" type="Script" id=7]
-[ext_resource path="res://Scenes/entities/Player/FSM_player.gd" type="Script" id=8]
-[ext_resource path="res://Scenes/entities/Player/wallbounce.wav" type="AudioStream" id=9]
-[ext_resource path="res://TextureAssets/pain-vignette.png" type="Texture" id=10]
-[ext_resource path="res://Scenes/entities/Player/pain_vignette.gdshader" type="Shader" id=11]
-[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-03.wav" type="AudioStream" id=12]
-[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-01.wav" type="AudioStream" id=13]
-[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-05.wav" type="AudioStream" id=14]
-[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-02.wav" type="AudioStream" id=15]
-[ext_resource path="res://Scenes/entities/Player/sounds/hurt_-04.wav" type="AudioStream" id=16]
-[ext_resource path="res://Scenes/entities/Player/sounds/death-01.wav" type="AudioStream" id=17]
-[ext_resource path="res://Scenes/entities/Player/sounds/death-04.wav" type="AudioStream" id=18]
-[ext_resource path="res://Scenes/entities/Player/sounds/death-03.wav" type="AudioStream" id=19]
-[ext_resource path="res://Scenes/entities/Player/sounds/death-05.wav" type="AudioStream" id=20]
-[ext_resource path="res://Scenes/entities/Player/sounds/death-02.wav" type="AudioStream" id=21]
-[ext_resource path="res://Scenes/ui/hud/playerlist.tscn" type="PackedScene" id=22]
-[ext_resource path="res://TextureAssets/fonts/roboto/Roboto-Black.ttf" type="DynamicFontData" id=23]
-[ext_resource path="res://Scenes/weapons/shotgun/Shotgun.tscn" type="PackedScene" id=24]
-[ext_resource path="res://Scenes/weapons/bomb_launcher/BombLauncher.tscn" type="PackedScene" id=25]
-[ext_resource path="res://Scenes/weapons/railgun/Railgun.tscn" type="PackedScene" id=26]
-[ext_resource path="res://Audio/shield_deflect2.wav" type="AudioStream" id=27]
-[ext_resource path="res://Scenes/entities/Player/sounds/crappier.wav" type="AudioStream" id=28]
-[ext_resource path="res://Audio/shield_deflect1.wav" type="AudioStream" id=29]
+[ext_resource type="Script" path="res://Scenes/entities/Player/Player.gd" id="2"]
+[ext_resource type="Texture2D" uid="uid://c3a0cm0kg0p" path="res://Scenes/ui/hud/croshar.png" id="3"]
+[ext_resource type="PackedScene" path="res://Scenes/ui/hud/HPPanel.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://Scenes/entities/Player/model/basicman.tscn" id="6"]
+[ext_resource type="Script" path="res://Scenes/ui/hud/fpsdisplay.gd" id="7"]
+[ext_resource type="Script" path="res://Scenes/entities/Player/FSM_player.gd" id="8"]
+[ext_resource type="AudioStream" uid="uid://c04c4wo6fpfpq" path="res://Scenes/entities/Player/wallbounce.wav" id="9"]
+[ext_resource type="Texture2D" uid="uid://f1agjiucyxmh" path="res://TextureAssets/pain-vignette.png" id="10"]
+[ext_resource type="Shader" path="res://Scenes/entities/Player/pain_vignette.gdshader" id="11"]
+[ext_resource type="AudioStream" uid="uid://dckmu6d41df7v" path="res://Scenes/entities/Player/sounds/hurt_-03.wav" id="12"]
+[ext_resource type="AudioStream" uid="uid://byx8wi8uhd2vp" path="res://Scenes/entities/Player/sounds/hurt_-01.wav" id="13"]
+[ext_resource type="AudioStream" uid="uid://bjx6u5evuqm0c" path="res://Scenes/entities/Player/sounds/hurt_-05.wav" id="14"]
+[ext_resource type="AudioStream" uid="uid://baas1ghy21ja1" path="res://Scenes/entities/Player/jump.wav" id="14_ew0bd"]
+[ext_resource type="AudioStream" uid="uid://c6p0olbwtxd2w" path="res://Scenes/entities/Player/sounds/hurt_-02.wav" id="15"]
+[ext_resource type="AudioStream" uid="uid://vl5jkpcganj4" path="res://Scenes/entities/Player/sounds/hurt_-04.wav" id="16"]
+[ext_resource type="AudioStream" uid="uid://ps84psp1xaxt" path="res://Scenes/entities/Player/sounds/death-01.wav" id="17"]
+[ext_resource type="AudioStream" uid="uid://btgwoofnkk5pb" path="res://Scenes/entities/Player/sounds/death-04.wav" id="18"]
+[ext_resource type="AudioStream" uid="uid://cr8d8lxb061je" path="res://Scenes/entities/Player/sounds/death-03.wav" id="19"]
+[ext_resource type="AudioStream" uid="uid://bot05lt6r7mr3" path="res://Scenes/entities/Player/sounds/death-05.wav" id="20"]
+[ext_resource type="AudioStream" uid="uid://cnwympyfgd8on" path="res://Scenes/entities/Player/sounds/death-02.wav" id="21"]
+[ext_resource type="PackedScene" path="res://Scenes/ui/hud/playerlist.tscn" id="22"]
+[ext_resource type="FontFile" uid="uid://rn6wffqj8a3p" path="res://TextureAssets/fonts/roboto/Roboto-Black.ttf" id="23"]
+[ext_resource type="AudioStream" uid="uid://bigul0q78antl" path="res://Audio/shield_deflect2.wav" id="27"]
+[ext_resource type="AudioStream" uid="uid://iiikt6bxwj2c" path="res://Scenes/entities/Player/sounds/crappier.wav" id="28"]
+[ext_resource type="AudioStream" uid="uid://bm1u2mq5557ir" path="res://Audio/shield_deflect1.wav" id="29"]
 
-[sub_resource type="DynamicFont" id=20]
-size = 128
-outline_size = 5
-outline_color = Color( 0, 0, 0, 1 )
-use_mipmaps = true
-use_filter = true
-font_data = ExtResource( 23 )
+[sub_resource type="FontFile" id="20"]
+fallbacks = [ExtResource("23")]
+face_index = null
+embolden = null
+transform = null
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/16/0/kerning_overrides/16/0 = Vector2(0, 0)
 
-[sub_resource type="GDScript" id=12]
-script/source = "extends Spatial
+[sub_resource type="GDScript" id="12"]
+script/source = "extends Node3D
 
-export(AudioStream) var jump_sound
-export(AudioStream) var wallbounce_sound
-export(Array, AudioStream) var hurt_sounds 
-export(Array, AudioStream) var shield_sounds 
-export(Array, AudioStream) var death_sounds
-export(Array, AudioStream) var shieldbreak_sounds
+@export_category(\"Voices\")
+@export var hurt_sounds = [AudioStream]
+@export var death_sounds = [AudioStream]
 
-export(Array, AudioStream) var footstep_sounds_generic
-export(Array, AudioStream) var footstep_sounds_wood
-export(Array, AudioStream) var footstep_sounds_dirt
-export(Array, AudioStream) var footstep_sounds_metal
-export(Array, AudioStream) var footstep_sounds_water
+@export_category(\"FX\")
+@export var jump_sound = AudioStream
+@export var wallbounce_sound = AudioStream
+@export var shield_sounds = [AudioStream]
+@export var shieldbreak_sounds = [AudioStream]
+
+@export_category(\"Footsteps\")
+@export var footstep_sounds_generic = [AudioStream]
+@export var footstep_sounds_wood = [AudioStream]
+@export var footstep_sounds_dirt = [AudioStream]
+@export var footstep_sounds_metal = [AudioStream]
+@export var footstep_sounds_water = [AudioStream]
 "
 
-[sub_resource type="CapsuleMesh" id=1]
+[sub_resource type="CapsuleMesh" id="1"]
 radius = 0.7
-mid_height = 2.0
 
-[sub_resource type="CapsuleShape" id=2]
+[sub_resource type="CapsuleShape3D" id="2"]
 radius = 0.7
-height = 2.0
 
-[sub_resource type="OpenSimplexNoise" id=15]
-period = 12.3
+[sub_resource type="ShaderMaterial" id="14"]
+shader = ExtResource("11")
 
-[sub_resource type="NoiseTexture" id=16]
-seamless = true
-noise = SubResource( 15 )
-
-[sub_resource type="ShaderMaterial" id=14]
-shader = ExtResource( 11 )
-shader_param/thresh = 1.0
-shader_param/noise = SubResource( 16 )
-
-[sub_resource type="GDScript" id=19]
+[sub_resource type="GDScript" id="19"]
 script/source = "extends TextureRect
 
 var ouchiness = 1.0;
 
 func _process(delta: float) -> void:
-	get_material().set_shader_param('thresh', ouchiness)
+	get_material().set_shader_parameter('thresh', ouchiness)
 
 var damagetween
 
@@ -90,7 +83,7 @@ func _on_Player_Damage(old, new) -> void:
 		return
 	var dur = (old/(max(0.1,new)) * 6)
 	ouchiness = new/100
-	if damagetween is SceneTreeTween:
+	if damagetween is Tween:
 		damagetween.kill()
 	damagetween = create_tween()
 	damagetween.set_trans(Tween.TRANS_CIRC)
@@ -99,64 +92,31 @@ func _on_Player_Damage(old, new) -> void:
 	pass # Replace with function body.
 "
 
-[sub_resource type="StyleBoxFlat" id=7]
-bg_color = Color( 0, 0, 0, 0.45098 )
-border_color = Color( 0, 0, 0, 1 )
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id=21]
-resource_local_to_scene = true
-resource_name = "cool"
-bg_color = Color( 1, 1, 1, 1 )
-border_width_left = 8
-border_width_top = 8
-border_width_right = 8
-border_width_bottom = 8
-border_color = Color( 0.635294, 0.635294, 0.635294, 1 )
-corner_radius_top_left = 16
-corner_radius_top_right = 16
-corner_radius_bottom_right = 16
-corner_radius_bottom_left = 16
-corner_detail = 1
-
-[sub_resource type="DynamicFontData" id=9]
-font_path = "res://Scenes/ui/options/fonts/Blue.ttf"
-
-[sub_resource type="DynamicFont" id=10]
-size = 30
-outline_size = 2
-outline_color = Color( 0, 0, 0, 1 )
-font_data = SubResource( 9 )
-
-[node name="Player" type="KinematicBody" groups=["Players"]]
+[node name="Player" type="CharacterBody3D" groups=["Players"]]
 collision_layer = 2
 collision_mask = 7
-script = ExtResource( 2 )
-debug_inventory = [ ExtResource( 24 ), ExtResource( 4 ), ExtResource( 26 ), ExtResource( 25 ) ]
+script = ExtResource("2")
 
 [node name="nametag" type="Label3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.7, 0)
 pixel_size = 0.008
 billboard = 1
 text = "name"
-font = SubResource( 20 )
+font = SubResource("20")
 
 [node name="projectiles" type="Node" parent="."]
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource( 8 )
+script = ExtResource("8")
 
-[node name="sounds" type="Spatial" parent="."]
-script = SubResource( 12 )
-jump_sound = ExtResource( 1 )
-wallbounce_sound = ExtResource( 9 )
-hurt_sounds = [ ExtResource( 13 ), ExtResource( 15 ), ExtResource( 12 ), ExtResource( 16 ), ExtResource( 14 ) ]
-shield_sounds = [ ExtResource( 29 ), ExtResource( 27 ) ]
-death_sounds = [ ExtResource( 17 ), ExtResource( 21 ), ExtResource( 19 ), ExtResource( 18 ), ExtResource( 20 ) ]
-shieldbreak_sounds = [ ExtResource( 28 ) ]
+[node name="sounds" type="Node3D" parent="."]
+script = SubResource("12")
+hurt_sounds = [ExtResource("13"), ExtResource("15"), ExtResource("12"), ExtResource("16"), ExtResource("14")]
+death_sounds = [ExtResource("17"), ExtResource("21"), ExtResource("19"), ExtResource("18"), ExtResource("20")]
+jump_sound = ExtResource("14_ew0bd")
+wallbounce_sound = ExtResource("9")
+shield_sounds = [ExtResource("29"), ExtResource("27")]
+shieldbreak_sounds = [ExtResource("28")]
 
 [node name="stationary" type="Node" parent="sounds"]
 
@@ -164,138 +124,160 @@ shieldbreak_sounds = [ ExtResource( 28 ) ]
 unit_db = -12.0
 unit_size = 2.0
 max_db = 0.0
-bus = "Gameplay"
+bus = &"Gameplay"
 attenuation_filter_cutoff_hz = 20500.0
 attenuation_filter_db = 0.0
-__meta__ = {
-"_editor_description_": "hops (wallbounce, jump off floor, etc)"
-}
 
 [node name="hurt" type="AudioStreamPlayer3D" parent="sounds"]
 max_db = 0.0
-bus = "Gameplay"
+bus = &"Gameplay"
 attenuation_filter_cutoff_hz = 20500.0
 attenuation_filter_db = 0.0
-__meta__ = {
-"_editor_description_": "gettin hurt, gettin killed"
-}
 
 [node name="footstep" type="AudioStreamPlayer3D" parent="sounds"]
-bus = "Gameplay"
+bus = &"Gameplay"
 attenuation_filter_db = 0.0
-__meta__ = {
-"_editor_description_": "foot step sound player, after figuring out what the floor material is"
-}
 
-[node name="Capsule" type="MeshInstance" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-generate_lightmap = false
-mesh = SubResource( 1 )
+[node name="Capsule" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = SubResource("1")
 
-[node name="basicman" parent="." instance=ExtResource( 6 )]
-transform = Transform( 0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.245365, -0.121447 )
+[node name="basicman" parent="." instance=ExtResource("6")]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 0.245365, -0.121447)
 visible = false
 
-[node name="capsulecollider" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0 )
-shape = SubResource( 2 )
+[node name="capsulecollider" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+shape = SubResource("2")
 
-[node name="Head" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19813, 0 )
+[node name="Head" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.19813, 0)
 
-[node name="Holder" type="Spatial" parent="Head"]
-transform = Transform( 0.999519, 0, 0, 0, 0.999519, 0, 0, 0, 0.999519, 0.842409, -0.648897, -1.71594 )
+[node name="Holder" type="Node3D" parent="Head"]
+transform = Transform3D(0.999519, 0, 0, 0, 0.999519, 0, 0, 0, 0.999519, 0.842409, -0.648897, -1.71594)
 
-[node name="FloorCheck" type="RayCast" parent="."]
-transform = Transform( 1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0 )
-enabled = true
-cast_to = Vector3( 0, -1.5, 0 )
+[node name="FloorCheck" type="RayCast3D" parent="."]
+transform = Transform3D(1.81172, 0, 0, 0, 1, 0, 0, 0, 1.78498, 0, -0.827019, 0)
 
 [node name="painvignette" type="TextureRect" parent="."]
-modulate = Color( 0.410156, 0.00961304, 0, 1 )
-material = SubResource( 14 )
+modulate = Color(0.410156, 0.00961304, 0, 1)
+material = SubResource("14")
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource( 10 )
-expand = true
+texture = ExtResource("10")
 stretch_mode = 1
-script = SubResource( 19 )
+script = SubResource("19")
 
 [node name="HUD" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 
 [node name="debug" type="Label" parent="HUD"]
-margin_left = 25.0
-margin_top = 427.0
-margin_right = 65.0
-margin_bottom = 441.0
+offset_left = 25.0
+offset_top = 427.0
+offset_right = 65.0
+offset_bottom = 441.0
 text = "floor normal = "
 
 [node name="Crosshair" type="TextureRect" parent="HUD"]
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -20.0
-margin_top = -20.0
-margin_right = 20.0
-margin_bottom = 20.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
-texture = ExtResource( 3 )
-expand = true
+texture = ExtResource("3")
 stretch_mode = 6
 
-[node name="HPPanel" parent="HUD" instance=ExtResource( 5 )]
-custom_styles/panel = SubResource( 7 )
+[node name="HPPanel" parent="HUD" instance=ExtResource("5")]
+anchors_preset = -1
+
+[node name="Margin" parent="HUD/HPPanel" index="0"]
+anchors_preset = 15
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="valign" parent="HUD/HPPanel/Margin" index="0"]
-margin_bottom = 83.0
+offset_right = 348.0
+offset_bottom = 132.0
+
+[node name="shieldmeter" parent="HUD/HPPanel/Margin/valign" index="0"]
+offset_right = 348.0
+offset_bottom = 64.0
+
+[node name="icon" parent="HUD/HPPanel/Margin/valign/shieldmeter" index="0"]
+offset_right = 64.0
+offset_bottom = 64.0
 
 [node name="ShieldBar" parent="HUD/HPPanel/Margin/valign/shieldmeter" index="1"]
-custom_styles/fg = SubResource( 21 )
+offset_left = 68.0
+offset_right = 348.0
+offset_bottom = 64.0
 
 [node name="Hbox" parent="HUD/HPPanel/Margin/valign" index="1"]
-margin_bottom = 83.0
+offset_top = 68.0
+offset_right = 348.0
+offset_bottom = 132.0
 
 [node name="HP" parent="HUD/HPPanel/Margin/valign/Hbox" index="0"]
-margin_bottom = 60.0
+offset_right = 64.0
+offset_bottom = 64.0
 
 [node name="HpBar" parent="HUD/HPPanel/Margin/valign/Hbox" index="1"]
-margin_bottom = 60.0
-custom_styles/fg = SubResource( 21 )
+offset_left = 68.0
+offset_right = 348.0
+offset_bottom = 64.0
 
 [node name="speeddisplay" type="Label" parent="HUD"]
+anchors_preset = 7
 anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-margin_left = -31.0
-margin_top = -54.0
-margin_right = 31.0
-margin_bottom = -40.0
+offset_left = -31.0
+offset_top = -54.0
+offset_right = 31.0
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
 text = "h speed - w"
 
 [node name="fpsdisplay" type="Label" parent="HUD"]
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -84.0
-margin_top = 16.0
-margin_right = -21.0
-margin_bottom = 75.0
+offset_left = -84.0
+offset_top = 16.0
+offset_right = -21.0
+offset_bottom = 75.0
 grow_horizontal = 0
 grow_vertical = 0
-custom_fonts/font = SubResource( 10 )
 text = "FPS: 60
 client"
-script = ExtResource( 7 )
+script = ExtResource("7")
 
-[node name="playerlist" parent="HUD" instance=ExtResource( 22 )]
+[node name="playerlist" parent="HUD" instance=ExtResource("22")]
+anchors_preset = 5
+grow_horizontal = 2
 
 [node name="networktick" type="Timer" parent="."]
-process_mode = 0
 wait_time = 0.017
 autostart = true
 
@@ -304,11 +286,9 @@ wait_time = 3.0
 one_shot = true
 
 [node name="shieldTimer" type="Timer" parent="."]
-process_mode = 0
 wait_time = 5.0
 one_shot = true
 
-[connection signal="Damage" from="." to="painvignette" method="_on_Player_Damage"]
 [connection signal="changeHealth" from="." to="HUD/HPPanel" method="set_hp"]
 [connection signal="changeShield" from="." to="HUD/HPPanel" method="set_shield"]
 [connection signal="timeout" from="networktick" to="." method="_on_networktick_timeout"]
